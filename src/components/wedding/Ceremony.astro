@@ -1,0 +1,34 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const detail = wedding.ceremony
+---
+
+<section id="ceremonia" class="event-detail section-space" aria-labelledby="ceremony-title">
+  <Container>
+    <div class="event-detail__layout">
+      <div class="event-detail__symbol" aria-hidden="true"><span>✦</span></div>
+      <div>
+        <SectionHeading eyebrow="El comienzo" title="Ceremonia" description={detail.description} align="left" id="ceremony-title" />
+        <dl>
+          <div><dt>Lugar</dt><dd>{detail.name || 'A confirmar'}</dd></div>
+          <div><dt>Dirección</dt><dd>{detail.address || 'Próximamente'}</dd></div>
+          <div><dt>Hora</dt><dd>{detail.time || 'A confirmar'}</dd></div>
+        </dl>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .event-detail { background: var(--wedding-background); }
+  .event-detail__layout { display: grid; gap: 2.5rem; align-items: center; }
+  .event-detail__symbol { display: grid; width: min(65vw, 18rem); aspect-ratio: 1; margin-inline: auto; place-items: center; border: 1px solid rgb(143 165 138 / 32%); border-radius: 50% 50% .75rem .75rem; background: radial-gradient(circle, #fffaf4, #e2e8dd); }
+  .event-detail__symbol span { color: var(--wedding-primary); font: 500 3rem/1 var(--font-display); }
+  dl { display: grid; gap: 1rem; margin: 0; }
+  dl div { display: grid; gap: .2rem; padding-bottom: 1rem; border-bottom: 1px solid rgb(143 165 138 / 25%); }
+  dt { color: var(--wedding-secondary); font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  dd { margin: 0; font: 500 1.25rem/1.4 var(--font-display); }
+  @media (min-width: 48rem) { .event-detail__layout { grid-template-columns: .75fr 1.25fr; gap: clamp(4rem, 9vw, 8rem); } }
+</style>

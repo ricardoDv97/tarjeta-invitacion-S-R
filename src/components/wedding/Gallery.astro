@@ -1,0 +1,52 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const gallery = wedding.media.gallery
+---
+
+<section id="galeria" class="gallery section-space" aria-labelledby="gallery-title">
+  <Container>
+    <SectionHeading eyebrow="Momentos" title="Nuestra galería" description="Un espacio para guardar y compartir recuerdos que queremos llevar siempre con nosotros." id="gallery-title" />
+    {gallery.length > 0 ? (
+      <div class="gallery__grid">
+        {gallery.map((item, index) => (
+          <figure class:list={['gallery__item', `gallery__item--${index % 3}`]}>
+            {item.type === 'video' ? (
+              <video controls preload="metadata" poster={item.poster || undefined} aria-label={item.alt || 'Video de S y R'}><source src={item.src} /></video>
+            ) : (
+              <img src={item.src} alt={item.alt || 'Recuerdo de S y R'} width="800" height="1000" loading="lazy" />
+            )}
+            {item.caption && <figcaption>{item.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    ) : (
+      <div class="gallery__empty">
+        <div class="gallery__placeholder gallery__placeholder--tall"><span>S</span></div>
+        <div class="gallery__message"><span aria-hidden="true">✦</span><p>Muy pronto compartiremos nuestros momentos favoritos.</p></div>
+        <div class="gallery__placeholder"><span>R</span></div>
+      </div>
+    )}
+  </Container>
+</section>
+
+<style>
+  .gallery { background: var(--wedding-surface); }
+  .gallery__grid, .gallery__empty { display: grid; gap: clamp(.75rem, 2vw, 1.25rem); }
+  .gallery__item, .gallery__placeholder, .gallery__message { min-width: 0; margin: 0; overflow: hidden; border-radius: .35rem; background: var(--color-ivory); }
+  .gallery__item img, .gallery__item video { display: block; width: 100%; height: 100%; min-height: 18rem; object-fit: cover; }
+  figcaption { padding: .75rem; color: var(--wedding-muted); font-size: .8rem; }
+  .gallery__placeholder { display: grid; min-height: 16rem; place-items: center; background: linear-gradient(145deg, #eadbd7, #f7ede4); }
+  .gallery__placeholder--tall { min-height: 22rem; background: linear-gradient(145deg, #dfe6dc, #f7ede4); }
+  .gallery__placeholder span { color: rgb(123 30 58 / 30%); font: 500 clamp(5rem, 17vw, 9rem)/1 var(--font-display); }
+  .gallery__message { display: grid; min-height: 13rem; padding: 2rem; place-content: center; background: var(--wedding-primary); color: var(--wedding-surface); text-align: center; }
+  .gallery__message span { color: var(--color-mustard); }
+  .gallery__message p { max-width: 20rem; margin: 1rem 0 0; font: 500 1.3rem/1.35 var(--font-display); }
+  @media (min-width: 42rem) {
+    .gallery__grid, .gallery__empty { grid-template-columns: repeat(2, 1fr); align-items: stretch; }
+    .gallery__item--0 { grid-row: span 2; }
+    .gallery__empty .gallery__placeholder--tall { grid-row: span 2; min-height: 34rem; }
+  }
+  @media (min-width: 64rem) { .gallery__grid, .gallery__empty { grid-template-columns: 1.2fr .8fr 1fr; } .gallery__empty .gallery__placeholder--tall { grid-row: auto; } }
+</style>

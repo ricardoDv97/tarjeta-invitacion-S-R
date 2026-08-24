@@ -1,30 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import Container from '../components/ui/Container.astro'
+import Footer from '../components/layout/Footer.astro'
+import Celebration from '../components/wedding/Celebration.astro'
+import Ceremony from '../components/wedding/Ceremony.astro'
+import Countdown from '../components/wedding/Countdown.astro'
+import DressCode from '../components/wedding/DressCode.astro'
+import Gallery from '../components/wedding/Gallery.astro'
+import Hero from '../components/wedding/Hero.astro'
 import Intro from '../components/wedding/Intro.astro'
-import { wedding } from '../config/wedding.js'
+import Location from '../components/wedding/Location.astro'
+import RSVP from '../components/wedding/RSVP.astro'
+import Story from '../components/wedding/Story.astro'
 ---
 
 <Layout title="S & R — Nuestra Boda" description="Invitación a la boda de S & R.">
   <Intro />
   <main id="invitation-content" tabindex="-1">
-    <section class="invitation-placeholder section-space" aria-labelledby="invitation-title">
-      <Container size="editorial">
-        <p class="eyebrow">Nos casamos</p>
-        <h2 id="invitation-title">{wedding.couple.displayName}</h2>
-        <p class="subtitle">Nuestra Boda</p>
-        <div class="ornament" aria-hidden="true">✦</div>
-        <p class="soon">Muy pronto…</p>
-      </Container>
-    </section>
+    <Hero />
+    <Story />
+    <Countdown />
+    <Ceremony />
+    <Celebration />
+    <Location />
+    <DressCode />
+    <Gallery />
+    <RSVP />
   </main>
+  <Footer />
 </Layout>
-
-<style>
-  .invitation-placeholder { display: grid; min-height: 100svh; place-items: center; background: radial-gradient(circle at center, var(--wedding-surface), var(--wedding-background) 68%); text-align: center; }
-  .eyebrow { margin: 0 0 .8rem; color: var(--wedding-secondary); font-size: .72rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
-  h2 { margin: 0; color: var(--wedding-primary); font: 500 clamp(4.5rem, 18vw, 9rem)/.8 var(--font-display); }
-  .subtitle { margin: 1.2rem 0 0; font: 500 clamp(1.7rem, 6vw, 2.6rem)/1 var(--font-display); }
-  .ornament { margin: 1.8rem auto; color: var(--color-mustard); }
-  .soon { margin: 0; color: var(--wedding-muted); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; }
-</style>

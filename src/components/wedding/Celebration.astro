@@ -1,0 +1,33 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const detail = wedding.celebration
+---
+
+<section id="celebracion" class="celebration section-space" aria-labelledby="celebration-title">
+  <Container>
+    <div class="celebration__panel">
+      <SectionHeading eyebrow="Después del sí" title="Celebración" description={detail.description} id="celebration-title" />
+      <div class="celebration__details">
+        <div><span>Lugar</span><strong>{detail.name || 'A confirmar'}</strong></div>
+        <div><span>Dirección</span><strong>{detail.address || 'Próximamente'}</strong></div>
+        <div><span>Hora</span><strong>{detail.time || 'A confirmar'}</strong></div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .celebration { position: relative; overflow: hidden; background: var(--wedding-primary); color: var(--wedding-surface); }
+  .celebration::before, .celebration::after { position: absolute; width: 18rem; aspect-ratio: 1; border: 1px solid rgb(242 166 182 / 24%); border-radius: 50%; content: ''; }
+  .celebration::before { top: -10rem; left: -8rem; } .celebration::after { right: -8rem; bottom: -10rem; }
+  .celebration__panel { position: relative; z-index: 1; padding: clamp(2rem, 7vw, 5rem); border: 1px solid rgb(255 250 244 / 20%); text-align: center; }
+  .celebration :global(.section-heading h2), .celebration :global(.section-heading__description) { color: var(--wedding-surface); }
+  .celebration :global(.section-heading__eyebrow) { color: var(--color-dusty-rose); }
+  .celebration__details { display: grid; gap: 1.5rem; }
+  .celebration__details div { padding: 1.25rem; border-top: 1px solid rgb(255 250 244 / 22%); }
+  .celebration__details span { display: block; margin-bottom: .45rem; color: var(--color-dusty-rose); font-size: .66rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .celebration__details strong { font: 500 1.25rem/1.35 var(--font-display); }
+  @media (min-width: 42rem) { .celebration__details { grid-template-columns: repeat(3, 1fr); } }
+</style>

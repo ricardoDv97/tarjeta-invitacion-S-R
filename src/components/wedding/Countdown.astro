@@ -1,0 +1,54 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const countdownDate = wedding.event.date
+---
+
+<section id="countdown" class="countdown section-space" aria-labelledby="countdown-title" data-countdown data-date={countdownDate}>
+  <Container size="editorial">
+    <SectionHeading eyebrow="Falta muy poquito" title="Cuenta regresiva" id="countdown-title" />
+    <div class="countdown__empty" data-countdown-message role="status">Muy pronto</div>
+    <div class="countdown__grid" data-countdown-values hidden aria-live="off">
+      {['Días', 'Horas', 'Minutos', 'Segundos'].map((label, index) => <div class="countdown__unit"><strong data-unit={['days', 'hours', 'minutes', 'seconds'][index]}>00</strong><span>{label}</span></div>)}
+    </div>
+  </Container>
+</section>
+
+<script>
+  document.querySelectorAll('[data-countdown]').forEach((countdown) => {
+    const dateValue = countdown.getAttribute('data-date')
+    const target = dateValue ? new Date(dateValue).getTime() : Number.NaN
+    const message = countdown.querySelector('[data-countdown-message]')
+    const values = countdown.querySelector('[data-countdown-values]')
+    if (!Number.isFinite(target) || !message || !values) return
+    let timer
+    const update = () => {
+      const distance = target - Date.now()
+      if (distance <= 0) {
+        message.textContent = '¡Llegó nuestro gran día!'
+        message.hidden = false
+        values.hidden = true
+        if (timer) window.clearInterval(timer)
+        return
+      }
+      message.hidden = true
+      values.hidden = false
+      const units = { days: Math.floor(distance / 86400000), hours: Math.floor(distance / 3600000) % 24, minutes: Math.floor(distance / 60000) % 60, seconds: Math.floor(distance / 1000) % 60 }
+      Object.entries(units).forEach(([unit, value]) => { const output = values.querySelector(`[data-unit="${unit}"]`); if (output) output.textContent = String(value).padStart(2, '0') })
+    }
+    update()
+    timer = window.setInterval(update, 1000)
+  })
+</script>
+
+<style>
+  .countdown { position: relative; overflow: hidden; background: color-mix(in srgb, var(--color-dusty-rose) 12%, var(--color-ivory)); text-align: center; }
+  .countdown::before { position: absolute; top: -8rem; left: 50%; width: 17rem; aspect-ratio: 1; border: 1px solid rgb(123 30 58 / 12%); border-radius: 50%; content: ''; transform: translateX(-50%); }
+  .countdown__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+  .countdown__unit { padding: clamp(1.25rem, 4vw, 2rem) .5rem; border: 1px solid rgb(123 30 58 / 10%); border-radius: 50% 50% .5rem .5rem; background: rgb(255 250 244 / 62%); }
+  .countdown__unit strong { display: block; color: var(--wedding-primary); font: 500 clamp(2.4rem, 9vw, 4rem)/1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .countdown__unit span { display: block; margin-top: .5rem; color: var(--wedding-muted); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; }
+  .countdown__empty { color: var(--wedding-primary); font: 500 clamp(2.2rem, 8vw, 3.6rem)/1 var(--font-display); }
+  @media (min-width: 36rem) { .countdown__grid { grid-template-columns: repeat(4, 1fr); } }
+</style>

@@ -1,0 +1,31 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const detail = wedding.dressCode
+---
+
+<section id="dress-code" class="dress section-space" aria-labelledby="dress-title">
+  <Container size="editorial">
+    <div class="dress__frame">
+      <div class="dress__icon" aria-hidden="true"><span></span><i></i></div>
+      <SectionHeading eyebrow="Para celebrar juntos" title={detail.title} id="dress-title" />
+      <p class="dress__type">{detail.type || 'A confirmar'}</p>
+      <p class="dress__description">{detail.description}</p>
+      {detail.notes && <p class="dress__notes">{detail.notes}</p>}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .dress { background: color-mix(in srgb, var(--color-eucalyptus) 13%, var(--color-ivory)); text-align: center; }
+  .dress__frame { padding: clamp(2.25rem, 8vw, 5rem); border: 1px solid rgb(123 30 58 / 15%); border-radius: 10rem 10rem .75rem .75rem; background: rgb(255 250 244 / 54%); }
+  .dress__icon { position: relative; width: 4rem; height: 3.5rem; margin: 0 auto 1.5rem; }
+  .dress__icon span { position: absolute; left: 50%; width: 1.8rem; height: 3rem; border: 1px solid var(--wedding-primary); border-radius: 50% 50% .2rem .2rem; transform: translateX(-50%); }
+  .dress__icon i::before, .dress__icon i::after { position: absolute; top: .7rem; width: 1.7rem; height: 2.1rem; border: 1px solid var(--wedding-primary); content: ''; }
+  .dress__icon i::before { left: .15rem; transform: skewY(-25deg); } .dress__icon i::after { right: .15rem; transform: skewY(25deg); }
+  .dress :global(.section-heading) { margin-bottom: 1.25rem; }
+  .dress__type { margin: 0 0 1rem; color: var(--wedding-primary); font: 500 clamp(1.8rem, 6vw, 2.6rem)/1 var(--font-display); }
+  .dress__description, .dress__notes { max-width: 34rem; margin: 0 auto; color: var(--wedding-muted); line-height: 1.75; }
+  .dress__notes { margin-top: .75rem; font-size: .9rem; }
+</style>

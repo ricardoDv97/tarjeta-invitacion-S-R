@@ -1,0 +1,25 @@
+---
+const { href, variant = 'primary', disabled = false, external = false, class: className = '' } = Astro.props
+const Tag = href ? 'a' : 'button'
+const externalProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
+---
+
+<Tag
+  class:list={['button', `button--${variant}`, disabled && 'button--disabled', className]}
+  href={disabled ? undefined : href}
+  type={!href ? 'button' : undefined}
+  disabled={!href ? disabled : undefined}
+  aria-disabled={disabled || undefined}
+  {...externalProps}
+>
+  <slot />
+</Tag>
+
+<style>
+  .button { display: inline-flex; min-height: 3rem; align-items: center; justify-content: center; gap: .55rem; padding: .8rem 1.4rem; border: 1px solid transparent; border-radius: 999px; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast); }
+  .button:hover { transform: translateY(-2px); }
+  .button--primary { color: var(--wedding-surface); background: var(--wedding-primary); box-shadow: 0 .65rem 1.5rem rgb(123 30 58 / 18%); }
+  .button--secondary { border-color: var(--wedding-primary); color: var(--wedding-primary); background: transparent; }
+  .button--link { min-height: 2.75rem; padding-inline: .4rem; color: var(--wedding-primary); border-bottom-color: color-mix(in srgb, var(--wedding-primary) 40%, transparent); border-radius: 0; }
+  .button--disabled { cursor: not-allowed; opacity: .55; pointer-events: none; }
+</style>

@@ -1,0 +1,33 @@
+---
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { wedding } from '../../config/wedding.js'
+const { story } = wedding
+---
+
+<section id="historia" class="story section-space" aria-labelledby="story-title">
+  <Container class="story__grid">
+    <div class:list={['story__visual', !story.image && 'story__visual--empty']}>
+      {story.image ? <img src={story.image} alt="Un momento de la historia de S y R" width="900" height="1100" loading="lazy" /> : <div class="story__monogram" aria-hidden="true"><span>S</span><i>&amp;</i><span>R</span></div>}
+    </div>
+    <div class="story__copy">
+      <SectionHeading eyebrow={story.eyebrow} title={story.title} description={story.text} align="left" id="story-title" />
+      <div class="story__line" aria-hidden="true"><span></span></div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .story { background: var(--wedding-surface); }
+  .story__grid { display: grid; gap: clamp(2.5rem, 7vw, 7rem); align-items: center; }
+  .story__visual { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 45% 45% .75rem .75rem; box-shadow: var(--shadow-soft); }
+  .story__visual::after { position: absolute; inset: .7rem; border: 1px solid rgb(255 255 255 / 58%); border-radius: inherit; content: ''; }
+  .story__visual img { width: 100%; height: 100%; object-fit: cover; }
+  .story__visual--empty { display: grid; place-items: center; background: linear-gradient(145deg, #eddeda, #f4ebe2 48%, #dce3d8); }
+  .story__monogram { display: flex; align-items: center; color: var(--wedding-primary); font: 500 clamp(4rem, 14vw, 8rem)/1 var(--font-display); }
+  .story__monogram i { margin-inline: .25rem; color: var(--color-eucalyptus); font-size: .42em; font-style: italic; }
+  .story__copy :global(.section-heading) { margin-bottom: 1.5rem; }
+  .story__line { width: min(11rem, 50%); padding-block: .3rem; border-block: 1px solid rgb(143 165 138 / 32%); }
+  .story__line span { display: block; width: 45%; border-top: 2px solid var(--color-dusty-rose); }
+  @media (min-width: 48rem) { .story__grid { grid-template-columns: minmax(16rem, .82fr) 1fr; } }
+</style>

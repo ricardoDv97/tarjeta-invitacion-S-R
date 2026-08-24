@@ -1,0 +1,22 @@
+---
+import Container from '../ui/Container.astro'
+import { wedding } from '../../config/wedding.js'
+---
+
+<footer class="footer">
+  <Container>
+    <p class="footer__names">{wedding.couple.displayName}</p>
+    <p>Nuestra Boda</p>
+    <span aria-hidden="true">✦</span>
+    <small>Hecho con amor para celebrar juntos.</small>
+  </Container>
+</footer>
+
+<style>
+  .footer { padding-block: 3.5rem; border-top: 1px solid rgb(255 250 244 / 14%); background: #5d162c; color: var(--wedding-surface); text-align: center; }
+  .footer p { margin: 0; }
+  .footer__names { font: 500 2.5rem/1 var(--font-display); }
+  .footer p:not(.footer__names) { margin-top: .35rem; color: var(--color-dusty-rose); font: 500 1.15rem/1 var(--font-display); }
+  .footer span { display: block; margin: 1.25rem; color: var(--color-mustard); }
+  .footer small { color: rgb(255 250 244 / 70%); font-size: .7rem; letter-spacing: .08em; }
+</style>
