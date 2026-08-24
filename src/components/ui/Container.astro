@@ -1,0 +1,8 @@
+---
+const { as: Tag = 'div', size = 'wide', class: className = '' } = Astro.props
+---
+<Tag class:list={['container', `container--${size}`, className]}><slot /></Tag>
+<style>
+  .container { width: min(100% - clamp(2rem, 6vw, 5rem), var(--container-wide)); margin-inline: auto; }
+  .container--editorial { max-width: var(--container-editorial); }
+</style>

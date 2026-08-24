@@ -1,9 +1,48 @@
 @import "tailwindcss";
 
-/* Base reset and sensible defaults */
-html { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
-*, *::before, *::after { box-sizing: inherit; }
-body { margin: 0; min-width: 320px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+:root {
+  --color-burgundy: #7b1e3a;
+  --color-magenta: #b0386b;
+  --color-dusty-rose: #f2a6b6;
+  --color-coral: #ff9a7a;
+  --color-orange: #f28a2e;
+  --color-lilac: #cdb5e8;
+  --color-violet: #a68acf;
+  --color-mustard: #e5b134;
+  --color-ivory: #f7ede4;
+  --color-eucalyptus: #8fa58a;
+  --color-charcoal: #2e2926;
+  --wedding-background: var(--color-ivory);
+  --wedding-surface: #fffaf4;
+  --wedding-text: var(--color-charcoal);
+  --wedding-muted: #746963;
+  --wedding-primary: var(--color-burgundy);
+  --wedding-secondary: var(--color-eucalyptus);
+  --wedding-accent: var(--color-dusty-rose);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --space-section: clamp(4rem, 10vw, 8rem);
+  --container-wide: 75rem;
+  --container-editorial: 48rem;
+  --radius-soft: 1.5rem;
+  --shadow-soft: 0 1.5rem 4rem rgb(76 43 43 / 12%);
+  --transition-fast: 180ms ease;
+  --transition-slow: 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-/* Neutral body helpers for initial layout validation */
-.app-container { min-height: 100vh; display: flex; flex-direction: column; }
+html { box-sizing: border-box; min-width: 320px; color: var(--wedding-text); background: var(--wedding-background); font-family: var(--font-body); scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: inherit; }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; background: var(--wedding-background); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body.intro-locked { overflow: hidden; }
+button, input, textarea, select { font: inherit; }
+button { color: inherit; }
+::selection { color: var(--wedding-surface); background: var(--wedding-primary); }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--wedding-primary) 70%, white); outline-offset: 4px; }
+.app-container { min-height: 100vh; }
+.font-display { font-family: var(--font-display); }
+.section-space { padding-block: var(--space-section); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
