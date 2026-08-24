@@ -1,0 +1,19 @@
+---
+import '../styles/global.css'
+const { title = 'S&R | Nuestra Boda', description = 'Invitación digital de nuestra boda.' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <main class="app-container">
+      <slot />
+    </main>
+  </body>
+</html>

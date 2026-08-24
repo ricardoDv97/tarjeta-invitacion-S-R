@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Base reset and sensible defaults */
+html { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+*, *::before, *::after { box-sizing: inherit; }
+body { margin: 0; min-width: 320px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+
+/* Neutral body helpers for initial layout validation */
+.app-container { min-height: 100vh; display: flex; flex-direction: column; }
