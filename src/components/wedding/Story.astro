@@ -5,10 +5,10 @@ import { wedding } from '../../config/wedding.js'
 const { story } = wedding
 ---
 
-<section id="historia" class="story section-space" aria-labelledby="story-title">
+<section id="historia" class="story section-space" aria-labelledby="story-title" data-reveal="fade-up">
   <Container class="story__grid">
     <div class:list={['story__visual', !story.image && 'story__visual--empty']}>
-      {story.image ? <img src={story.image} alt="Un momento de la historia de S y R" width="900" height="1100" loading="lazy" /> : <div class="story__monogram" aria-hidden="true"><span>S</span><i>&amp;</i><span>R</span></div>}
+      {story.image ? <img src={story.image} alt="Un momento de la historia de S y R" width="900" height="1100" loading="lazy" decoding="async" /> : <div class="story__monogram" aria-hidden="true"><span>S</span><i>&amp;</i><span>R</span></div>}
     </div>
     <div class="story__copy">
       <SectionHeading eyebrow={story.eyebrow} title={story.title} description={story.text} align="left" id="story-title" />

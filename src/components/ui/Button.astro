@@ -22,4 +22,5 @@ const externalProps = external ? { target: '_blank', rel: 'noopener noreferrer' 
   .button--secondary { border-color: var(--wedding-primary); color: var(--wedding-primary); background: transparent; }
   .button--link { min-height: 2.75rem; padding-inline: .4rem; color: var(--wedding-primary); border-bottom-color: color-mix(in srgb, var(--wedding-primary) 40%, transparent); border-radius: 0; }
   .button--disabled { cursor: not-allowed; opacity: .55; pointer-events: none; }
+  @media (max-width: 25rem) { .button:not(.button--link) { width: 100%; padding-inline: 1rem; } }
 </style>

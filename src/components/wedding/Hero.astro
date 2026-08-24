@@ -4,7 +4,7 @@ import { wedding } from '../../config/wedding.js'
 const { heroImage } = wedding.media
 ---
 
-<section id="hero" class:list={['hero', heroImage && 'hero--with-image']} aria-labelledby="hero-title">
+<section id="hero" class:list={['hero', heroImage && 'hero--with-image']} aria-labelledby="hero-title" data-reveal="fade-in">
   {heroImage && <img class="hero__image" src={heroImage} alt="S y R celebrando su historia" width="1600" height="1000" loading="eager" fetchpriority="high" />}
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__branch hero__branch--left" aria-hidden="true"></div>
@@ -39,4 +39,11 @@ const { heroImage } = wedding.media
   .hero__branch::after { top: 55%; left: -3.8rem; transform: rotate(145deg); }
   .hero__branch--left { bottom: -5rem; left: -3rem; }
   .hero__branch--right { top: -5rem; right: -3rem; transform: rotate(210deg); }
+  @media (max-height: 600px) and (orientation: landscape) {
+    .hero { min-height: 34rem; }
+    .hero__content { padding-block: 3.5rem; }
+    h2 { font-size: clamp(4.5rem, 20vh, 7rem); }
+    .hero__title { margin-top: 1rem; }
+    .hero__ornament { margin-block: .8rem; }
+  }
 </style>

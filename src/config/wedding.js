@@ -46,4 +46,9 @@ export const wedding = {
     href: '/confirmar',
   },
   social: [],
+  audio: {
+    enabled: false,
+    src: '',
+    volume: 0.35,
+  },
 }

@@ -5,17 +5,17 @@ import { wedding } from '../../config/wedding.js'
 const gallery = wedding.media.gallery
 ---
 
-<section id="galeria" class="gallery section-space" aria-labelledby="gallery-title">
+<section id="galeria" class="gallery section-space" aria-labelledby="gallery-title" data-reveal="fade-up">
   <Container>
     <SectionHeading eyebrow="Momentos" title="Nuestra galería" description="Un espacio para guardar y compartir recuerdos que queremos llevar siempre con nosotros." id="gallery-title" />
     {gallery.length > 0 ? (
-      <div class="gallery__grid">
+      <div class:list={['gallery__grid', gallery.length === 1 && 'gallery__grid--single', gallery.length === 2 && 'gallery__grid--pair']}>
         {gallery.map((item, index) => (
-          <figure class:list={['gallery__item', `gallery__item--${index % 3}`]}>
+          <figure class:list={['gallery__item', `gallery__item--${index % 3}`]} data-reveal="fade-up" style={`--reveal-delay: ${Math.min(index, 2) * 80}ms`}>
             {item.type === 'video' ? (
-              <video controls preload="metadata" poster={item.poster || undefined} aria-label={item.alt || 'Video de S y R'}><source src={item.src} /></video>
+              <video controls preload="metadata" poster={item.poster || undefined} aria-label={item.alt || 'Video de S y R'} width="800" height="1000"><source src={item.src} /></video>
             ) : (
-              <img src={item.src} alt={item.alt || 'Recuerdo de S y R'} width="800" height="1000" loading="lazy" />
+              <img src={item.src} alt={item.alt || 'Recuerdo de S y R'} width="800" height="1000" loading="lazy" decoding="async" />
             )}
             {item.caption && <figcaption>{item.caption}</figcaption>}
           </figure>
@@ -48,5 +48,5 @@ const gallery = wedding.media.gallery
     .gallery__item--0 { grid-row: span 2; }
     .gallery__empty .gallery__placeholder--tall { grid-row: span 2; min-height: 34rem; }
   }
-  @media (min-width: 64rem) { .gallery__grid, .gallery__empty { grid-template-columns: 1.2fr .8fr 1fr; } .gallery__empty .gallery__placeholder--tall { grid-row: auto; } }
+  @media (min-width: 64rem) { .gallery__grid, .gallery__empty { grid-template-columns: 1.2fr .8fr 1fr; } .gallery__grid--single { grid-template-columns: minmax(18rem, 38rem); justify-content: center; } .gallery__grid--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gallery__grid--single .gallery__item--0, .gallery__grid--pair .gallery__item--0 { grid-row: auto; } .gallery__empty .gallery__placeholder--tall { grid-row: auto; } }
 </style>
