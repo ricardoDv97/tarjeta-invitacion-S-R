@@ -41,7 +41,7 @@ npm run preview
 ## Supabase
 
 1. Copiá `.env.example` como `.env`.
-2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` para el cliente público.
+2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
 3. Reservá `SUPABASE_SERVICE_ROLE_KEY` exclusivamente para código de servidor; no se usa en el frontend.
 4. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
