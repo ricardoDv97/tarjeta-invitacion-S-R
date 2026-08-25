@@ -12,7 +12,6 @@ const { rsvp } = wedding
     <h2 id="rsvp-title">{rsvp.title}</h2>
     <p>{rsvp.description}</p>
     <Button href={rsvp.href} variant="primary">Confirmar asistencia</Button>
-    <small>La confirmación estará disponible próximamente.</small>
   </Container>
 </section>
 
@@ -23,5 +22,4 @@ const { rsvp } = wedding
   .rsvp__eyebrow { margin: 0 0 .8rem; color: var(--wedding-secondary); font-size: .7rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
   h2 { margin: 0; color: var(--wedding-primary); font: 500 clamp(2.8rem, 9vw, 5rem)/.95 var(--font-display); }
   p:not(.rsvp__eyebrow) { margin: 1.25rem auto 2rem; color: var(--wedding-muted); line-height: 1.7; }
-  small { display: block; margin-top: 1rem; color: var(--wedding-muted); font-size: .72rem; }
 </style>

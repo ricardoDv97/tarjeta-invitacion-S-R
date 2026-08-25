@@ -14,4 +14,4 @@
 12. Dashboard administrador
 13. QA, seguridad y producción
 
-El alcance actual termina en el Sprint 01.
+El alcance actual termina en el Sprint 06.

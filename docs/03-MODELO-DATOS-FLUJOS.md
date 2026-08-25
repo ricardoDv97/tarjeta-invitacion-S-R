@@ -42,4 +42,8 @@ No hay unicidad sobre `registration_id`, permitiendo reintentos. El índice úni
 
 La función reutilizable `public.set_updated_at()` y cuatro triggers actualizan `updated_at`. No usa `SECURITY DEFINER` y fija un `search_path` vacío.
 
-RLS está habilitado en las cuatro tablas. El Sprint 05 no crea políticas: `anon` y `authenticated` quedan sin acceso mediante la API (fail closed). La service role puede omitir RLS y nunca debe exponerse al navegador. Las políticas administrativas se definirán junto con autenticación.
+RLS está habilitado en las cuatro tablas. No hay políticas públicas: `anon` y `authenticated` quedan sin acceso mediante la API (fail closed). El RSVP usa `SUPABASE_SECRET_KEY` exclusivamente en una Astro API Route server-side; nunca se expone al navegador. Las políticas administrativas se definirán junto con autenticación.
+
+## RSVP inicial
+
+`POST /api/registrations` valida la asistencia, la cantidad y el método de contribución. El servidor selecciona una única boda activa, calcula el monto desde `price_per_guest` y crea una preinscripción sin filas en `guests` o `payments`. Una asistencia positiva queda `pending`; una respuesta negativa queda `cancelled` con método nulo y total cero.

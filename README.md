@@ -42,10 +42,10 @@ npm run preview
 
 1. Copiá `.env.example` como `.env`.
 2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
-3. Reservá `SUPABASE_SERVICE_ROLE_KEY` exclusivamente para código de servidor; no se usa en el frontend.
+3. Agregá manualmente `SUPABASE_SECRET_KEY` para la API server-side de RSVP. Nunca uses esta clave en el frontend.
 4. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
-El build funciona sin credenciales. El cliente solo se crea al solicitarlo y, si falta configuración, informa un error controlado.
+El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos y, si falta configuración, informan un error controlado. El RSVP escribe mediante `POST /api/registrations`; el navegador no inserta directamente en Supabase.
 
 ## Arquitectura
 
@@ -61,4 +61,4 @@ El build funciona sin credenciales. El cliente solo se crea al solicitarlo y, si
 
 ## Estado actual
 
-Sprint 05 — capa de datos Supabase preparada localmente.
+Sprint 06 — flujo inicial de RSVP mediante una API Route server-side.
