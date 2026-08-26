@@ -1,5 +1,9 @@
 # Invitacion-Nuestra-Boda
 
+> Estado funcional: Sprint 07 — RSVP por grupo etario y registro dinámico de invitados.
+
+El navegador crea la inscripción con `POST /api/registrations`, consulta sólo los counts permitidos con `GET /api/registrations/[id]` y guarda el grupo completo mediante `POST /api/registrations/[id]/guests`. Todas las operaciones de Supabase son server-side. `adult` (11+) cuesta ARS 35.000, `child` (6–10) ARS 10.000 y `young_child` (1–5) ARS 0. La API es autoridad de precios y cantidades. La migración de Sprint 07 permanece local hasta su auditoría y aplicación controlada.
+
 Invitación web digital para la boda S&R desarrollada con Astro y Tailwind CSS.
 
 ## Stack
@@ -61,4 +65,4 @@ El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos 
 
 ## Estado actual
 
-Sprint 06 — flujo inicial de RSVP mediante una API Route server-side.
+Sprint 07 — flujo por grupos etarios y registro dinámico de invitados mediante API Routes server-side.

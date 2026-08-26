@@ -1,5 +1,9 @@
 # Arquitectura
 
+## Sprint 07
+
+La API calcula `total_amount` desde `weddings.price_per_guest` para adultos (11+) y `weddings.child_price` para niños (6–10); `young_child` (1–5) vale cero. `GET /api/registrations/[id]` devuelve únicamente counts y método de pago para construir el formulario dinámico. `POST /api/registrations/[id]/guests` valida y persiste el grupo completo. Todos los reads y writes usan el cliente privado server-side.
+
 Stack actual:
 
 - Astro y JavaScript para la invitación web.

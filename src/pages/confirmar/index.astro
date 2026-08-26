@@ -1,270 +1,87 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import { wedding } from '../../config/wedding.js'
+const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
 ---
 
-<Layout title="Confirmá tu asistencia | S & R" description="Confirmación de asistencia a la boda de S & R.">
-  <main class="confirmation-page">
-    <a class="back-link" href="/">&larr; Volver a la invitación</a>
-
-    <section class="confirmation-card" aria-labelledby="confirmation-title">
-      <header class="confirmation-header">
-        <p class="monogram" aria-label="S y R">S <span>&amp;</span> R</p>
-        <p class="eyebrow">Queremos celebrar con vos</p>
-        <h1 id="confirmation-title">Confirmá tu asistencia</h1>
-        <p class="introduction">Nos encantaría compartir este día con vos.</p>
-      </header>
-
+<Layout title="Confirmá tu asistencia | Sabri y Ri" description="Confirmación de asistencia a la boda de Ricardo y Sabrina.">
+  <main class="page">
+    <a class="back" href="/">&larr; Volver a la invitación</a>
+    <section class="card" aria-labelledby="title">
+      <header><p class="monogram">S <span>&amp;</span> R</p><p class="eyebrow">Queremos celebrar con vos</p><h1 id="title">Confirmá tu asistencia</h1></header>
       <form id="rsvp-form" novalidate>
-        <fieldset class="form-section" aria-describedby="attendance-error">
-          <legend>¿Vas a acompañarnos?</legend>
-          <div class="choice-grid choice-grid--attendance">
-            <label class="choice-card">
-              <input type="radio" name="attendance" value="confirmed" required />
-              <span>Sí, voy a asistir</span>
-            </label>
-            <label class="choice-card">
-              <input type="radio" name="attendance" value="cancelled" required />
-              <span>No podré asistir</span>
-            </label>
-          </div>
-          <p class="field-error" id="attendance-error"></p>
-        </fieldset>
+        <fieldset aria-describedby="attendance-error"><legend>¿Vas a acompañarnos?</legend><div class="choices">
+          <label><input type="radio" name="attendance" value="confirmed" required /><span>Sí, voy a asistir</span></label>
+          <label><input type="radio" name="attendance" value="cancelled" required /><span>No podré asistir</span></label>
+        </div><p class="error" id="attendance-error"></p></fieldset>
 
         <div id="attending-fields" hidden>
-          <fieldset class="form-section" aria-describedby="guest-count-error">
-            <legend>Cantidad de personas</legend>
-            <div class="counter">
-              <button type="button" id="decrease-guests" aria-label="Restar una persona">&minus;</button>
-              <input
-                id="guest-count"
-                name="guestCount"
-                type="number"
-                min="1"
-                max="20"
-                step="1"
-                value="1"
-                inputmode="numeric"
-                aria-label="Cantidad de personas"
-              />
-              <button type="button" id="increase-guests" aria-label="Sumar una persona">+</button>
+          <fieldset aria-describedby="counts-error"><legend>¿Quiénes van a acompañarnos?</legend>
+            <div class="count-list">
+              <div class="count-row" data-counter="adultCount"><div><strong>Adultos</strong><small>11 años o más · {money.format(wedding.payment.pricePerGuest)} c/u</small></div><div class="counter"><button type="button" data-change="-1" aria-label="Restar adulto">−</button><output>1</output><button type="button" data-change="1" aria-label="Sumar adulto">+</button></div></div>
+              <div class="count-row" data-counter="childCount"><div><strong>Niños</strong><small>6 a 10 años · {money.format(wedding.payment.childPrice)} c/u</small></div><div class="counter"><button type="button" data-change="-1" aria-label="Restar niño">−</button><output>0</output><button type="button" data-change="1" aria-label="Sumar niño">+</button></div></div>
+              <div class="count-row" data-counter="youngChildCount"><div><strong>Bebés y niños</strong><small>1 a 5 años · Sin costo</small></div><div class="counter"><button type="button" data-change="-1" aria-label="Restar menor">−</button><output>0</output><button type="button" data-change="1" aria-label="Sumar menor">+</button></div></div>
             </div>
-            <p class="field-hint">Podés confirmar entre 1 y 20 personas.</p>
-            <p class="field-error" id="guest-count-error"></p>
+            <div class="summary" aria-live="polite"><p>Total de personas: <strong id="total-people">1</strong></p><p>Total: <strong id="total-amount">{money.format(wedding.payment.pricePerGuest)}</strong></p></div>
+            <p class="hint">Podés confirmar entre 1 y 20 personas en total.</p><p class="error" id="counts-error"></p>
           </fieldset>
-
-          <fieldset class="form-section" aria-describedby="payment-method-error">
-            <legend>¿Cómo preferís realizar la contribución?</legend>
-            <div class="choice-grid">
-              <label class="choice-card">
-                <input type="radio" name="paymentMethod" value="mercadopago" />
-                <span>Mercado Pago</span>
-              </label>
-              <label class="choice-card">
-                <input type="radio" name="paymentMethod" value="cash" />
-                <span>Efectivo</span>
-              </label>
-            </div>
-            <p class="field-hint">En este paso no se procesará ningún pago.</p>
-            <p class="field-error" id="payment-method-error"></p>
-          </fieldset>
+          <fieldset aria-describedby="payment-error"><legend>¿Cómo preferís realizar la contribución?</legend><div class="choices">
+            <label><input type="radio" name="paymentMethod" value="mercadopago" /><span>Mercado Pago</span></label>
+            <label><input type="radio" name="paymentMethod" value="cash" /><span>Efectivo</span></label>
+          </div><p class="hint">En este paso no se procesará ningún pago.</p><p class="error" id="payment-error"></p></fieldset>
         </div>
-
-        <div class="form-actions">
-          <button class="submit-button" id="submit-button" type="submit">
-            <span class="submit-label">Continuar</span>
-            <span class="submit-loading" hidden>Guardando…</span>
-          </button>
-          <p id="form-feedback" class="form-feedback" role="status" aria-live="polite"></p>
-        </div>
+        <div class="actions"><button class="submit" id="submit" type="submit"><span data-idle>Continuar</span><span data-loading hidden>Guardando…</span></button><p id="feedback" class="error" role="status"></p></div>
       </form>
-
-      <div id="cancelled-success" class="success-panel" role="status" hidden>
-        <p class="success-ornament" aria-hidden="true">♡</p>
-        <h2>Gracias por avisarnos</h2>
-        <p>Vamos a extrañarte, pero agradecemos mucho que hayas confirmado tu respuesta.</p>
-        <a href="/">Volver a la invitación</a>
-      </div>
+      <div id="cancelled" class="success" hidden><h2>Gracias por avisarnos</h2><p>Vamos a extrañarte, pero agradecemos mucho tu respuesta.</p><a href="/">Volver a la invitación</a></div>
     </section>
   </main>
 </Layout>
 
-<script>
+<script define:vars={{ adultPrice: wedding.payment.pricePerGuest, childPrice: wedding.payment.childPrice }}>
   const form = document.querySelector('#rsvp-form')
-  const attendingFields = document.querySelector('#attending-fields')
-  const guestCountInput = document.querySelector('#guest-count')
-  const decreaseButton = document.querySelector('#decrease-guests')
-  const increaseButton = document.querySelector('#increase-guests')
-  const submitButton = document.querySelector('#submit-button')
-  const submitLabel = document.querySelector('.submit-label')
-  const submitLoading = document.querySelector('.submit-loading')
-  const feedback = document.querySelector('#form-feedback')
-  const successPanel = document.querySelector('#cancelled-success')
-  let submitting = false
-
-  const errorFor = (id, message = '') => {
-    const element = document.querySelector(`#${id}`)
-    if (element) element.textContent = message
-  }
-
-  const selectedValue = (name) =>
-    form?.querySelector(`input[name="${name}"]:checked`)?.value ?? null
-
-  const setGuestCount = (value) => {
-    if (!(guestCountInput instanceof HTMLInputElement)) return
-    const safeValue = Number.isInteger(value) ? Math.min(20, Math.max(1, value)) : 1
-    guestCountInput.value = String(safeValue)
-    if (decreaseButton instanceof HTMLButtonElement) decreaseButton.disabled = safeValue <= 1
-    if (increaseButton instanceof HTMLButtonElement) increaseButton.disabled = safeValue >= 20
-  }
-
-  const setSubmitting = (value) => {
-    submitting = value
-    if (submitButton instanceof HTMLButtonElement) submitButton.disabled = value
-    if (submitLabel instanceof HTMLElement) submitLabel.hidden = value
-    if (submitLoading instanceof HTMLElement) submitLoading.hidden = !value
-  }
-
-  form?.querySelectorAll('input[name="attendance"]').forEach((input) => {
-    input.addEventListener('change', () => {
-      const isAttending = selectedValue('attendance') === 'confirmed'
-      if (attendingFields instanceof HTMLElement) attendingFields.hidden = !isAttending
-      errorFor('attendance-error')
-      if (!isAttending) {
-        errorFor('guest-count-error')
-        errorFor('payment-method-error')
-      }
+  const attending = document.querySelector('#attending-fields')
+  const submit = document.querySelector('#submit')
+  const values = { adultCount: 1, childCount: 0, youngChildCount: 0 }
+  let saving = false
+  const selected = (name) => form?.querySelector(`input[name="${name}"]:checked`)?.value ?? null
+  const error = (id, value = '') => { const node = document.querySelector(`#${id}`); if (node) node.textContent = value }
+  const total = () => values.adultCount + values.childCount + values.youngChildCount
+  const render = () => {
+    document.querySelectorAll('[data-counter]').forEach((row) => {
+      const key = row.getAttribute('data-counter'); const output = row.querySelector('output'); if (output && key) output.textContent = String(values[key])
+      row.querySelectorAll('button').forEach((button) => { const delta = Number(button.getAttribute('data-change')); button.disabled = (delta < 0 && values[key] <= 0) || (delta > 0 && total() >= 20) })
     })
-  })
-
-  decreaseButton?.addEventListener('click', () => {
-    if (guestCountInput instanceof HTMLInputElement) setGuestCount(Number(guestCountInput.value) - 1)
-  })
-
-  increaseButton?.addEventListener('click', () => {
-    if (guestCountInput instanceof HTMLInputElement) setGuestCount(Number(guestCountInput.value) + 1)
-  })
-
-  guestCountInput?.addEventListener('input', () => {
-    if (guestCountInput instanceof HTMLInputElement) {
-      const value = Number(guestCountInput.value)
-      if (Number.isInteger(value) && value >= 1 && value <= 20) setGuestCount(value)
-    }
-  })
-
+    document.querySelector('#total-people').textContent = String(total())
+    document.querySelector('#total-amount').textContent = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(values.adultCount * adultPrice + values.childCount * childPrice)
+  }
+  document.querySelectorAll('[data-counter] button').forEach((button) => button.addEventListener('click', () => {
+    const key = button.closest('[data-counter]')?.getAttribute('data-counter'); const delta = Number(button.getAttribute('data-change'))
+    if (key && Number.isInteger(delta) && values[key] + delta >= 0 && values[key] + delta <= 20 && total() + delta <= 20) { values[key] += delta; render(); error('counts-error') }
+  }))
+  form?.querySelectorAll('[name="attendance"]').forEach((input) => input.addEventListener('change', () => { attending.hidden = selected('attendance') !== 'confirmed'; error('attendance-error') }))
+  const setSaving = (value) => { saving = value; submit.disabled = value; submit.querySelector('[data-idle]').hidden = value; submit.querySelector('[data-loading]').hidden = !value }
   form?.addEventListener('submit', async (event) => {
-    event.preventDefault()
-    if (submitting || !(guestCountInput instanceof HTMLInputElement)) return
-
-    errorFor('attendance-error')
-    errorFor('guest-count-error')
-    errorFor('payment-method-error')
-    if (feedback instanceof HTMLElement) feedback.textContent = ''
-
-    const attendance = selectedValue('attendance')
-    const guestCount = Number(guestCountInput.value)
-    const paymentMethod = selectedValue('paymentMethod')
-    let valid = true
-
-    if (!attendance) {
-      errorFor('attendance-error', 'Elegí si vas a acompañarnos.')
-      valid = false
-    }
-
-    if (attendance === 'confirmed') {
-      if (!Number.isInteger(guestCount) || guestCount < 1 || guestCount > 20) {
-        errorFor('guest-count-error', 'Ingresá una cantidad entera entre 1 y 20.')
-        valid = false
-      }
-      if (!['mercadopago', 'cash'].includes(paymentMethod ?? '')) {
-        errorFor('payment-method-error', 'Elegí cómo preferís realizar la contribución.')
-        valid = false
-      }
-    }
-
+    event.preventDefault(); if (saving) return
+    ;['attendance-error', 'counts-error', 'payment-error', 'feedback'].forEach((id) => error(id))
+    const attendance = selected('attendance'); const paymentMethod = selected('paymentMethod'); let valid = true
+    if (!attendance) { error('attendance-error', 'Elegí si vas a acompañarnos.'); valid = false }
+    if (attendance === 'confirmed' && (total() < 1 || total() > 20)) { error('counts-error', 'El total debe ser entre 1 y 20 personas.'); valid = false }
+    if (attendance === 'confirmed' && !['cash', 'mercadopago'].includes(paymentMethod)) { error('payment-error', 'Elegí un método de contribución.'); valid = false }
     if (!valid) return
-
-    setSubmitting(true)
+    setSaving(true)
     try {
-      const response = await fetch('/api/registrations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          attendance,
-          guestCount: attendance === 'confirmed' ? guestCount : 1,
-          paymentMethod: attendance === 'confirmed' ? paymentMethod : null,
-        }),
-      })
+      const body = attendance === 'confirmed' ? { attendance, ...values, paymentMethod } : { attendance, paymentMethod: null }
+      const response = await fetch('/api/registrations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       const result = await response.json().catch(() => null)
-
-      if (!response.ok || !result?.ok) {
-        throw new Error(result?.message || 'No pudimos guardar tu respuesta. Intentá nuevamente.')
-      }
-
-      if (result.nextStep === 'finished') {
-        if (form instanceof HTMLFormElement) form.hidden = true
-        if (successPanel instanceof HTMLElement) successPanel.hidden = false
-        successPanel?.focus()
-        return
-      }
-
-      if (result.nextStep === 'guests' && typeof result.registrationId === 'string') {
-        window.location.assign(`/confirmar/invitados?registration=${encodeURIComponent(result.registrationId)}`)
-        return
-      }
-
+      if (!response.ok || !result?.ok) throw new Error(result?.message || 'No pudimos guardar tu respuesta.')
+      if (result.nextStep === 'finished') { form.hidden = true; document.querySelector('#cancelled').hidden = false; return }
+      if (result.nextStep === 'guests' && typeof result.registrationId === 'string') { window.location.assign(`/confirmar/invitados?registration=${encodeURIComponent(result.registrationId)}`); return }
       throw new Error('La respuesta del servidor no es válida.')
-    } catch (error) {
-      if (feedback instanceof HTMLElement) {
-        feedback.textContent = error instanceof Error ? error.message : 'Ocurrió un error inesperado.'
-      }
-    } finally {
-      setSubmitting(false)
-    }
+    } catch (cause) { error('feedback', cause instanceof Error ? cause.message : 'Ocurrió un error inesperado.') } finally { setSaving(false) }
   })
-
-  setGuestCount(1)
+  render()
 </script>
 
 <style>
-  .confirmation-page { min-height: 100vh; padding: clamp(1.25rem, 4vw, 3rem); background: radial-gradient(circle at 10% 10%, rgb(242 166 182 / 25%), transparent 30rem), radial-gradient(circle at 90% 90%, rgb(143 165 138 / 24%), transparent 28rem), var(--wedding-background); }
-  .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--wedding-primary); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
-  .confirmation-card { width: min(100%, 46rem); margin: 0 auto; padding: clamp(2rem, 6vw, 4.5rem); border: 1px solid rgb(123 30 58 / 12%); border-radius: var(--radius-soft); background: rgb(255 250 244 / 94%); box-shadow: var(--shadow-soft); }
-  .confirmation-header { margin-bottom: 3rem; text-align: center; }
-  .monogram { margin: 0 0 1.75rem; color: var(--wedding-primary); font: 500 2rem/1 var(--font-display); }
-  .monogram span { color: var(--wedding-secondary); font-size: .7em; font-style: italic; }
-  .eyebrow { margin: 0 0 .75rem; color: var(--wedding-secondary); font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
-  h1, h2 { color: var(--wedding-primary); font-family: var(--font-display); font-weight: 500; }
-  h1 { margin: 0; font-size: clamp(2.7rem, 9vw, 4.8rem); line-height: .95; }
-  .introduction { max-width: 29rem; margin: 1.25rem auto 0; color: var(--wedding-muted); line-height: 1.7; }
-  .form-section { margin: 0; padding: 0 0 2.5rem; border: 0; }
-  legend { width: 100%; margin-bottom: 1.25rem; color: var(--wedding-text); font: 500 clamp(1.5rem, 5vw, 2rem)/1.15 var(--font-display); text-align: center; }
-  .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
-  .choice-card { position: relative; display: flex; min-height: 4rem; cursor: pointer; }
-  .choice-card input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-  .choice-card span { display: flex; width: 100%; align-items: center; justify-content: center; padding: .9rem; border: 1px solid rgb(123 30 58 / 24%); border-radius: 1rem; color: var(--wedding-primary); background: var(--wedding-surface); font-size: .78rem; font-weight: 600; letter-spacing: .04em; text-align: center; transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast); }
-  .choice-card:hover span { transform: translateY(-2px); border-color: var(--wedding-primary); }
-  .choice-card input:checked + span { border-color: var(--wedding-primary); color: var(--wedding-surface); background: var(--wedding-primary); }
-  .choice-card input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--wedding-primary) 70%, white); outline-offset: 4px; }
-  .counter { display: grid; width: min(100%, 15rem); grid-template-columns: 3.25rem 1fr 3.25rem; margin: 0 auto; overflow: hidden; border: 1px solid rgb(123 30 58 / 22%); border-radius: 999px; background: var(--wedding-surface); }
-  .counter button { min-height: 3.25rem; cursor: pointer; border: 0; color: var(--wedding-primary); background: transparent; font-size: 1.35rem; }
-  .counter button:disabled { cursor: not-allowed; opacity: .35; }
-  .counter input { min-width: 0; border: 0; color: var(--wedding-text); background: transparent; font-weight: 600; text-align: center; appearance: textfield; }
-  .counter input::-webkit-inner-spin-button { appearance: none; }
-  .field-hint, .field-error { margin: .75rem auto 0; font-size: .72rem; line-height: 1.5; text-align: center; }
-  .field-hint { color: var(--wedding-muted); }
-  .field-error, .form-feedback { color: #982b35; }
-  .field-error:empty, .form-feedback:empty { display: none; }
-  .form-actions { text-align: center; }
-  .submit-button { display: inline-flex; min-width: 12rem; min-height: 3.2rem; align-items: center; justify-content: center; padding: .85rem 1.6rem; cursor: pointer; border: 1px solid var(--wedding-primary); border-radius: 999px; color: var(--wedding-surface); background: var(--wedding-primary); box-shadow: 0 .65rem 1.5rem rgb(123 30 58 / 18%); font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: transform var(--transition-fast), opacity var(--transition-fast); }
-  .submit-button:hover:not(:disabled) { transform: translateY(-2px); }
-  .submit-button:disabled { cursor: wait; opacity: .6; }
-  .form-feedback { margin: 1rem auto 0; font-size: .8rem; line-height: 1.5; }
-  .success-panel { text-align: center; }
-  .success-panel:focus { outline: none; }
-  .success-ornament { margin: 0; color: var(--wedding-secondary); font-size: 2.5rem; }
-  .success-panel h2 { margin: .5rem 0; font-size: clamp(2.3rem, 7vw, 3.5rem); }
-  .success-panel p:not(.success-ornament) { color: var(--wedding-muted); line-height: 1.7; }
-  .success-panel a { display: inline-block; margin-top: 1rem; color: var(--wedding-primary); font-weight: 600; }
-  [hidden] { display: none !important; }
-  @media (max-width: 36rem) { .choice-grid { grid-template-columns: 1fr; } .confirmation-card { padding-inline: 1.25rem; } .submit-button { width: 100%; } }
+  .page{min-height:100vh;padding:clamp(1.25rem,4vw,3rem);background:radial-gradient(circle at 10% 10%,rgb(242 166 182/.25),transparent 30rem),radial-gradient(circle at 90% 90%,rgb(143 165 138/.24),transparent 28rem),var(--wedding-background)}.back{display:inline-block;margin-bottom:1.5rem;color:var(--wedding-primary);font-size:.75rem;font-weight:600;text-decoration:none;text-transform:uppercase}.card{width:min(100%,46rem);margin:auto;padding:clamp(2rem,6vw,4rem);border:1px solid rgb(123 30 58/.12);border-radius:var(--radius-soft);background:rgb(255 250 244/.94);box-shadow:var(--shadow-soft)}header{text-align:center;margin-bottom:2.5rem}.monogram{color:var(--wedding-primary);font:500 2rem/1 var(--font-display)}.monogram span,.eyebrow{color:var(--wedding-secondary)}.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}h1,h2,legend{color:var(--wedding-primary);font-family:var(--font-display);font-weight:500}h1{font-size:clamp(2.7rem,9vw,4.8rem);line-height:.95;margin:.5rem 0}fieldset{border:0;margin:0;padding:0 0 2.4rem}legend{width:100%;margin-bottom:1.2rem;font-size:clamp(1.45rem,5vw,2rem);text-align:center}.choices{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.choices label{position:relative;display:flex}.choices input{position:absolute;opacity:0}.choices span{display:flex;width:100%;min-height:4rem;align-items:center;justify-content:center;padding:.8rem;border:1px solid rgb(123 30 58/.24);border-radius:1rem;color:var(--wedding-primary);text-align:center}.choices input:checked+span{color:white;background:var(--wedding-primary)}.choices input:focus-visible+span{outline:3px solid var(--wedding-secondary);outline-offset:3px}.count-list{border-block:1px solid rgb(123 30 58/.14)}.count-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid rgb(123 30 58/.1)}.count-row:last-child{border:0}.count-row strong,.count-row small{display:block}.count-row small{margin-top:.2rem;color:var(--wedding-muted)}.counter{display:grid;grid-template-columns:2.5rem 2rem 2.5rem;align-items:center;border:1px solid rgb(123 30 58/.2);border-radius:999px;text-align:center}.counter button{height:2.5rem;border:0;background:transparent;color:var(--wedding-primary);font-size:1.2rem}.counter button:disabled{opacity:.3}.summary{display:flex;justify-content:space-between;gap:1rem;margin-top:1.25rem;padding:1rem;border-radius:1rem;background:rgb(143 165 138/.12)}.summary p{margin:0}.hint,.error{text-align:center;font-size:.75rem}.hint{color:var(--wedding-muted)}.error{color:#982b35}.error:empty{display:none}.actions,.success{text-align:center}.submit,.success a{display:inline-flex;min-width:12rem;min-height:3.2rem;align-items:center;justify-content:center;padding:.8rem 1.5rem;border:0;border-radius:999px;color:white;background:var(--wedding-primary);font-weight:600;text-decoration:none;text-transform:uppercase}.submit:disabled{opacity:.6}.success h2{font-size:2.8rem}.success p{color:var(--wedding-muted)}[hidden]{display:none!important}@media(max-width:36rem){.choices{grid-template-columns:1fr}.card{padding-inline:1.2rem}.count-row{align-items:flex-start}.summary{flex-direction:column}.submit{width:100%}}
 </style>

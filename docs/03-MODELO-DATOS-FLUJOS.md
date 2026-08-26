@@ -1,5 +1,15 @@
 # Modelo de datos y flujos
 
+## Modelo etario de Sprint 07
+
+- `adult`: 11 años o más; usa `weddings.price_per_guest` (ARS 35.000 en la configuración real).
+- `child`: 6 a 10 años; usa `weddings.child_price` (ARS 10.000).
+- `young_child`: 1 a 5 años; vale ARS 0 por regla de negocio.
+
+`registrations` conserva `guest_count` y agrega `adult_count`, `child_count` y `young_child_count`, cuya suma debe coincidir mediante constraint. El backfill clasifica como adultos a los asistentes históricos, incluidas inscripciones canceladas, preservando filas y coherencia. El servidor calcula `guest_count` y `total_amount`; el navegador sólo muestra una estimación.
+
+`/confirmar/invitados` genera exactamente un formulario por asistente. La lectura server-side expone sólo los counts y el método de pago; la escritura exige nombre, apellido, total y distribución exactos, estado `pending` y ausencia de invitados previos. `guests.registration_id` mantiene la relación N→1. No se crean pagos ni se confirma la asistencia en este Sprint.
+
 PostgreSQL/Supabase es la fuente de verdad para bodas, inscripciones, invitados y pagos. El contenido visual continúa en `src/config/wedding.js`.
 
 ## Relaciones
@@ -28,7 +38,7 @@ Incluye `id`, `wedding_id`, datos de contacto opcionales (`contact_name`, `email
 
 ## `guests`
 
-Incluye `id`, `registration_id`, `first_name`, `last_name`, `document_number`, `age_category`, `notes` y timestamps. Los nombres son obligatorios. `age_category` es nullable y acepta `adult` o `child`. Se indexa `registration_id`.
+Incluye `id`, `registration_id`, `first_name`, `last_name`, `document_number`, `age_category`, `notes` y timestamps. Los nombres son obligatorios. Tras el backfill, `age_category` es requerido y acepta exclusivamente `adult`, `child` o `young_child`. Se indexa `registration_id`.
 
 ## `payments`
 

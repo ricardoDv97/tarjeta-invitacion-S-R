@@ -45,7 +45,7 @@ export async function POST({ request }) {
     const supabase = getSupabaseServerClient()
     const { data: weddings, error: weddingError } = await supabase
       .from('weddings')
-      .select('id, price_per_guest')
+      .select('id, price_per_guest, child_price')
       .eq('is_active', true)
       .order('created_at', { ascending: true })
       .limit(2)
@@ -65,12 +65,15 @@ export async function POST({ request }) {
     const input = validation.value
     const isCancellation = input.attendance === 'cancelled'
     const pricePerGuestCents = amountInCents(weddings[0].price_per_guest)
+    const childPriceCents = amountInCents(weddings[0].child_price)
 
-    if (pricePerGuestCents === null) {
+    if (pricePerGuestCents === null || childPriceCents === null) {
       return json({ ok: false, message: 'El evento no tiene un precio válido configurado.' }, 500)
     }
 
-    const totalCents = isCancellation ? 0 : pricePerGuestCents * input.guestCount
+    const totalCents = isCancellation
+      ? 0
+      : pricePerGuestCents * input.adultCount + childPriceCents * input.childCount
     if (!Number.isSafeInteger(totalCents) || totalCents > 999999999999) {
       return json({ ok: false, message: 'No pudimos calcular el monto de la inscripción.' }, 500)
     }
@@ -80,6 +83,9 @@ export async function POST({ request }) {
       .insert({
         wedding_id: weddings[0].id,
         guest_count: input.guestCount,
+        adult_count: input.adultCount,
+        child_count: input.childCount,
+        young_child_count: input.youngChildCount,
         attendance_status: isCancellation ? 'cancelled' : 'pending',
         payment_method: input.paymentMethod,
         payment_status: isCancellation ? 'cancelled' : 'pending',

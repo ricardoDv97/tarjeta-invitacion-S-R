@@ -1,7 +1,7 @@
 export const wedding = {
-  couple: { partner1: 'S', partner2: 'R', displayName: 'S & R' },
+  couple: { partner1: 'Sabrina', partner2: 'Ricardo', displayName: 'Ricardo y Sabrina', informalName: 'Sabri y Ri' },
   event: {
-    date: '',
+    date: '2026-12-19',
     eyebrow: 'Nos casamos',
     title: 'Nuestra Boda',
     message: 'Muy pronto vamos a compartir todos los detalles de este día tan especial.',
@@ -36,7 +36,7 @@ export const wedding = {
     description: 'Queremos que te sientas cómodo/a y disfrutes con nosotros.',
     notes: '',
   },
-  payment: { enabled: true, pricePerGuest: 0 },
+  payment: { enabled: true, pricePerGuest: 35000, childPrice: 10000, youngChildPrice: 0 },
   // Cada valor admite indistintamente una URL https o una ruta desde /public.
   // TODO: reemplazar por fotografías y videos reales de S&R.
   media: { introBackground: '', heroImage: '', gallery: [], videos: [] },

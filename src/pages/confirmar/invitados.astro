@@ -1,42 +1,74 @@
 ---
 import Layout from '../../layouts/Layout.astro'
-
-const registrationId = Astro.url.searchParams.get('registration') ?? ''
-const hasValidReference = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(registrationId)
 ---
 
-<Layout title="Próximo paso | S & R" description="Continuidad de la confirmación de asistencia.">
-  <main class="next-step-page">
-    <section class="next-step-card" aria-labelledby="next-step-title">
-      <p class="monogram" aria-label="S y R">S <span>&amp;</span> R</p>
-      {hasValidReference ? (
-        <>
-          <p class="eyebrow">Preinscripción guardada</p>
-          <h1 id="next-step-title">Gracias por confirmar</h1>
-          <p>Tu respuesta inicial quedó registrada. En el próximo paso vas a poder completar los datos de quienes asisten.</p>
-          <p class="notice">El registro de invitados estará disponible en el Sprint 07.</p>
-          <a href="/">Volver a la invitación</a>
-        </>
-      ) : (
-        <>
-          <p class="eyebrow">Referencia no disponible</p>
-          <h1 id="next-step-title">No pudimos continuar</h1>
-          <p>Volvé al formulario para iniciar una confirmación válida.</p>
-          <a href="/confirmar">Volver a confirmar</a>
-        </>
-      )}
-    </section>
-  </main>
+<Layout title="Completá los invitados | Sabri y Ri" description="Datos de quienes asistirán a la boda de Ricardo y Sabrina.">
+  <main class="page"><section class="card" aria-labelledby="title">
+    <header><p class="monogram">S <span>&amp;</span> R</p><p class="eyebrow">Tu grupo invitado</p><h1 id="title">¿Quiénes nos acompañan?</h1><p>Completá el nombre y apellido de cada asistente.</p></header>
+    <div id="loading" class="state" role="status">Cargando inscripción…</div>
+    <div id="unavailable" class="state" hidden><h2>No pudimos continuar</h2><p id="unavailable-message">La referencia no está disponible.</p><a href="/confirmar">Volver a confirmar</a></div>
+    <form id="guests-form" novalidate hidden><div id="guest-groups"></div><div class="actions"><button id="submit" type="submit"><span data-idle>Guardar invitados</span><span data-loading hidden>Guardando…</span></button><p id="feedback" class="error" role="status"></p></div></form>
+    <div id="success" class="state" hidden><h2>Invitados registrados</h2><p>Guardamos los datos de todo tu grupo. El paso de pago se habilitará próximamente.</p><a href="/">Volver a la invitación</a></div>
+  </section></main>
 </Layout>
 
+<script>
+  const loading = document.querySelector('#loading')
+  const unavailable = document.querySelector('#unavailable')
+  const form = document.querySelector('#guests-form')
+  const groups = document.querySelector('#guest-groups')
+  const submit = document.querySelector('#submit')
+  const feedback = document.querySelector('#feedback')
+  const reference = new URLSearchParams(window.location.search).get('registration') ?? ''
+  let saving = false
+  const categories = [
+    { count: 'adultCount', category: 'adult', heading: 'Adultos — 11 años o más', item: 'Adulto' },
+    { count: 'childCount', category: 'child', heading: 'Niños — 6 a 10 años', item: 'Niño' },
+    { count: 'youngChildCount', category: 'young_child', heading: 'Bebés y niños — 1 a 5 años', item: 'Menor' },
+  ]
+  const showError = (message) => { loading.hidden = true; unavailable.hidden = false; document.querySelector('#unavailable-message').textContent = message }
+  const setSaving = (value) => { saving = value; submit.disabled = value; submit.querySelector('[data-idle]').hidden = value; submit.querySelector('[data-loading]').hidden = !value }
+  const field = (category, index, label) => {
+    const wrapper = document.createElement('fieldset'); wrapper.dataset.category = category
+    wrapper.innerHTML = `<legend>${label} ${index + 1}</legend><div class="field-grid"><label>Nombre<input name="firstName" type="text" maxlength="80" autocomplete="given-name" required /></label><label>Apellido<input name="lastName" type="text" maxlength="80" autocomplete="family-name" required /></label></div><p class="error" data-field-error></p>`
+    return wrapper
+  }
+  const load = async () => {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(reference)) { showError('Volvé al formulario para iniciar una confirmación válida.'); return }
+    try {
+      const response = await fetch(`/api/registrations/${encodeURIComponent(reference)}`, { headers: { Accept: 'application/json' } })
+      const result = await response.json().catch(() => null)
+      if (!response.ok || !result?.ok) throw new Error(result?.message || 'No pudimos consultar la inscripción.')
+      categories.forEach((definition) => {
+        if (!result[definition.count]) return
+        const section = document.createElement('section'); section.className = 'group'; section.innerHTML = `<h2>${definition.heading}</h2>`
+        for (let index = 0; index < result[definition.count]; index += 1) section.append(field(definition.category, index, definition.item))
+        groups.append(section)
+      })
+      loading.hidden = true; form.hidden = false
+    } catch (cause) { showError(cause instanceof Error ? cause.message : 'No pudimos consultar la inscripción.') }
+  }
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault(); if (saving) return
+    feedback.textContent = ''; let valid = true; const guests = []
+    form.querySelectorAll('fieldset[data-category]').forEach((fieldset) => {
+      const first = fieldset.querySelector('[name="firstName"]'); const last = fieldset.querySelector('[name="lastName"]'); const fieldError = fieldset.querySelector('[data-field-error]')
+      const firstName = first.value.trim(); const lastName = last.value.trim(); fieldError.textContent = ''
+      if (!firstName || !lastName) { fieldError.textContent = 'Completá nombre y apellido.'; valid = false }
+      guests.push({ firstName, lastName, category: fieldset.dataset.category })
+    })
+    if (!valid) return
+    setSaving(true)
+    try {
+      const response = await fetch(`/api/registrations/${encodeURIComponent(reference)}/guests`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guests }) })
+      const result = await response.json().catch(() => null)
+      if (!response.ok || !result?.ok) throw new Error(result?.message || 'No pudimos guardar los invitados.')
+      form.hidden = true; document.querySelector('#success').hidden = false
+    } catch (cause) { feedback.textContent = cause instanceof Error ? cause.message : 'Ocurrió un error inesperado.' } finally { setSaving(false) }
+  })
+  load()
+</script>
+
 <style>
-  .next-step-page { display: grid; min-height: 100vh; place-items: center; padding: 1.5rem; background: radial-gradient(circle at 15% 20%, rgb(242 166 182 / 25%), transparent 28rem), radial-gradient(circle at 85% 80%, rgb(143 165 138 / 25%), transparent 28rem), var(--wedding-background); }
-  .next-step-card { width: min(100%, 42rem); padding: clamp(2.5rem, 8vw, 5rem); border: 1px solid rgb(123 30 58 / 12%); border-radius: var(--radius-soft); background: rgb(255 250 244 / 94%); box-shadow: var(--shadow-soft); text-align: center; }
-  .monogram { margin: 0 0 2rem; color: var(--wedding-primary); font: 500 2rem/1 var(--font-display); }
-  .monogram span { color: var(--wedding-secondary); font-size: .7em; font-style: italic; }
-  .eyebrow { margin: 0 0 .75rem; color: var(--wedding-secondary); font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
-  h1 { margin: 0; color: var(--wedding-primary); font: 500 clamp(2.7rem, 9vw, 4.5rem)/.95 var(--font-display); }
-  p:not(.monogram, .eyebrow) { max-width: 30rem; margin: 1.25rem auto 0; color: var(--wedding-muted); line-height: 1.7; }
-  .notice { padding: .8rem 1rem; border-radius: .8rem; background: rgb(143 165 138 / 12%); font-size: .78rem; }
-  a { display: inline-flex; min-height: 3rem; align-items: center; justify-content: center; margin-top: 1.75rem; padding: .8rem 1.4rem; border-radius: 999px; color: var(--wedding-surface); background: var(--wedding-primary); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+  .page{min-height:100vh;padding:clamp(1.25rem,4vw,3rem);background:radial-gradient(circle at 10% 10%,rgb(242 166 182/.25),transparent 30rem),radial-gradient(circle at 90% 90%,rgb(143 165 138/.24),transparent 28rem),var(--wedding-background)}.card{width:min(100%,48rem);margin:auto;padding:clamp(2rem,6vw,4rem);border:1px solid rgb(123 30 58/.12);border-radius:var(--radius-soft);background:rgb(255 250 244/.94);box-shadow:var(--shadow-soft)}header,.state,.actions{text-align:center}.monogram{color:var(--wedding-primary);font:500 2rem/1 var(--font-display)}.monogram span,.eyebrow{color:var(--wedding-secondary)}.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}h1,h2,legend{color:var(--wedding-primary);font-family:var(--font-display);font-weight:500}h1{margin:.5rem 0;font-size:clamp(2.7rem,9vw,4.8rem);line-height:.95}header>p:last-child,.state p{color:var(--wedding-muted)}.group{margin-top:2.5rem}.group>h2{padding-bottom:.75rem;border-bottom:1px solid rgb(123 30 58/.15);font-size:1.8rem}fieldset{margin:0;padding:1.25rem 0;border:0}legend{margin-bottom:.75rem;font-size:1.35rem}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}label{color:var(--wedding-muted);font-size:.75rem;font-weight:600}input{display:block;width:100%;margin-top:.4rem;padding:.85rem 1rem;border:1px solid rgb(123 30 58/.2);border-radius:.75rem;background:white;color:var(--wedding-text);font:inherit}input:focus{outline:3px solid rgb(143 165 138/.3);border-color:var(--wedding-secondary)}.error{color:#982b35;font-size:.75rem}.error:empty{display:none}.actions{margin-top:2rem}.actions button,.state a{display:inline-flex;min-width:13rem;min-height:3.2rem;align-items:center;justify-content:center;padding:.8rem 1.5rem;border:0;border-radius:999px;color:white;background:var(--wedding-primary);font-weight:600;text-decoration:none;text-transform:uppercase}.actions button:disabled{opacity:.6}.state h2{font-size:2.5rem}[hidden]{display:none!important}@media(max-width:36rem){.card{padding-inline:1.2rem}.field-grid{grid-template-columns:1fr}.actions button{width:100%}}
 </style>
