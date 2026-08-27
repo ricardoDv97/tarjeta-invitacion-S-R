@@ -7,7 +7,7 @@ import Layout from '../../layouts/Layout.astro'
     <header><p class="monogram">S <span>&amp;</span> R</p><p class="eyebrow">Tu grupo invitado</p><h1 id="title">¿Quiénes nos acompañan?</h1><p>Completá el nombre y apellido de cada asistente.</p></header>
     <div id="loading" class="state" role="status">Cargando inscripción…</div>
     <div id="unavailable" class="state" hidden><h2>No pudimos continuar</h2><p id="unavailable-message">La referencia no está disponible.</p><a href="/confirmar">Volver a confirmar</a></div>
-    <form id="guests-form" novalidate hidden><div id="guest-groups"></div><div class="actions"><button id="submit" type="submit"><span data-idle>Guardar invitados</span><span data-loading hidden>Guardando…</span></button><p id="feedback" class="error" role="status"></p></div></form>
+    <form id="guests-form" novalidate hidden><div id="guest-groups"></div><div class="actions"><button id="submit" type="submit"><span data-idle>Guardar invitados</span><span data-loading hidden>Confirmando…</span></button><p id="feedback" class="error" role="status" aria-live="polite"></p></div></form>
     <div id="success" class="state" hidden><h2>Invitados registrados</h2><p>Guardamos los datos de todo tu grupo. El paso de pago se habilitará próximamente.</p><a href="/">Volver a la invitación</a></div>
   </section></main>
 </Layout>
@@ -21,6 +21,7 @@ import Layout from '../../layouts/Layout.astro'
   const feedback = document.querySelector('#feedback')
   const reference = new URLSearchParams(window.location.search).get('registration') ?? ''
   let saving = false
+  let paymentMethod = ''
   const categories = [
     { count: 'adultCount', category: 'adult', heading: 'Adultos — 11 años o más', item: 'Adulto' },
     { count: 'childCount', category: 'child', heading: 'Niños — 6 a 10 años', item: 'Niño' },
@@ -39,6 +40,7 @@ import Layout from '../../layouts/Layout.astro'
       const response = await fetch(`/api/registrations/${encodeURIComponent(reference)}`, { headers: { Accept: 'application/json' } })
       const result = await response.json().catch(() => null)
       if (!response.ok || !result?.ok) throw new Error(result?.message || 'No pudimos consultar la inscripción.')
+      paymentMethod = result.paymentMethod
       categories.forEach((definition) => {
         if (!result[definition.count]) return
         const section = document.createElement('section'); section.className = 'group'; section.innerHTML = `<h2>${definition.heading}</h2>`
@@ -63,6 +65,13 @@ import Layout from '../../layouts/Layout.astro'
       const response = await fetch(`/api/registrations/${encodeURIComponent(reference)}/guests`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guests }) })
       const result = await response.json().catch(() => null)
       if (!response.ok || !result?.ok) throw new Error(result?.message || 'No pudimos guardar los invitados.')
+      if (result.nextStep === 'cash' && paymentMethod === 'cash') {
+        const cashResponse = await fetch(`/api/registrations/${encodeURIComponent(reference)}/cash`, { method: 'POST', headers: { Accept: 'application/json' } })
+        const cashResult = await cashResponse.json().catch(() => null)
+        if (!cashResponse.ok || !cashResult?.ok) throw new Error(cashResult?.message || 'Guardamos los invitados, pero no pudimos confirmar el efectivo. Intentá nuevamente.')
+        window.location.assign(`/pago/efectivo?registration=${encodeURIComponent(reference)}`)
+        return
+      }
       form.hidden = true; document.querySelector('#success').hidden = false
     } catch (cause) { feedback.textContent = cause instanceof Error ? cause.message : 'Ocurrió un error inesperado.' } finally { setSaving(false) }
   })

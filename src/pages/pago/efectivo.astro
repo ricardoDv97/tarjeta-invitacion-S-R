@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { wedding } from '../../config/wedding.js'
+import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
+import { isValidUuid } from '../../lib/validation.js'
+
+export const prerender = false
+
+const reference = Astro.url.searchParams.get('registration') ?? ''
+let registration = null
+let available = false
+
+if (isValidUuid(reference)) {
+  try {
+    const supabase = getSupabaseServerClient()
+    const { data } = await supabase
+      .from('registrations')
+      .select('id, guest_count, adult_count, child_count, young_child_count, total_amount, payment_method, payment_status, attendance_status')
+      .eq('id', reference)
+      .maybeSingle()
+
+    if (data?.payment_method === 'cash' && data.attendance_status === 'confirmed') {
+      const [{ data: guests }, { data: payments }] = await Promise.all([
+        supabase.from('guests').select('age_category').eq('registration_id', data.id),
+        supabase.from('payments').select('amount, currency, status, provider_payment_id, paid_at').eq('registration_id', data.id).eq('provider', 'cash'),
+      ])
+      const counts = { adult: 0, child: 0, young_child: 0 }
+      guests?.forEach((guest) => { if (guest.age_category in counts) counts[guest.age_category] += 1 })
+      const payment = payments?.length === 1 ? payments[0] : null
+      const expectedStatus = Number(data.total_amount) === 0 ? 'approved' : 'pending'
+      const guestsMatch = guests?.length === data.guest_count
+        && counts.adult === data.adult_count
+        && counts.child === data.child_count
+        && counts.young_child === data.young_child_count
+      const paymentMatches = payment
+        && Number(payment.amount) === Number(data.total_amount)
+        && payment.currency === 'ARS'
+        && payment.status === expectedStatus
+        && payment.provider_payment_id === null
+        && payment.paid_at === null
+        && data.payment_status === expectedStatus
+      if (guestsMatch && paymentMatches) { registration = data; available = true }
+    }
+  } catch {
+    available = false
+  }
+}
+
+if (!available) Astro.response.status = 404
+const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
+const isZero = available && Number(registration.total_amount) === 0
+---
+
+<Layout title="Pago en efectivo | Sabri y Ri" description="Confirmación de asistencia y contribución en efectivo.">
+  <main class="cash-page">
+    <section class="cash-card" aria-labelledby="cash-title">
+      <p class="brand">Nuestra Boda</p><p class="couple">{wedding.couple.informalName}</p>
+      {available ? (
+        <>
+          <div class="ornament" aria-hidden="true"><span></span>♡<span></span></div>
+          <p class="eyebrow">Asistencia confirmada</p><h1 id="cash-title">Pago en efectivo</h1>
+          <p class="lead">Tu asistencia quedó registrada.</p><p>Elegiste realizar la contribución en efectivo.</p>
+          <dl>
+            <div><dt>Asistentes</dt><dd>{registration.guest_count}</dd></div>
+            <div><dt>Total</dt><dd>{money.format(Number(registration.total_amount))}</dd></div>
+            <div><dt>Método</dt><dd>Efectivo</dd></div>
+            <div><dt>Estado</dt><dd class:list={['status', isZero && 'status--settled']}>{isZero ? 'Sin saldo pendiente' : 'Pendiente de pago'}</dd></div>
+          </dl>
+          <p class="note">{isZero ? 'No tenés ningún importe que abonar.' : 'Podrás entregar el dinero personalmente.'}</p>
+          <p class="farewell">Nos vemos en nuestra boda <span aria-hidden="true">♥</span></p>
+          <a href="/">Volver a la invitación</a>
+        </>
+      ) : (
+        <div class="unavailable"><h1 id="cash-title">No pudimos mostrar esta confirmación</h1><p>La referencia no existe o el proceso todavía no fue completado.</p><a href="/confirmar">Volver a confirmar</a></div>
+      )}
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .cash-page{min-height:100vh;display:grid;place-items:center;padding:clamp(1rem,4vw,3rem);background:radial-gradient(circle at 15% 15%,rgb(242 166 182/.22),transparent 28rem),radial-gradient(circle at 85% 85%,rgb(143 165 138/.25),transparent 30rem),var(--wedding-background)}
+  .cash-card{width:min(100%,42rem);padding:clamp(2rem,7vw,5rem);border:1px solid rgb(123 30 58/.14);border-radius:var(--radius-soft);background:rgb(255 250 244/.96);box-shadow:var(--shadow-soft);text-align:center}.brand{margin:0;color:var(--wedding-secondary);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}.couple{margin:.5rem 0 1.5rem;color:var(--wedding-primary);font:500 clamp(2.2rem,8vw,3.8rem)/1 var(--font-display)}
+  .ornament{display:flex;align-items:center;justify-content:center;gap:.8rem;color:var(--wedding-primary)}.ornament span{width:3rem;height:1px;background:rgb(123 30 58/.25)}.eyebrow{margin:1.8rem 0 .5rem;color:var(--wedding-secondary);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}h1{margin:.25rem 0 1rem;color:var(--wedding-primary);font:500 clamp(2.7rem,10vw,4.8rem)/.95 var(--font-display)}p{color:var(--wedding-muted);line-height:1.7}.lead{margin-bottom:0;color:var(--wedding-text);font-weight:600}
+  dl{margin:2rem 0;border-block:1px solid rgb(123 30 58/.14)}dl div{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0}dl div+div{border-top:1px solid rgb(123 30 58/.08)}dt{color:var(--wedding-muted);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}dd{margin:0;color:var(--wedding-text);font-weight:600}.status{color:var(--wedding-primary)}.status--settled{color:#537052}.note{padding:1rem;border-radius:1rem;background:rgb(143 165 138/.12)}.farewell{margin:2rem 0;color:var(--wedding-primary);font:500 1.5rem/1.3 var(--font-display)}a{display:inline-flex;min-height:3rem;align-items:center;justify-content:center;padding:.8rem 1.5rem;border-radius:999px;background:var(--wedding-primary);color:white;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-decoration:none;text-transform:uppercase}.unavailable p{margin-bottom:2rem}
+  @media(max-width:30rem){.cash-card{padding-inline:1.25rem}dl div{align-items:flex-start;flex-direction:column;text-align:left}a{width:100%}}
+</style>

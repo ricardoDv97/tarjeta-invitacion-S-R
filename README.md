@@ -1,8 +1,8 @@
 # Invitacion-Nuestra-Boda
 
-> Estado funcional: Sprint 07 — RSVP por grupo etario y registro dinámico de invitados.
+> Estado funcional: Sprint 08 — RSVP, invitados y confirmación de pago en efectivo.
 
-El navegador crea la inscripción con `POST /api/registrations`, consulta sólo los counts permitidos con `GET /api/registrations/[id]` y guarda el grupo completo mediante `POST /api/registrations/[id]/guests`. Todas las operaciones de Supabase son server-side. `adult` (11+) cuesta ARS 35.000, `child` (6–10) ARS 10.000 y `young_child` (1–5) ARS 0. La API es autoridad de precios y cantidades. La migración de Sprint 07 permanece local hasta su auditoría y aplicación controlada.
+El navegador crea la inscripción, guarda el grupo completo y, para efectivo, solicita la transición mediante `POST /api/registrations/[id]/cash`. Una función PostgreSQL transaccional crea un único payment cash y confirma la asistencia; el pago permanece `pending` mientras exista saldo. Todas las operaciones de Supabase son server-side y la base es autoridad de montos, moneda y estados. Las migraciones permanecen locales hasta su auditoría y aplicación controlada.
 
 Invitación web digital para la boda S&R desarrollada con Astro y Tailwind CSS.
 
@@ -65,4 +65,4 @@ El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos 
 
 ## Estado actual
 
-Sprint 07 — flujo por grupos etarios y registro dinámico de invitados mediante API Routes server-side.
+Sprint 08 — flujo cash server-side, idempotente y con confirmación visual en `/pago/efectivo`.

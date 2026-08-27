@@ -8,7 +8,20 @@
 
 `registrations` conserva `guest_count` y agrega `adult_count`, `child_count` y `young_child_count`, cuya suma debe coincidir mediante constraint. El backfill clasifica como adultos a los asistentes históricos, incluidas inscripciones canceladas, preservando filas y coherencia. El servidor calcula `guest_count` y `total_amount`; el navegador sólo muestra una estimación.
 
-`/confirmar/invitados` genera exactamente un formulario por asistente. La lectura server-side expone sólo los counts y el método de pago; la escritura exige nombre, apellido, total y distribución exactos, estado `pending` y ausencia de invitados previos. `guests.registration_id` mantiene la relación N→1. No se crean pagos ni se confirma la asistencia en este Sprint.
+`/confirmar/invitados` genera exactamente un formulario por asistente. La lectura server-side expone sólo los counts y el método de pago; la escritura exige nombre, apellido, total y distribución exactos y estado `pending`. Un reintento con el mismo grupo se reconoce de forma idempotente; un grupo diferente se rechaza. `guests.registration_id` mantiene la relación N→1.
+
+## Flujo efectivo de Sprint 08
+
+Después de guardar los guests, `POST /api/registrations/[id]/cash` ejecuta una transición atómica en PostgreSQL:
+
+```text
+RSVP → guests → cash → payment row → attendance confirmed
+                                      → payment pending → aprobación administrativa futura
+```
+
+La RPC bloquea la registration, exige `payment_method = cash`, estados iniciales `pending`, monto no negativo y coincidencia exacta entre counts declarados y guests reales. Inserta `provider = cash`, `amount = registrations.total_amount`, `currency = ARS`, `provider_payment_id = NULL`, `external_reference = NULL` y `paid_at = NULL`. Con monto mayor a cero, ambos estados de pago quedan `pending`; la asistencia queda `confirmed`.
+
+Para total cero se conserva un payment auditable de ARS 0 con estado `approved`, `paid_at = NULL`, y la registration queda `confirmed`/`approved`. Así no se representa una deuda inexistente. El índice parcial `payments_one_cash_per_registration_idx` y el lock de la registration hacen seguros los reintentos; una fila existente sólo se acepta si coincide por completo con la transición esperada.
 
 PostgreSQL/Supabase es la fuente de verdad para bodas, inscripciones, invitados y pagos. El contenido visual continúa en `src/config/wedding.js`.
 
@@ -44,7 +57,7 @@ Incluye `id`, `registration_id`, `first_name`, `last_name`, `document_number`, `
 
 Cada fila representa un intento. Incluye `id`, `registration_id`, `provider`, `provider_payment_id`, `external_reference`, `amount`, `currency`, `status`, `paid_at` y timestamps. `provider` acepta `mercadopago` o `cash`; `amount` es `numeric(12,2)` no negativo; `currency` tiene default `ARS` para el MVP argentino; `status` acepta `pending`, `approved`, `rejected` o `cancelled`.
 
-No hay unicidad sobre `registration_id`, permitiendo reintentos. El índice único parcial `(provider, provider_payment_id)` cuando el identificador no es NULL evita duplicar un pago del mismo proveedor. `external_reference` se indexa, pero no es única porque varios intentos pueden correlacionarse con una inscripción. También se indexan `registration_id` y `status`.
+No hay unicidad general sobre `registration_id`, permitiendo futuros intentos de otros proveedores. El índice único parcial `(provider, provider_payment_id)` cuando el identificador no es NULL evita duplicar un identificador de proveedor, y Sprint 08 agrega unicidad parcial sobre `registration_id` exclusivamente para `provider = cash`. `external_reference` se indexa, pero no es única. También se indexan `registration_id` y `status`.
 
 `registrations.payment_status` es el resumen vigente de una inscripción. `payments.status` conserva el estado de cada intento individual; su sincronización corresponde al futuro flujo de pagos.
 

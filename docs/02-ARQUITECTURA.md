@@ -1,8 +1,10 @@
 # Arquitectura
 
-## Sprint 07
+## Sprint 08
 
 La API calcula `total_amount` desde `weddings.price_per_guest` para adultos (11+) y `weddings.child_price` para niños (6–10); `young_child` (1–5) vale cero. `GET /api/registrations/[id]` devuelve únicamente counts y método de pago para construir el formulario dinámico. `POST /api/registrations/[id]/guests` valida y persiste el grupo completo. Todos los reads y writes usan el cliente privado server-side.
+
+`POST /api/registrations/[id]/cash` no acepta payload de negocio y ejecuta la RPC privada `confirm_cash_payment`. La función bloquea la registration, valida método, estados, monto y distribución real de guests, y crea el payment junto con la actualización de registration en una única transacción. Un índice único parcial impide más de un payment cash por registration. `/pago/efectivo` vuelve a consultar Supabase server-side y sólo muestra transiciones completas y coherentes.
 
 Stack actual:
 
@@ -21,5 +23,5 @@ Principios:
 - El RSVP crea preinscripciones mediante `POST /api/registrations`; el navegador no escribe directamente en Supabase.
 - RLS está habilitado y sin políticas en este Sprint: acceso denegado por defecto.
 - El esquema relaciona las inscripciones con `wedding_id` y admite múltiples bodas sin implementar multi-tenancy SaaS.
-- Mercado Pago y sus webhooks continúan previstos, pero no están implementados.
+- Mercado Pago, webhooks, autenticación y administración continúan previstos, pero no están implementados.
 - La API determina la boda activa y calcula `total_amount` desde `weddings.price_per_guest`.

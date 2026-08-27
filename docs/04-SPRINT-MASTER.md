@@ -1,6 +1,6 @@
 # Sprint Master
 
-Estado actual: Sprint 07 implementado (counts por edad, precios server-side y registro dinámico de invitados). Efectivo y Mercado Pago permanecen fuera de alcance.
+Estado actual: Sprint 08 implementado (pago en efectivo server-side, atómico, idempotente y con confirmación visual). Mercado Pago permanece fuera de alcance.
 
 1. Inicialización
 2. Design System
@@ -16,4 +16,4 @@ Estado actual: Sprint 07 implementado (counts por edad, precios server-side y re
 12. Dashboard administrador
 13. QA, seguridad y producción
 
-El alcance actual termina en el Sprint 07.
+El alcance actual termina en el Sprint 08. La aplicación remota de la migración y la prueba E2E sobre Supabase requieren auditoría/autorización separada.

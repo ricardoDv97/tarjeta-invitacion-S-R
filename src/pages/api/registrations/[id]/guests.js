@@ -33,12 +33,19 @@ export async function POST({ params, request }) {
     const validation = validateGuestsPayload(payload, registration)
     if (!validation.ok) return json({ ok: false, message: validation.message }, 400)
 
-    const { count, error: existingError } = await supabase
+    const { data: existingGuests, error: existingError } = await supabase
       .from('guests')
-      .select('id', { count: 'exact', head: true })
+      .select('first_name, last_name, age_category')
       .eq('registration_id', registration.id)
     if (existingError) return json({ ok: false, message: 'No pudimos verificar la inscripción.' }, 500)
-    if (count && count > 0) return json({ ok: false, message: 'Los invitados de esta inscripción ya fueron registrados.' }, 409)
+    if (existingGuests?.length) {
+      const key = (guest) => `${guest.age_category}\u0000${guest.first_name}\u0000${guest.last_name}`
+      const stored = existingGuests.map(key).sort()
+      const requested = validation.value.map(key).sort()
+      const sameGuests = stored.length === requested.length && stored.every((value, index) => value === requested[index])
+      if (!sameGuests) return json({ ok: false, message: 'Los invitados de esta inscripción ya fueron registrados.' }, 409)
+      return json({ ok: true, nextStep: registration.payment_method === 'cash' ? 'cash' : 'mercadopago' }, 200)
+    }
 
     const rows = validation.value.map((guest) => ({ ...guest, registration_id: registration.id }))
     const { error: insertError } = await supabase.from('guests').insert(rows)
