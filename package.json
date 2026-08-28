@@ -3,19 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/vercel": "^7.8.2",
+    "@astrojs/vercel": "^10.0.8",
     "@supabase/supabase-js": "^2.112.4",
     "@tailwindcss/vite": "^4.3.3",
     "mercadopago": "^3.5.1"
   },
   "devDependencies": {
-    "astro": "^4.6.0",
+    "astro": "^6.4.8",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0",
     "tailwindcss": "^4.0.0"
