@@ -1,0 +1,40 @@
+---
+import { wedding } from '../../config/wedding.js'
+
+const { kind, isFree = false, retryHref = '/confirmar' } = Astro.props
+const content = {
+  success: {
+    eyebrow: isFree ? 'Asistencia confirmada' : 'Resultado recibido',
+    title: isFree ? 'No tenés saldo pendiente' : 'Estamos verificando tu pago',
+    message: isFree
+      ? 'Tu grupo no tiene ningún importe que abonar y la asistencia quedó registrada.'
+      : 'Mercado Pago informó que la operación fue procesada. Tu confirmación de pago se validará automáticamente.',
+    action: 'Volver a la invitación', href: '/',
+  },
+  pending: {
+    eyebrow: 'Operación en revisión', title: 'Tu pago está pendiente',
+    message: 'Recibimos el resultado de Mercado Pago. La base de datos seguirá pendiente hasta completar la validación automática.',
+    action: 'Volver a la invitación', href: '/',
+  },
+  error: {
+    eyebrow: 'No se completó el checkout', title: 'No pudimos completar el pago',
+    message: 'No modificamos el estado de tu inscripción. Podés volver a intentar con la misma referencia.',
+    action: 'Volver a intentar', href: retryHref,
+  },
+}[kind]
+---
+
+<main class="return-page">
+  <section class="return-card" aria-labelledby="return-title">
+    <p class="brand">Nuestra Boda</p><p class="couple">{wedding.couple.informalName}</p>
+    <div class="ornament" aria-hidden="true"><span></span>♡<span></span></div>
+    <p class="eyebrow">{content.eyebrow}</p><h1 id="return-title">{content.title}</h1>
+    <p class="message">{content.message}</p>
+    {!isFree && kind !== 'error' && <p class="notice">El regreso desde Mercado Pago no confirma por sí solo el pago.</p>}
+    <a href={content.href}>{content.action}</a>
+  </section>
+</main>
+
+<style>
+  .return-page{min-height:100vh;display:grid;place-items:center;padding:clamp(1rem,4vw,3rem);background:radial-gradient(circle at 15% 15%,rgb(242 166 182/.22),transparent 28rem),radial-gradient(circle at 85% 85%,rgb(143 165 138/.25),transparent 30rem),var(--wedding-background)}.return-card{width:min(100%,42rem);padding:clamp(2rem,7vw,5rem);border:1px solid rgb(123 30 58/.14);border-radius:var(--radius-soft);background:rgb(255 250 244/.96);box-shadow:var(--shadow-soft);text-align:center}.brand{margin:0;color:var(--wedding-secondary);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}.couple{margin:.5rem 0 1.5rem;color:var(--wedding-primary);font:500 clamp(2.2rem,8vw,3.8rem)/1 var(--font-display)}.ornament{display:flex;align-items:center;justify-content:center;gap:.8rem;color:var(--wedding-primary)}.ornament span{width:3rem;height:1px;background:rgb(123 30 58/.25)}.eyebrow{margin:1.8rem 0 .5rem;color:var(--wedding-secondary);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}h1{margin:.25rem 0 1.25rem;color:var(--wedding-primary);font:500 clamp(2.6rem,9vw,4.6rem)/.98 var(--font-display)}.message{color:var(--wedding-muted);line-height:1.75}.notice{margin:1.5rem 0;padding:1rem;border-radius:1rem;background:rgb(143 165 138/.12);color:var(--wedding-text);font-size:.85rem;line-height:1.6}a{display:inline-flex;min-height:3rem;align-items:center;justify-content:center;margin-top:1.5rem;padding:.8rem 1.5rem;border-radius:999px;background:var(--wedding-primary);color:white;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-decoration:none;text-transform:uppercase}@media(max-width:30rem){.return-card{padding-inline:1.25rem}a{width:100%}}
+</style>

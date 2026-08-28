@@ -1,6 +1,6 @@
 # Sprint Master
 
-Estado actual: Sprint 08 implementado (pago en efectivo server-side, atómico, idempotente y con confirmación visual). Mercado Pago permanece fuera de alcance.
+Estado actual: Sprint 09 implementado (Checkout Pro, preferencia server-side, payment pending y back URLs informativas). La autoridad mediante webhook permanece fuera de alcance.
 
 1. Inicialización
 2. Design System
@@ -16,4 +16,4 @@ Estado actual: Sprint 08 implementado (pago en efectivo server-side, atómico, i
 12. Dashboard administrador
 13. QA, seguridad y producción
 
-El alcance actual termina en el Sprint 08. La aplicación remota de la migración y la prueba E2E sobre Supabase requieren auditoría/autorización separada.
+El alcance actual termina en el Sprint 09. La nueva migración permanece local para auditoría; Sprint 10 implementará webhook y validación definitiva.

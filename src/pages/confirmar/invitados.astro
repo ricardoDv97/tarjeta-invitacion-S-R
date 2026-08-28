@@ -72,6 +72,18 @@ import Layout from '../../layouts/Layout.astro'
         window.location.assign(`/pago/efectivo?registration=${encodeURIComponent(reference)}`)
         return
       }
+      if (result.nextStep === 'mercadopago' && paymentMethod === 'mercadopago') {
+        const mpResponse = await fetch(`/api/registrations/${encodeURIComponent(reference)}/mercadopago`, { method: 'POST', headers: { Accept: 'application/json' } })
+        const mpResult = await mpResponse.json().catch(() => null)
+        if (!mpResponse.ok || !mpResult?.ok) throw new Error(mpResult?.message || 'Guardamos los invitados, pero no pudimos iniciar Mercado Pago. Intentá nuevamente.')
+        if (mpResult.nextStep === 'mercadopago-free') {
+          window.location.assign(`/pago/exitoso?registration=${encodeURIComponent(reference)}`)
+          return
+        }
+        if (mpResult.nextStep !== 'mercadopago-checkout' || typeof mpResult.checkoutUrl !== 'string') throw new Error('Mercado Pago no devolvió un checkout válido.')
+        window.location.assign(mpResult.checkoutUrl)
+        return
+      }
       form.hidden = true; document.querySelector('#success').hidden = false
     } catch (cause) { feedback.textContent = cause instanceof Error ? cause.message : 'Ocurrió un error inesperado.' } finally { setSaving(false) }
   })

@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import PaymentReturn from '../../components/payment/PaymentReturn.astro'
+import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
+import { isValidUuid } from '../../lib/validation.js'
+
+export const prerender = false
+const reference = Astro.url.searchParams.get('registration') ?? ''
+let isFree = false
+if (isValidUuid(reference)) {
+  try {
+    const supabase = getSupabaseServerClient()
+    const { data } = await supabase.from('registrations')
+      .select('total_amount, payment_method, payment_status, attendance_status, payments!inner(provider, amount, status)')
+      .eq('id', reference).eq('payments.provider', 'mercadopago').maybeSingle()
+    isFree = data?.payment_method === 'mercadopago'
+      && data.attendance_status === 'confirmed' && data.payment_status === 'approved'
+      && Number(data.total_amount) === 0 && data.payments?.length === 1
+      && data.payments[0].status === 'approved' && Number(data.payments[0].amount) === 0
+  } catch { isFree = false }
+}
+---
+<Layout title="Resultado de Mercado Pago | Sabri y Ri" description="Resultado del checkout para la boda de Ricardo y Sabrina.">
+  <PaymentReturn kind="success" {isFree} />
+</Layout>

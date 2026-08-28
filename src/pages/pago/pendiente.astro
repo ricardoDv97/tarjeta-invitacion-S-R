@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import PaymentReturn from '../../components/payment/PaymentReturn.astro'
+export const prerender = false
+---
+<Layout title="Pago pendiente | Sabri y Ri" description="Estado pendiente informado por Mercado Pago.">
+  <PaymentReturn kind="pending" />
+</Layout>

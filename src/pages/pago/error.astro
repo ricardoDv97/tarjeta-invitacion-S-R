@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import PaymentReturn from '../../components/payment/PaymentReturn.astro'
+import { isValidUuid } from '../../lib/validation.js'
+export const prerender = false
+const reference = Astro.url.searchParams.get('registration') ?? ''
+const retryHref = isValidUuid(reference) ? `/confirmar/invitados?registration=${encodeURIComponent(reference)}` : '/confirmar'
+---
+<Layout title="No pudimos completar el pago | Sabri y Ri" description="Reintento del checkout de Mercado Pago.">
+  <PaymentReturn kind="error" {retryHref} />
+</Layout>

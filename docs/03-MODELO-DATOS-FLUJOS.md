@@ -23,6 +23,17 @@ La RPC bloquea la registration, exige `payment_method = cash`, estados iniciales
 
 Para total cero se conserva un payment auditable de ARS 0 con estado `approved`, `paid_at = NULL`, y la registration queda `confirmed`/`approved`. Así no se representa una deuda inexistente. El índice parcial `payments_one_cash_per_registration_idx` y el lock de la registration hacen seguros los reintentos; una fila existente sólo se acepta si coincide por completo con la transición esperada.
 
+## Checkout Pro de Sprint 09
+
+```text
+RSVP → guests → payment_method=mercadopago → payment pending → preference
+→ Checkout Pro → back_url → DB sigue pending → Sprint 10 webhook/verificación
+```
+
+`prepare_mercadopago_checkout` valida registration, wedding habilitada, guests y distribución bajo lock, y reserva un único payment MP. La preferencia usa un ítem por el total calculado en DB, moneda ARS y `external_reference = registration.id`. `provider_preference_id` conserva el ID de preferencia; `provider_payment_id` continúa NULL hasta que Sprint 10 valide un pago real.
+
+Los índices parciales impiden más de un payment MP por registration y duplicar `provider_preference_id`. El UUID del payment es la clave idempotente de la creación remota. Crear o visitar `/pago/exitoso`, `/pago/pendiente` o `/pago/error` no confirma, rechaza ni cancela pagos. Para total cero, la RPC crea un payment MP de ARS 0 `approved`, confirma asistencia y no llama a Checkout Pro.
+
 PostgreSQL/Supabase es la fuente de verdad para bodas, inscripciones, invitados y pagos. El contenido visual continúa en `src/config/wedding.js`.
 
 ## Relaciones
@@ -55,7 +66,7 @@ Incluye `id`, `registration_id`, `first_name`, `last_name`, `document_number`, `
 
 ## `payments`
 
-Cada fila representa un intento. Incluye `id`, `registration_id`, `provider`, `provider_payment_id`, `external_reference`, `amount`, `currency`, `status`, `paid_at` y timestamps. `provider` acepta `mercadopago` o `cash`; `amount` es `numeric(12,2)` no negativo; `currency` tiene default `ARS` para el MVP argentino; `status` acepta `pending`, `approved`, `rejected` o `cancelled`.
+Cada fila representa un intento. Incluye `id`, `registration_id`, `provider`, `provider_payment_id`, `provider_preference_id`, `external_reference`, `amount`, `currency`, `status`, `paid_at` y timestamps. `provider` acepta `mercadopago` o `cash`; `amount` es `numeric(12,2)` no negativo; `currency` tiene default `ARS`; `status` acepta `pending`, `approved`, `rejected` o `cancelled`.
 
 No hay unicidad general sobre `registration_id`, permitiendo futuros intentos de otros proveedores. El índice único parcial `(provider, provider_payment_id)` cuando el identificador no es NULL evita duplicar un identificador de proveedor, y Sprint 08 agrega unicidad parcial sobre `registration_id` exclusivamente para `provider = cash`. `external_reference` se indexa, pero no es única. También se indexan `registration_id` y `status`.
 

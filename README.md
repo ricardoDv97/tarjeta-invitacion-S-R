@@ -1,8 +1,8 @@
 # Invitacion-Nuestra-Boda
 
-> Estado funcional: Sprint 08 — RSVP, invitados y confirmación de pago en efectivo.
+> Estado funcional: Sprint 09 — RSVP, efectivo y Checkout Pro de Mercado Pago.
 
-El navegador crea la inscripción, guarda el grupo completo y, para efectivo, solicita la transición mediante `POST /api/registrations/[id]/cash`. Una función PostgreSQL transaccional crea un único payment cash y confirma la asistencia; el pago permanece `pending` mientras exista saldo. Todas las operaciones de Supabase son server-side y la base es autoridad de montos, moneda y estados. Las migraciones permanecen locales hasta su auditoría y aplicación controlada.
+El navegador crea la inscripción y guarda el grupo completo. Efectivo conserva su transición transaccional; Mercado Pago solicita server-side una preferencia de Checkout Pro mediante `POST /api/registrations/[id]/mercadopago`. La base es autoridad de monto y estados. Los redirects de Mercado Pago son únicamente informativos: `payment_status` y `attendance_status` permanecen `pending` hasta la validación server-side del Sprint 10.
 
 Invitación web digital para la boda S&R desarrollada con Astro y Tailwind CSS.
 
@@ -47,7 +47,8 @@ npm run preview
 1. Copiá `.env.example` como `.env`.
 2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
 3. Agregá manualmente `SUPABASE_SECRET_KEY` para la API server-side de RSVP. Nunca uses esta clave en el frontend.
-4. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
+4. Agregá `MERCADOPAGO_ACCESS_TOKEN` exclusivamente server-side y `PUBLIC_SITE_URL` con el origen HTTPS público usado en las back URLs.
+5. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
 El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos y, si falta configuración, informan un error controlado. El RSVP escribe mediante `POST /api/registrations`; el navegador no inserta directamente en Supabase.
 
@@ -65,4 +66,4 @@ El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos 
 
 ## Estado actual
 
-Sprint 08 — flujo cash server-side, idempotente y con confirmación visual en `/pago/efectivo`.
+Sprint 09 — Checkout Pro con preferencia server-side, payment pending, reintentos idempotentes y retornos sin autoridad de pago.
