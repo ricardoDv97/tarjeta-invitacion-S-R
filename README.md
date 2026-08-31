@@ -47,7 +47,7 @@ npm run preview
 1. Copiá `.env.example` como `.env`.
 2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
 3. Agregá manualmente `SUPABASE_SECRET_KEY` para la API server-side de RSVP. Nunca uses esta clave en el frontend.
-4. Agregá `MERCADOPAGO_ACCESS_TOKEN` exclusivamente server-side y `PUBLIC_SITE_URL` con el origen HTTPS público usado en las back URLs.
+4. Agregá `MERCADOPAGO_ACCESS_TOKEN` exclusivamente server-side, `MERCADOPAGO_ENVIRONMENT=test` para credenciales de prueba y `PUBLIC_SITE_URL` con el origen HTTPS público usado en las back URLs. Usá `MERCADOPAGO_ENVIRONMENT=production` sólo cuando se habiliten pagos reales.
 5. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
 El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos y, si falta configuración, informan un error controlado. El RSVP escribe mediante `POST /api/registrations`; el navegador no inserta directamente en Supabase.

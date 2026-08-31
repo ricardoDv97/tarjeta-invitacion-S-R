@@ -1,7 +1,14 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
 
-const accessToken = import.meta.env.MERCADOPAGO_ACCESS_TOKEN
+const accessToken = import.meta.env?.MERCADOPAGO_ACCESS_TOKEN
 let preferenceClient
+
+export function getMercadoPagoEnvironment(value = import.meta.env?.MERCADOPAGO_ENVIRONMENT) {
+  if (value !== 'test' && value !== 'production') {
+    throw new Error('Mercado Pago no tiene un ambiente válido configurado.')
+  }
+  return value
+}
 
 export function getMercadoPagoPreferenceClient() {
   if (!import.meta.env.SSR) {
@@ -34,10 +41,11 @@ export function getPublicSiteUrl() {
   return url.toString().replace(/\/$/, '')
 }
 
-export function getCheckoutUrl(preference) {
-  const candidate = accessToken?.startsWith('TEST-')
-    ? preference?.sandbox_init_point || preference?.init_point
-    : preference?.init_point || preference?.sandbox_init_point
+export function selectCheckoutUrl(preference, environment) {
+  const validatedEnvironment = getMercadoPagoEnvironment(environment)
+  const candidate = validatedEnvironment === 'test'
+    ? preference?.sandbox_init_point
+    : preference?.init_point
   if (!candidate) return null
   try {
     const url = new URL(candidate)
@@ -49,4 +57,8 @@ export function getCheckoutUrl(preference) {
   } catch {
     return null
   }
+}
+
+export function getCheckoutUrl(preference) {
+  return selectCheckoutUrl(preference, getMercadoPagoEnvironment())
 }
