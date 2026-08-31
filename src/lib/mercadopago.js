@@ -1,7 +1,8 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago'
+import { MercadoPagoConfig, Payment, Preference } from 'mercadopago'
 
 const accessToken = import.meta.env?.MERCADOPAGO_ACCESS_TOKEN
 let preferenceClient
+let paymentClient
 
 export function getMercadoPagoEnvironment(value = import.meta.env?.MERCADOPAGO_ENVIRONMENT) {
   if (value !== 'test' && value !== 'production') {
@@ -23,6 +24,21 @@ export function getMercadoPagoPreferenceClient() {
     options: { timeout: 10000, maxRetries: 2 },
   }))
   return preferenceClient
+}
+
+export function getMercadoPagoPaymentClient() {
+  if (!import.meta.env.SSR) {
+    throw new Error('Mercado Pago sólo puede utilizarse en el servidor.')
+  }
+  if (!accessToken) {
+    throw new Error('Mercado Pago no está configurado.')
+  }
+
+  paymentClient ??= new Payment(new MercadoPagoConfig({
+    accessToken,
+    options: { timeout: 10000, maxRetries: 2 },
+  }))
+  return paymentClient
 }
 
 export function getPublicSiteUrl() {

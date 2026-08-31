@@ -1,5 +1,17 @@
 # Modelo de datos y flujos
 
+## Validación Mercado Pago de Sprint 10
+
+```text
+Mercado Pago → Webhook firmado → GET payment server-side
+→ external_reference + amount + currency + preference/provider
+→ RPC transaccional → payment + registration
+```
+
+El estado del body del Webhook y las back URLs no se utilizan. `approved` confirma asistencia y guarda `date_approved`; `rejected` y `cancelled` mantienen asistencia pendiente; los estados intermedios (`pending`, `in_process`, `in_mediation`, `authorized` y desconocidos) se conservan como `pending`. Un estado local `approved` es terminal.
+
+El modelo MVP mantiene una sola fila Mercado Pago por registration. El primer payment ID verificado ocupa `provider_payment_id`; notificaciones duplicadas del mismo ID son idempotentes y un ID diferente se ignora para evitar sobrescribir un pago asociado. Esta decisión limita múltiples intentos reales y deberá revisarse antes de habilitarlos.
+
 ## Modelo etario de Sprint 07
 
 - `adult`: 11 años o más; usa `weddings.price_per_guest` (ARS 35.000 en la configuración real).

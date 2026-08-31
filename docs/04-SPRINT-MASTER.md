@@ -1,6 +1,8 @@
 # Sprint Master
 
-Estado actual: Sprint 09 implementado (Checkout Pro, preferencia server-side, payment pending y back URLs informativas). La autoridad mediante webhook permanece fuera de alcance.
+Implementación local actual: Sprint 10 preparado para auditoría. Incluye Webhook firmado, consulta real del payment y transición atómica. La migración, el secret, la configuración externa y el E2E permanecen pendientes; Sprint 11 no fue iniciado.
+
+Estado actual: Sprint 10 implementado localmente y pendiente de auditoría, migración remota, configuración externa y E2E sandbox.
 
 1. Inicialización
 2. Design System
@@ -16,4 +18,4 @@ Estado actual: Sprint 09 implementado (Checkout Pro, preferencia server-side, pa
 12. Dashboard administrador
 13. QA, seguridad y producción
 
-El alcance actual termina en el Sprint 09. La nueva migración permanece local para auditoría; Sprint 10 implementará webhook y validación definitiva.
+El alcance actual termina en el Sprint 10. La nueva migración permanece local para auditoría y no fue aplicada remotamente.

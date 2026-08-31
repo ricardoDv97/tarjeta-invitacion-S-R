@@ -1,5 +1,11 @@
 # Arquitectura
 
+## Sprint 10
+
+`POST /api/webhooks/mercadopago` procesa exclusivamente `type=payment`. Valida `x-signature`, `x-request-id` y `data.id` con `WebhookSignatureValidator` y `MERCADOPAGO_WEBHOOK_SECRET` antes de consultar `Payment.get`. El body y los redirects nunca son autoridad. La respuesta real se correlaciona en PostgreSQL por registration, provider, external reference, importe, moneda y preference cuando el proveedor la informa.
+
+La RPC privada `apply_mercadopago_payment_result` bloquea registration y payment, aplica ambas actualizaciones atómicamente e impide degradar `approved`. El MVP conserva una fila MP por registration: acepta el primer `provider_payment_id` validado y luego sólo ese mismo ID. Un ID diferente no sobrescribe la asociación; soportar varios intentos requerirá ampliar el modelo en otro Sprint.
+
 ## Sprint 09
 
 La API calcula `total_amount` desde `weddings.price_per_guest` para adultos (11+) y `weddings.child_price` para niños (6–10); `young_child` (1–5) vale cero. `GET /api/registrations/[id]` devuelve únicamente counts y método de pago para construir el formulario dinámico. `POST /api/registrations/[id]/guests` valida y persiste el grupo completo. Todos los reads y writes usan el cliente privado server-side.

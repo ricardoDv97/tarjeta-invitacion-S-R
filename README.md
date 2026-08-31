@@ -1,8 +1,8 @@
 # Invitacion-Nuestra-Boda
 
-> Estado funcional: Sprint 09 — RSVP, efectivo y Checkout Pro de Mercado Pago.
+> Estado funcional: Sprint 10 — Webhook firmado y validación server-side de pagos Mercado Pago, preparado localmente para auditoría.
 
-El navegador crea la inscripción y guarda el grupo completo. Efectivo conserva su transición transaccional; Mercado Pago solicita server-side una preferencia de Checkout Pro mediante `POST /api/registrations/[id]/mercadopago`. La base es autoridad de monto y estados. Los redirects de Mercado Pago son únicamente informativos: `payment_status` y `attendance_status` permanecen `pending` hasta la validación server-side del Sprint 10.
+El navegador crea la inscripción y guarda el grupo completo. Efectivo conserva su transición transaccional; Mercado Pago solicita server-side una preferencia de Checkout Pro mediante `POST /api/registrations/[id]/mercadopago`. La base es autoridad de monto y estados. Los redirects son informativos; sólo el Webhook firmado, tras consultar Mercado Pago server-side, puede aplicar el resultado definitivo.
 
 Invitación web digital para la boda S&R desarrollada con Astro y Tailwind CSS.
 
@@ -48,11 +48,14 @@ npm run preview
 2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
 3. Agregá manualmente `SUPABASE_SECRET_KEY` para la API server-side de RSVP. Nunca uses esta clave en el frontend.
 4. Agregá `MERCADOPAGO_ACCESS_TOKEN` exclusivamente server-side, `MERCADOPAGO_ENVIRONMENT=test` para credenciales de prueba y `PUBLIC_SITE_URL` con el origen HTTPS público usado en las back URLs. Usá `MERCADOPAGO_ENVIRONMENT=production` sólo cuando se habiliten pagos reales.
-5. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
+5. Configurá `MERCADOPAGO_WEBHOOK_SECRET` exclusivamente server-side con la clave generada en Mercado Pago Developers > Webhooks. No reutilices el Access Token.
+6. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
 El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos y, si falta configuración, informan un error controlado. El RSVP escribe mediante `POST /api/registrations`; el navegador no inserta directamente en Supabase.
 
 ## Arquitectura
+
+El endpoint `POST /api/webhooks/mercadopago` valida firma, consulta el payment real a Mercado Pago y ejecuta una RPC atómica. El body y los redirects nunca son autoridad de pago.
 
 - `components`: UI y componentes reutilizables
 - `layouts`: layouts de página
