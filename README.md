@@ -1,5 +1,22 @@
 # Invitacion-Nuestra-Boda
 
+## Administración (Sprint 11)
+
+`/admin/login` autentica con Supabase Auth y conserva la sesión en cookies SSR. El middleware valida la identidad con `getUser()` y comprueba server-side la allowlist `public.admin_users`. `/admin` es una pantalla privada mínima; no carga invitados ni pagos.
+
+Para habilitar el primer administrador, después de auditar y aplicar manualmente la migración:
+
+1. Crear el usuario desde Supabase Dashboard > Authentication > Users. Supabase Auth gestiona la contraseña; no se guarda en tablas del proyecto.
+2. Copiar solamente el UUID del usuario.
+3. Ejecutar de forma controlada en SQL Editor, reemplazando el UUID:
+
+```sql
+insert into public.admin_users (user_id)
+values ('00000000-0000-0000-0000-000000000000');
+```
+
+No colocar emails ni contraseñas en migraciones o variables versionadas. La migración permanece local hasta su auditoría; no ejecutar `db push` antes de aprobarla.
+
 > Estado funcional: Sprint 10 — Webhook firmado y validación server-side de pagos Mercado Pago, preparado localmente para auditoría.
 
 El navegador crea la inscripción y guarda el grupo completo. Efectivo conserva su transición transaccional; Mercado Pago solicita server-side una preferencia de Checkout Pro mediante `POST /api/registrations/[id]/mercadopago`. La base es autoridad de monto y estados. Los redirects son informativos; sólo el Webhook firmado, tras consultar Mercado Pago server-side, puede aplicar el resultado definitivo.

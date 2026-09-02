@@ -1,5 +1,11 @@
 # Modelo de datos y flujos
 
+## Autenticación administrativa de Sprint 11
+
+`auth.users` conserva las identidades y los hashes de contraseñas gestionados por Supabase Auth. `public.admin_users` es una allowlist mínima: `user_id` es PK y FK a `auth.users(id)` con borrado en cascada, y `created_at` registra el alta. RLS está habilitado, no existen policies y se revocan privilegios a `public`, `anon` y `authenticated`.
+
+La comprobación de la allowlist ocurre exclusivamente server-side. Estar autenticado no concede administración; si el usuario no pertenece a la tabla, su sesión se cierra inmediatamente. No se modifican las policies de `weddings`, `registrations`, `guests` o `payments`.
+
 ## Validación Mercado Pago de Sprint 10
 
 ```text

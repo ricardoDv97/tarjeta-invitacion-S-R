@@ -1,5 +1,18 @@
 # Arquitectura
 
+## Sprint 11
+
+La autenticación administrativa usa `@supabase/ssr` con un cliente nuevo por request, la publishable key y cookies administradas por Astro. Las cookies de sesión son `HttpOnly`, `SameSite=Lax`, `Secure` en producción y se refrescan mediante `getAll`/`setAll`. No se guardan tokens en `localStorage` ni se devuelven en responses.
+
+`src/middleware.js` protege `/admin` y sus futuras subrutas, excluye `/admin/login` y evita loops. Valida identidad mediante `auth.getUser()` y autoriza consultando `public.admin_users` con el cliente privilegiado server-only. La secret key no representa la sesión ni llega al navegador. Login y logout son `POST`; todas las rutas admin usan `Cache-Control: private, no-store`.
+
+```text
+Usuario → /admin/login → signInWithPassword → Supabase Auth
+        → getUser server-side → admin_users → cookie SSR → /admin
+
+/admin → POST /api/admin/logout → Supabase signOut → /admin/login
+```
+
 ## Sprint 10
 
 `POST /api/webhooks/mercadopago` procesa exclusivamente `type=payment`. Valida `x-signature`, `x-request-id` y `data.id` con `WebhookSignatureValidator` y `MERCADOPAGO_WEBHOOK_SECRET` antes de consultar `Payment.get`. El body y los redirects nunca son autoridad. La respuesta real se correlaciona en PostgreSQL por registration, provider, external reference, importe, moneda y preference cuando el proveedor la informa.

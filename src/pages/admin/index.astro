@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro'
+
+export const prerender = false
+Astro.response.headers.set('Cache-Control', 'private, no-store')
+
+const user = Astro.locals.adminUser
+---
+
+<Layout title="Panel de administración | S & R" description="Panel privado de administración.">
+  <main class="grid min-h-screen place-items-center px-5 py-12">
+    <section class="w-full max-w-2xl rounded-3xl border border-[#7b1e3a]/15 bg-[#fffaf4] p-7 shadow-[var(--shadow-soft)] sm:p-10" aria-labelledby="admin-title">
+      <p class="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--wedding-primary)]">Zona privada</p>
+      <h1 id="admin-title" class="font-display text-4xl font-semibold sm:text-5xl">Panel de administración</h1>
+      {user?.email && <p class="mt-4 text-sm text-[var(--wedding-muted)]">Sesión iniciada como <strong>{user.email}</strong>.</p>}
+      <p class="mt-8 rounded-2xl bg-white p-5 leading-7 text-[var(--wedding-muted)]">El dashboard completo se implementará en Sprint 12.</p>
+      <form method="POST" action="/api/admin/logout" class="mt-8">
+        <button type="submit" class="rounded-full border border-[var(--wedding-primary)] px-6 py-3 font-semibold text-[var(--wedding-primary)] transition hover:bg-[var(--wedding-primary)] hover:text-white">Cerrar sesión</button>
+      </form>
+    </section>
+  </main>
+</Layout>
