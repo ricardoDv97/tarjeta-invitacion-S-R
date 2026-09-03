@@ -1,0 +1,10 @@
+---
+import StatusBadge from './StatusBadge.astro'
+const { guests, registrationsById } = Astro.props
+const category = { adult: 'Adulto', child: 'Niño', young_child: 'Menor' }
+const method = { cash: 'Efectivo', mercadopago: 'Mercado Pago' }
+---
+<div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white"><table class="w-full min-w-[760px] text-left text-sm">
+  <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th class="p-4">Nombre</th><th class="p-4">Apellido</th><th class="p-4">Categoría</th><th class="p-4">Registration</th><th class="p-4">Asistencia</th><th class="p-4">Método</th><th class="p-4">Pago</th></tr></thead>
+  <tbody class="divide-y divide-slate-100">{guests.map((guest) => { const registration = registrationsById.get(guest.registration_id); return <tr data-filter-row data-search={`${guest.first_name} ${guest.last_name} ${guest.registration_id}`.toLowerCase()} data-attendance={registration?.attendance_status ?? ''} data-payment={registration?.payment_status ?? ''} data-method={registration?.payment_method ?? ''}><td class="p-4 font-medium">{guest.first_name}</td><td class="p-4">{guest.last_name}</td><td class="p-4">{category[guest.age_category] ?? guest.age_category}</td><td class="p-4 font-mono text-xs" title={guest.registration_id}>{guest.registration_id.slice(0, 8)}</td><td class="p-4"><StatusBadge status={registration?.attendance_status} /></td><td class="p-4">{method[registration?.payment_method] ?? '—'}</td><td class="p-4"><StatusBadge status={registration?.payment_status} /></td></tr> })}</tbody>
+</table>{guests.length === 0 && <p class="p-6 text-sm text-slate-500">No hay invitados para mostrar.</p>}</div>

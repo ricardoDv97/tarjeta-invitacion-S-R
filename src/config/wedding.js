@@ -1,4 +1,5 @@
 export const wedding = {
+  slug: 'ricardo-sabrina-2026',
   couple: { partner1: 'Sabrina', partner2: 'Ricardo', displayName: 'Ricardo y Sabrina', informalName: 'Sabri y Ri' },
   event: {
     date: '2026-12-19',

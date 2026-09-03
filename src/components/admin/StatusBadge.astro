@@ -1,0 +1,6 @@
+---
+const { status } = Astro.props
+const labels = { pending: 'Pendiente', confirmed: 'Confirmada', approved: 'Aprobado', rejected: 'Rechazado', cancelled: 'Cancelado' }
+const colors = { pending: 'bg-amber-100 text-amber-900', confirmed: 'bg-emerald-100 text-emerald-900', approved: 'bg-emerald-100 text-emerald-900', rejected: 'bg-red-100 text-red-900', cancelled: 'bg-slate-200 text-slate-700' }
+---
+<span class:list={['inline-flex rounded-full px-2.5 py-1 text-xs font-semibold', colors[status] ?? 'bg-slate-100 text-slate-700']}>{labels[status] ?? status ?? '—'}</span>

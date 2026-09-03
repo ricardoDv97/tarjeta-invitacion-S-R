@@ -1,5 +1,16 @@
 # Sprint Master
 
+## Sprint 12 — Dashboard Admin
+
+Estado: implementado localmente, pendiente de auditoría y aplicación manual de la migración.
+
+- Dashboard SSR responsive con resumen y tablas de registrations, guests y payments.
+- Búsqueda por nombre, apellido o registration ID y filtros por asistencia, pago y método.
+- Acceso discreto desde el footer y navegación/logout administrativos.
+- Endpoint protegido por sesión, allowlist y same-origin.
+- RPC atómica e idempotente para aprobar únicamente efectivo pendiente.
+- Sin paginación en este MVP (<200 invitados); sin cambios a Mercado Pago ni alcance de Sprint 13.
+
 ## Sprint 11 — estado local
 
 Autenticación administrativa preparada para auditoría: login con Supabase Auth, sesión SSR en cookies, allowlist `admin_users`, guard server-side y logout. La migración no fue aplicada y el primer admin debe crearse manualmente. El alcance termina en Sprint 11; el dashboard de Sprint 12 no está implementado.

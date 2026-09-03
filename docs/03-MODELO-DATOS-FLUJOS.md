@@ -1,5 +1,11 @@
 # Modelo de datos y flujos
 
+## Aprobación administrativa de efectivo — Sprint 12
+
+`approve_cash_payment(uuid)` bloquea primero la registration y luego su único payment cash. Valida método, relación, importe, moneda y transición desde `pending`; actualiza payment y registration dentro de la misma transacción. Una repetición sobre el estado final completo responde `already_applied`. Mercado Pago nunca entra en este flujo. La función es `security invoker`, fija `search_path` vacío y sólo concede ejecución a `service_role`.
+
+Los importes del resumen se suman server-side en centavos enteros. Sólo se cuentan payments reales (`approved` para recaudado y `pending` para pendiente), sin inferir importes desde registrations.
+
 ## Autenticación administrativa de Sprint 11
 
 `auth.users` conserva las identidades y los hashes de contraseñas gestionados por Supabase Auth. `public.admin_users` es una allowlist mínima: `user_id` es PK y FK a `auth.users(id)` con borrado en cascada, y `created_at` registra el alta. RLS está habilitado, no existen policies y se revocan privilegios a `public`, `anon` y `authenticated`.

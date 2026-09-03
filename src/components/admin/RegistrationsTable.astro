@@ -1,0 +1,20 @@
+---
+import CashApprovalButton from './CashApprovalButton.astro'
+import StatusBadge from './StatusBadge.astro'
+import { formatArs } from '../../lib/adminDashboard.js'
+const { registrations, cashOnly = false } = Astro.props
+const date = (value) => new Intl.DateTimeFormat('es-AR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value))
+const method = (value) => ({ cash: 'Efectivo', mercadopago: 'Mercado Pago' })[value] ?? '—'
+const rows = cashOnly ? registrations.filter((item) => item.payment_method === 'cash' && item.payment_status === 'pending') : registrations
+---
+<div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+  <table class="w-full min-w-[900px] text-left text-sm">
+    <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th class="p-4">ID</th><th class="p-4">Invitados</th><th class="p-4">Adultos</th><th class="p-4">Niños</th><th class="p-4">Menores</th><th class="p-4">Total</th><th class="p-4">Método</th><th class="p-4">Pago</th><th class="p-4">Asistencia</th><th class="p-4">Creación</th>{cashOnly && <th class="p-4">Acción</th>}</tr></thead>
+    <tbody class="divide-y divide-slate-100">
+      {rows.map((item) => <tr data-filter-row data-search={item.id.toLowerCase()} data-attendance={item.attendance_status} data-payment={item.payment_status} data-method={item.payment_method ?? ''}>
+        <td class="p-4 font-mono text-xs" title={item.id}>{item.id.slice(0, 8)}</td><td class="p-4">{item.guest_count}</td><td class="p-4">{item.adult_count}</td><td class="p-4">{item.child_count}</td><td class="p-4">{item.young_child_count}</td><td class="p-4 font-semibold">{formatArs(item.total_amount)}</td><td class="p-4">{method(item.payment_method)}</td><td class="p-4"><StatusBadge status={item.payment_status} /></td><td class="p-4"><StatusBadge status={item.attendance_status} /></td><td class="p-4 whitespace-nowrap">{date(item.created_at)}</td>{cashOnly && <td class="p-4"><CashApprovalButton registrationId={item.id} /></td>}
+      </tr>)}
+    </tbody>
+  </table>
+  {rows.length === 0 && <p class="p-6 text-sm text-slate-500">No hay registros para mostrar.</p>}
+</div>

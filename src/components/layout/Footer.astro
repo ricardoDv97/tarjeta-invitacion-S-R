@@ -9,6 +9,7 @@ import { wedding } from '../../config/wedding.js'
     <p>Nuestra Boda</p>
     <span aria-hidden="true">✦</span>
     <small>Hecho con amor para celebrar juntos.</small>
+    <a class="footer__admin" href="/admin/login" aria-label="Acceso administrador">⌕ Acceso administrador</a>
   </Container>
 </footer>
 
@@ -19,4 +20,6 @@ import { wedding } from '../../config/wedding.js'
   .footer p:not(.footer__names) { margin-top: .35rem; color: var(--color-dusty-rose); font: 500 1.15rem/1 var(--font-display); }
   .footer span { display: block; margin: 1.25rem; color: var(--color-mustard); }
   .footer small { color: rgb(255 250 244 / 70%); font-size: .7rem; letter-spacing: .08em; }
+  .footer__admin { display: block; width: fit-content; margin: 1.25rem auto 0; color: rgb(255 250 244 / 45%); font-size: .68rem; text-decoration: none; transition: color var(--transition-fast); }
+  .footer__admin:hover { color: rgb(255 250 244 / 75%); }
 </style>

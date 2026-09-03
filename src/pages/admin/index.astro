@@ -1,22 +1,78 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import AdminHeader from '../../components/admin/AdminHeader.astro'
+import GuestsTable from '../../components/admin/GuestsTable.astro'
+import PaymentsTable from '../../components/admin/PaymentsTable.astro'
+import RegistrationsTable from '../../components/admin/RegistrationsTable.astro'
+import StatCard from '../../components/admin/StatCard.astro'
+import { getAdminDashboardData } from '../../lib/adminDashboard.js'
 
 export const prerender = false
 Astro.response.headers.set('Cache-Control', 'private, no-store')
-
 const user = Astro.locals.adminUser
+let dashboard
+let loadError = false
+try { dashboard = await getAdminDashboardData() } catch { loadError = true }
+const stats = dashboard ? [
+  ['Registrations', dashboard.summary.registrations], ['Total invitados', dashboard.summary.guests],
+  ['Adultos', dashboard.summary.adults], ['Niños', dashboard.summary.children], ['Menores sin cargo', dashboard.summary.youngChildren],
+  ['Asistencias confirmadas', dashboard.summary.attendanceConfirmed], ['Asistencias pendientes', dashboard.summary.attendancePending],
+  ['Pagos aprobados', dashboard.summary.paymentsApproved], ['Pagos pendientes', dashboard.summary.paymentsPending],
+  ['Total recaudado', dashboard.summary.collected], ['Total pendiente', dashboard.summary.pending],
+] : []
 ---
-
-<Layout title="Panel de administración | S & R" description="Panel privado de administración.">
-  <main class="grid min-h-screen place-items-center px-5 py-12">
-    <section class="w-full max-w-2xl rounded-3xl border border-[#7b1e3a]/15 bg-[#fffaf4] p-7 shadow-[var(--shadow-soft)] sm:p-10" aria-labelledby="admin-title">
-      <p class="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--wedding-primary)]">Zona privada</p>
-      <h1 id="admin-title" class="font-display text-4xl font-semibold sm:text-5xl">Panel de administración</h1>
-      {user?.email && <p class="mt-4 text-sm text-[var(--wedding-muted)]">Sesión iniciada como <strong>{user.email}</strong>.</p>}
-      <p class="mt-8 rounded-2xl bg-white p-5 leading-7 text-[var(--wedding-muted)]">El dashboard completo se implementará en Sprint 12.</p>
-      <form method="POST" action="/api/admin/logout" class="mt-8">
-        <button type="submit" class="rounded-full border border-[var(--wedding-primary)] px-6 py-3 font-semibold text-[var(--wedding-primary)] transition hover:bg-[var(--wedding-primary)] hover:text-white">Cerrar sesión</button>
-      </form>
-    </section>
-  </main>
+<Layout title="Dashboard | S & R" description="Panel privado de administración.">
+  <div class="min-h-screen bg-slate-50 text-slate-800">
+    <AdminHeader email={user?.email} />
+    <main class="mx-auto max-w-[90rem] space-y-12 px-4 py-8 sm:px-6 lg:px-8">
+      {loadError ? <section class="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-900" role="alert"><h2 class="font-semibold">No fue posible cargar el dashboard.</h2><p class="mt-1 text-sm">Intentá nuevamente en unos minutos.</p></section> : dashboard && <>
+        <section id="resumen" aria-labelledby="summary-title"><p class="text-sm font-semibold text-[#7b1e3a]">{dashboard.wedding.couple_name}</p><h2 id="summary-title" class="mt-1 text-3xl font-semibold tracking-tight">Resumen general</h2><div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">{stats.map(([label, value]) => <StatCard label={label} value={value} />)}</div></section>
+        <section aria-labelledby="filters-title" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 id="filters-title" class="text-lg font-semibold">Buscar y filtrar</h2><div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <label class="text-sm font-medium">Búsqueda<input id="admin-search" type="search" placeholder="Nombre, apellido o ID" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal" /></label>
+          <label class="text-sm font-medium">Asistencia<select id="attendance-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="pending">Pendiente</option><option value="confirmed">Confirmada</option><option value="cancelled">Cancelada</option></select></label>
+          <label class="text-sm font-medium">Pago<select id="payment-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="pending">Pendiente</option><option value="approved">Aprobado</option><option value="rejected">Rechazado</option><option value="cancelled">Cancelado</option></select></label>
+          <label class="text-sm font-medium">Método<select id="method-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="cash">Efectivo</option><option value="mercadopago">Mercado Pago</option></select></label>
+        </div></section>
+        <section id="inscripciones"><h2 class="mb-4 text-2xl font-semibold">Registrations</h2><RegistrationsTable registrations={dashboard.registrations} /></section>
+        <section id="invitados"><h2 class="mb-4 text-2xl font-semibold">Invitados</h2><GuestsTable guests={dashboard.guests} registrationsById={dashboard.registrationsById} /></section>
+        <section id="pagos"><h2 class="mb-4 text-2xl font-semibold">Pagos</h2><PaymentsTable payments={dashboard.payments} registrationsById={dashboard.registrationsById} /></section>
+        <section id="efectivo"><div class="mb-4"><h2 class="text-2xl font-semibold">Efectivo pendiente</h2><p class="mt-1 text-sm text-slate-500">La confirmación actualiza pago y asistencia de forma atómica.</p></div><RegistrationsTable registrations={dashboard.registrations} cashOnly /></section>
+      </>}
+    </main>
+    <div id="admin-toast" class="fixed bottom-5 right-5 hidden max-w-sm rounded-xl bg-slate-900 px-5 py-4 text-sm text-white shadow-xl" role="status" aria-live="polite"></div>
+  </div>
 </Layout>
+
+<script>
+  const search = document.querySelector('#admin-search')
+  const attendance = document.querySelector('#attendance-filter')
+  const payment = document.querySelector('#payment-filter')
+  const method = document.querySelector('#method-filter')
+  const filter = () => {
+    const query = search instanceof HTMLInputElement ? search.value.trim().toLocaleLowerCase('es') : ''
+    const attendanceValue = attendance instanceof HTMLSelectElement ? attendance.value : ''
+    const paymentValue = payment instanceof HTMLSelectElement ? payment.value : ''
+    const methodValue = method instanceof HTMLSelectElement ? method.value : ''
+    document.querySelectorAll('[data-filter-row]').forEach((row) => {
+      if (!(row instanceof HTMLElement)) return
+      row.hidden = !((!query || (row.dataset.search ?? '').includes(query)) && (!attendanceValue || row.dataset.attendance === attendanceValue) && (!paymentValue || row.dataset.payment === paymentValue) && (!methodValue || row.dataset.method === methodValue))
+    })
+  }
+  ;[search, attendance, payment, method].forEach((control) => { control?.addEventListener('input', filter); control?.addEventListener('change', filter) })
+  document.querySelectorAll('[data-cash-approve]').forEach((element) => element.addEventListener('click', async () => {
+    if (!(element instanceof HTMLButtonElement)) return
+    const registrationId = element.dataset.registrationId
+    if (!registrationId || !window.confirm('¿Confirmás que este pago en efectivo fue cobrado?')) return
+    const toast = document.querySelector('#admin-toast')
+    element.disabled = true
+    try {
+      const response = await fetch(`/api/admin/registrations/${encodeURIComponent(registrationId)}/cash/approve`, { method: 'POST', headers: { Accept: 'application/json' } })
+      if (!response.ok) throw new Error('approval_failed')
+      if (toast) { toast.textContent = 'Pago en efectivo aprobado.'; toast.classList.remove('hidden') }
+      window.setTimeout(() => window.location.reload(), 700)
+    } catch {
+      if (toast) { toast.textContent = 'No fue posible completar la operación.'; toast.classList.remove('hidden') }
+      element.disabled = false
+    }
+  }))
+</script>

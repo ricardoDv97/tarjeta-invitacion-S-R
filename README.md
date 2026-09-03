@@ -1,5 +1,9 @@
 # Invitacion-Nuestra-Boda
 
+## Administración (Sprint 12)
+
+`/admin` es un dashboard SSR con resumen, inscripciones, invitados, pagos, filtros y aprobación atómica de efectivo. Resuelve únicamente la boda `ricardo-sabrina-2026` y consulta las tablas privadas con `SUPABASE_SECRET_KEY` sólo en el servidor. Para el MVP se carga el conjunto completo (volumen esperado menor a 200 invitados); la paginación se revisará si el volumen aumenta.
+
 ## Administración (Sprint 11)
 
 `/admin/login` autentica con Supabase Auth y conserva la sesión en cookies SSR. El middleware valida la identidad con `getUser()` y comprueba server-side la allowlist `public.admin_users`. `/admin` es una pantalla privada mínima; no carga invitados ni pagos.

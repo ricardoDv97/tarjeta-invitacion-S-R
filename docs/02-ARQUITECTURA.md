@@ -1,5 +1,19 @@
 # Arquitectura
 
+## Sprint 12
+
+El dashboard `/admin` resuelve la boda por el slug central `ricardo-sabrina-2026` y consulta `registrations`, `guests` y `payments` exclusivamente durante SSR mediante el cliente privado. El navegador recibe HTML preparado y sólo filtra visualmente esas filas. Para este MVP se carga el dataset completo porque el volumen esperado es menor a 200 invitados.
+
+```text
+Admin Auth → Dashboard SSR → Supabase server-side
+                            → registrations / guests / payments
+
+Admin → POST approve cash → guard admin + same-origin → RPC
+      → payment approved → attendance confirmed
+```
+
+Los endpoints `/api/admin/*` usan `private, no-store`; `requireAdmin()` centraliza `getUser` y la allowlist. La acción manual sólo existe para efectivo pendiente y no acepta importe, estado, fecha ni método desde el navegador.
+
 ## Sprint 11
 
 La autenticación administrativa usa `@supabase/ssr` con un cliente nuevo por request, la publishable key y cookies administradas por Astro. Las cookies de sesión son `HttpOnly`, `SameSite=Lax`, `Secure` en producción y se refrescan mediante `getAll`/`setAll`. No se guardan tokens en `localStorage` ni se devuelven en responses.

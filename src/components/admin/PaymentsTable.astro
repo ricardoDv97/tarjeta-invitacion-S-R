@@ -1,0 +1,11 @@
+---
+import StatusBadge from './StatusBadge.astro'
+import { formatArs } from '../../lib/adminDashboard.js'
+const { payments, registrationsById } = Astro.props
+const date = (value) => value ? new Intl.DateTimeFormat('es-AR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value)) : '—'
+const provider = { cash: 'Efectivo', mercadopago: 'Mercado Pago' }
+---
+<div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white"><table class="w-full min-w-[1050px] text-left text-sm">
+  <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th class="p-4">Proveedor</th><th class="p-4">Importe</th><th class="p-4">Moneda</th><th class="p-4">Estado</th><th class="p-4">Payment ID</th><th class="p-4">Preference ID</th><th class="p-4">Pagado</th><th class="p-4">Registration</th></tr></thead>
+  <tbody class="divide-y divide-slate-100">{payments.map((payment) => { const registration = registrationsById.get(payment.registration_id); return <tr data-filter-row data-search={payment.registration_id.toLowerCase()} data-attendance={registration?.attendance_status ?? ''} data-payment={payment.status} data-method={payment.provider}><td class="p-4">{provider[payment.provider] ?? payment.provider}</td><td class="p-4 font-semibold">{formatArs(payment.amount)}</td><td class="p-4">{payment.currency}</td><td class="p-4"><StatusBadge status={payment.status} /></td><td class="max-w-48 truncate p-4 font-mono text-xs" title={payment.provider_payment_id}>{payment.provider_payment_id ?? '—'}</td><td class="max-w-48 truncate p-4 font-mono text-xs" title={payment.provider_preference_id}>{payment.provider_preference_id ?? '—'}</td><td class="p-4 whitespace-nowrap">{date(payment.paid_at)}</td><td class="p-4 font-mono text-xs" title={payment.registration_id}>{payment.registration_id.slice(0, 8)}</td></tr> })}</tbody>
+</table>{payments.length === 0 && <p class="p-6 text-sm text-slate-500">No hay pagos para mostrar.</p>}</div>
