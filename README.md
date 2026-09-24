@@ -1,5 +1,13 @@
 # Invitacion-Nuestra-Boda
 
+## Invitación (Sprint 13)
+
+Contenido real y refinamiento visual para Sabri & Ri. Fotos originales en src/assets/boda; selección centralizada en src/config/wedding.js y variantes WebP generadas con Astro Image. Hero: imagen-10.jpg. Galería: imagen-8, imagen-3, imagen-14, imagen-11, imagen-13 e imagen-4. Se conservaron los 16 originales.
+
+La invitación reúne sobre, Hero, aviso, fecha/contador, galería, ubicación, confirmación y footer. Historia, ceremonia/celebración de demostración y dress code genérico fueron retirados. No se modificaron pagos, APIs ni administración.
+
+Node requerido: 22.x. Informe y validaciones: [Sprint 13](docs/13-SPRINT-INFORME.md). Pendiente de auditoría; sin staging, commit ni push.
+
 ## Administración (Sprint 12)
 
 `/admin` es un dashboard SSR con resumen, inscripciones, invitados, pagos, filtros y aprobación atómica de efectivo. Resuelve únicamente la boda `ricardo-sabrina-2026` y consulta las tablas privadas con `SUPABASE_SECRET_KEY` sólo en el servidor. Para el MVP se carga el conjunto completo (volumen esperado menor a 200 invitados); la paginación se revisará si el volumen aumenta.
@@ -90,4 +98,4 @@ El endpoint `POST /api/webhooks/mercadopago` valida firma, consulta el payment r
 
 ## Estado actual
 
-Sprint 09 — Checkout Pro con preferencia server-side, payment pending, reintentos idempotentes y retornos sin autoridad de pago.
+Sprint 13 — contenido real, galería y refinamiento visual. Sprints 01–12 aprobados según el contexto recibido. Sprint 14 no iniciado.

@@ -1,55 +1,46 @@
+import heroImage from '../assets/boda/imagen-10.jpg'
+import portrait from '../assets/boda/imagen-8.jpg'
+import detail from '../assets/boda/imagen-3.jpg'
+import embrace from '../assets/boda/imagen-14.jpg'
+import landscape from '../assets/boda/imagen-11.jpg'
+import monochrome from '../assets/boda/imagen-13.jpg'
+import fountain from '../assets/boda/imagen-4.jpg'
+
 export const wedding = {
   slug: 'ricardo-sabrina-2026',
-  couple: { partner1: 'Sabrina', partner2: 'Ricardo', displayName: 'Ricardo y Sabrina', informalName: 'Sabri y Ri' },
+  couple: { partner1: 'Sabrina', partner2: 'Ricardo', displayName: 'Sabri & Ri', informalName: 'Sabri y Ri' },
   event: {
     date: '2026-12-19',
+    startsAt: '2026-12-19T18:00:00-03:00',
+    shortDate: '19 · 12 · 2026',
+    longDate: 'Sábado 19 de diciembre de 2026',
+    time: '18:00 a 00:00 hs',
     eyebrow: 'Nos casamos',
-    title: 'Nuestra Boda',
-    message: 'Muy pronto vamos a compartir todos los detalles de este día tan especial.',
-  },
-  story: {
-    eyebrow: 'Nuestro camino',
-    title: 'Nuestra historia',
-    text: 'Muy pronto vamos a compartir aquí algunos de nuestros momentos favoritos.',
-    image: '',
-  },
-  ceremony: {
-    name: '',
-    address: '',
-    time: '',
-    description: 'Próximamente encontrarás aquí todos los detalles de la ceremonia.',
-  },
-  celebration: {
-    name: '',
-    address: '',
-    time: '',
-    description: 'Próximamente encontrarás aquí todos los detalles de la celebración.',
   },
   location: {
-    title: 'Cómo llegar',
-    address: '',
-    description: 'La ubicación y las indicaciones estarán disponibles muy pronto.',
-    mapUrl: '',
-  },
-  dressCode: {
-    title: 'Dress Code',
-    type: '',
-    description: 'Queremos que te sientas cómodo/a y disfrutes con nosotros.',
-    notes: '',
+    title: '¿Dónde nos encontramos?',
+    name: 'Finca de Oficiales del Servicio Penitenciario de Misiones',
+    description: 'Te esperamos para compartir juntos esta noche tan especial.',
+    mapUrl: 'https://maps.app.goo.gl/bp1X7bPJ3mufhSqv7',
   },
   payment: { enabled: true, pricePerGuest: 35000, childPrice: 10000, youngChildPrice: 0 },
-  // Cada valor admite indistintamente una URL https o una ruta desde /public.
-  // TODO: reemplazar por fotografías y videos reales de S&R.
-  media: { introBackground: '', heroImage: '', gallery: [], videos: [] },
+  // Metadatos locales para generar variantes responsive con astro:assets.
+  media: {
+    heroImage,
+    gallery: [
+      { src: portrait, alt: 'Sabri y Ri durante su sesión de fotos' },
+      { src: detail, alt: 'Detalle de las manos de Sabri y Ri' },
+      { src: embrace, alt: 'Sabri y Ri juntos en el parque' },
+      { src: landscape, alt: 'Sabri y Ri en una fotografía en blanco y negro' },
+      { src: monochrome, alt: 'Retrato de Sabri y Ri en blanco y negro' },
+      { src: fountain, alt: 'Sabri y Ri junto a la fuente' },
+    ],
+  },
   rsvp: {
-    title: 'Confirmá tu asistencia',
-    description: 'Nos encantaría compartir este día con vos.',
+    title: '¿Nos acompañás?',
+    description: 'Confirmá tu asistencia y registrá a las personas que te acompañarán.',
     href: '/confirmar',
   },
   social: [],
-  audio: {
-    enabled: false,
-    src: '',
-    volume: 0.35,
-  },
+  audio: { enabled: false, src: '', volume: 0.35 },
 }

@@ -34,7 +34,7 @@ html { box-sizing: border-box; min-width: 320px; color: var(--wedding-text); bac
 *, *::before, *::after { box-sizing: inherit; }
 body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; background: var(--wedding-background); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 body.intro-locked { overflow: hidden; }
-img, video { max-width: 100%; }
+img { max-width: 100%; }
 button, input, textarea, select { font: inherit; }
 button { color: inherit; }
 ::selection { color: var(--wedding-surface); background: var(--wedding-primary); }

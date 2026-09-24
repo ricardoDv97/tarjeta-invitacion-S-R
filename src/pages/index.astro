@@ -1,33 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Footer from '../components/layout/Footer.astro'
-import Celebration from '../components/wedding/Celebration.astro'
-import Ceremony from '../components/wedding/Ceremony.astro'
 import Countdown from '../components/wedding/Countdown.astro'
-import DressCode from '../components/wedding/DressCode.astro'
 import Gallery from '../components/wedding/Gallery.astro'
 import Hero from '../components/wedding/Hero.astro'
 import Intro from '../components/wedding/Intro.astro'
 import Location from '../components/wedding/Location.astro'
 import RSVP from '../components/wedding/RSVP.astro'
-import Story from '../components/wedding/Story.astro'
 ---
 
-<Layout title="S & R — Nuestra Boda" description="Invitación a la boda de S & R.">
+<Layout title="Sabri & Ri — Nos casamos" description="Te invitamos a celebrar nuestra boda el 19 de diciembre de 2026.">
   <Intro />
   <main id="invitation-content" tabindex="-1">
     <Hero />
-    <Story />
+    <p class="confirmation-hint"><a href="#rsvp">Para confirmar tu asistencia, deslizá hasta el final. <span aria-hidden="true">↓</span></a></p>
     <Countdown />
-    <Ceremony />
-    <Celebration />
-    <Location />
-    <DressCode />
     <Gallery />
+    <Location />
     <RSVP />
   </main>
   <Footer />
 </Layout>
+
+<style>
+  #invitation-content { --space-section: clamp(2rem, 5vw, 3.5rem); }
+  #invitation-content :global(.section-heading) { margin-bottom: 1.5rem; }
+  .confirmation-hint { margin: 0; padding: 1.25rem 1rem; text-align: center; border-bottom: 1px solid rgb(123 30 58 / 12%); }
+  .confirmation-hint a { color: var(--wedding-primary); font-size: .85rem; line-height: 1.6; text-decoration: none; }
+  .confirmation-hint span { display: inline-block; margin-left: .4rem; }
+</style>
 
 <script>
   import '../scripts/reveal.js'
