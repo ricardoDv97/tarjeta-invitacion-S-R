@@ -1,27 +1,26 @@
----
+﻿---
 import { Image } from 'astro:assets'
 import Container from '../ui/Container.astro'
 import SectionHeading from '../ui/SectionHeading.astro'
-import { wedding } from '../../config/wedding.js'
+import { weddingMedia } from '../../config/weddingMedia.js'
 ---
-
-<section id="galeria" class="gallery section-space" aria-labelledby="gallery-title">
+{weddingMedia.featured.length > 0 && <section id="galeria" class="gallery section-space" aria-labelledby="gallery-title">
   <Container>
-    <SectionHeading title="Nosotros" description="Algunos momentos antes de comenzar un nuevo capítulo." id="gallery-title" />
+    <SectionHeading eyebrow="Nuestros recuerdos" title="Nuestra historia continúa..." description="y este es uno de los momentos que Dios nos regaló en el camino." id="gallery-title" />
     <div class="gallery__grid">
-      {wedding.media.gallery.map((item) => (
+      {weddingMedia.featured.map((item) => (
         <figure class="gallery__item" data-reveal="fade-up">
-          <Image src={item.src} alt={item.alt} width={960} widths={[320, 480, 720, 960]} sizes="(min-width: 1024px) 30vw, (min-width: 600px) 46vw, 94vw" format="webp" quality={78} loading="lazy" decoding="async" />
+          <Image src={item.src} alt={item.alt} width={720} widths={[320, 480, 720]} sizes="(min-width: 1024px) 380px, (min-width: 600px) 46vw, 92vw" format="webp" quality={78} loading="lazy" decoding="async" />
         </figure>
       ))}
     </div>
   </Container>
-</section>
-
+</section>}
 <style>
-  .gallery__grid { columns: 1; column-gap: .75rem; }
-  .gallery__item { margin: 0 0 .75rem; break-inside: avoid; overflow: hidden; background: #e2ded5; }
-  .gallery__item img { display: block; width: 100%; height: auto; }
-  @media (min-width: 600px) { .gallery__grid { columns: 2; } }
-  @media (min-width: 1024px) { .gallery__grid { columns: 3; } }
+  .gallery { padding-top: 1rem; }
+  .gallery__grid { display: grid; grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+  .gallery__item { margin: 0; padding: .4rem; overflow: hidden; border: 1px solid #e7d9cf; border-radius: .8rem; background: #fffaf4; box-shadow: 0 .3rem 1rem rgb(76 43 43 / 5%); }
+  .gallery__item img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .45rem; }
+  @media (min-width: 600px) { .gallery__grid { gap: 1rem; } }
+  @media (min-width: 1024px) { .gallery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .gallery__item:last-child:nth-child(3n + 1) { grid-column: 2; } }
 </style>

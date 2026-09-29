@@ -1,10 +1,3 @@
-import heroImage from '../assets/boda/imagen-10.jpg'
-import portrait from '../assets/boda/imagen-8.jpg'
-import detail from '../assets/boda/imagen-3.jpg'
-import embrace from '../assets/boda/imagen-14.jpg'
-import landscape from '../assets/boda/imagen-11.jpg'
-import monochrome from '../assets/boda/imagen-13.jpg'
-import fountain from '../assets/boda/imagen-4.jpg'
 
 export const wedding = {
   slug: 'ricardo-sabrina-2026',
@@ -24,21 +17,9 @@ export const wedding = {
     mapUrl: 'https://maps.app.goo.gl/bp1X7bPJ3mufhSqv7',
   },
   payment: { enabled: true, pricePerGuest: 35000, childPrice: 10000, youngChildPrice: 0 },
-  // Metadatos locales para generar variantes responsive con astro:assets.
-  media: {
-    heroImage,
-    gallery: [
-      { src: portrait, alt: 'Sabri y Ri durante su sesión de fotos' },
-      { src: detail, alt: 'Detalle de las manos de Sabri y Ri' },
-      { src: embrace, alt: 'Sabri y Ri juntos en el parque' },
-      { src: landscape, alt: 'Sabri y Ri en una fotografía en blanco y negro' },
-      { src: monochrome, alt: 'Retrato de Sabri y Ri en blanco y negro' },
-      { src: fountain, alt: 'Sabri y Ri junto a la fuente' },
-    ],
-  },
   rsvp: {
-    title: '¿Nos acompañás?',
-    description: 'Confirmá tu asistencia y registrá a las personas que te acompañarán.',
+    title: '¡Queremos celebrarlo con vos!',
+    description: 'Será una alegría contar con tu presencia en este día tan especial.',
     href: '/confirmar',
   },
   social: [],

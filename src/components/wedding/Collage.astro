@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets'
+import Container from '../ui/Container.astro'
+import SectionHeading from '../ui/SectionHeading.astro'
+import { weddingMedia } from '../../config/weddingMedia.js'
+---
+{weddingMedia.memories.length > 0 && <section class="memories section-space" aria-labelledby="memories-title">
+  <Container>
+    <SectionHeading eyebrow="Instantes para siempre" title="Más momentos de nuestra historia" id="memories-title" />
+    <div class="collage">
+      {weddingMedia.memories.map((item, index) => <figure class="memory">
+        <Image src={item.src} alt={item.alt} width={720} widths={[320, 480, 720]} sizes="(min-width: 1000px) 350px, (min-width: 600px) 42vw, 70vw" format="webp" quality={78} loading="lazy" decoding="async" />
+        <figcaption><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>Sabri &amp; Ri</span></figcaption>
+      </figure>)}
+    </div>
+  </Container>
+</section>}
+<style>
+  .memories { overflow: hidden; background: #f3e9df; }
+  .collage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.8rem .1rem; padding: 1.5rem .8rem 2rem; align-items: center; }
+  .memory { position: relative; margin: 0; padding: .5rem .5rem 0; background: #fffdf8; box-shadow: 0 .7rem 1.5rem rgb(62 41 33 / 15%); transform: rotate(-5deg); }
+  .memory:nth-child(even) { transform: translateY(1.1rem) rotate(5deg); z-index: 1; }
+  .memory:nth-child(3n) { transform: rotate(-2deg); }
+  .memory:nth-child(5n) { z-index: 2; transform: scale(1.06) rotate(3deg); }
+  .memory::before { content: ''; position: absolute; width: 32%; height: 1.1rem; top: -.45rem; left: 34%; background: rgb(212 193 160 / 48%); transform: rotate(-5deg); z-index: 1; }
+  .memory img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
+  .memory:nth-child(3n) img { aspect-ratio: 1; }
+  figcaption { display: flex; justify-content: space-between; gap: .4rem; padding: .75rem .15rem; color: #786a60; font: italic 400 .95rem/1 var(--font-display); }
+  figcaption span:first-child { font: 400 .55rem/1.5 var(--font-body); letter-spacing: .1em; }
+  @media (min-width: 600px) { .collage { gap: 2.5rem 1rem; padding-inline: 2rem; } .memory { padding: .75rem .75rem 0; } }
+  @media (min-width: 1000px) { .collage { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 1.5rem; } .memory:nth-child(3n + 2) { transform: translateY(1.5rem) rotate(4deg); } }
+</style>

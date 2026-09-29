@@ -1,20 +1,23 @@
 ---
 import Button from '../ui/Button.astro'
 import Container from '../ui/Container.astro'
+import Botanical from './Botanical.astro'
 import { wedding } from '../../config/wedding.js'
 const { rsvp } = wedding
 ---
 
 <section id="rsvp" class="rsvp section-space" aria-labelledby="rsvp-title" data-reveal="fade-up">
   <Container size="editorial">
+    <Botanical />
     <h2 id="rsvp-title">{rsvp.title}</h2>
     <p>{rsvp.description}</p>
-    <Button href={rsvp.href} variant="primary">Confirmar asistencia</Button>
+    <Button href={rsvp.href} variant="primary">CONFIRMAR ASISTENCIA</Button>
   </Container>
 </section>
 
 <style>
   .rsvp { position: relative; overflow: hidden; background: linear-gradient(145deg, #f6e2e5, var(--color-ivory)); text-align: center; }
+  .rsvp :global(.botanical) { margin: -1rem auto 1rem; width: 7rem; }
   h2 { margin: 0; color: var(--wedding-primary); font: 500 clamp(2.8rem, 9vw, 5rem)/.95 var(--font-display); }
   p { margin: 1rem auto 1.5rem; color: var(--wedding-muted); line-height: 1.7; }
 </style>

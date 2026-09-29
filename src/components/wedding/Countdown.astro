@@ -1,13 +1,16 @@
 ---
 import Container from '../ui/Container.astro'
 import SectionHeading from '../ui/SectionHeading.astro'
+import Botanical from './Botanical.astro'
 import { wedding } from '../../config/wedding.js'
 const countdownDate = wedding.event.startsAt
 ---
 
 <section id="countdown" class="countdown section-space" aria-labelledby="countdown-title" data-countdown data-date={countdownDate} data-reveal="fade-up">
   <Container size="editorial">
-    <SectionHeading title="Reservá la fecha" id="countdown-title" />
+    <Botanical />
+    <SectionHeading title="¡Nuestro gran día se acerca!" id="countdown-title" />
+    <p class="countdown__description">Cada vez falta menos para celebrar juntos el comienzo de nuestro para siempre.</p>
     <p class="countdown__date"><time datetime={countdownDate}>{wedding.event.longDate}</time></p>
     <p class="countdown__time">{wedding.event.time}</p>
     <div class="countdown__empty" data-countdown-message role="status" hidden></div>
@@ -40,18 +43,20 @@ const countdownDate = wedding.event.startsAt
       Object.entries(units).forEach(([unit, value]) => { const output = values.querySelector(`[data-unit="${unit}"]`); if (output) output.textContent = String(value).padStart(2, '0') })
     }
     update()
-    timer = window.setInterval(update, 1000)
+    if (target > Date.now()) timer = window.setInterval(update, 1000)
   })
 </script>
 
 <style>
   .countdown { position: relative; overflow: hidden; background: color-mix(in srgb, var(--color-dusty-rose) 12%, var(--color-ivory)); text-align: center; }
-  .countdown::before { position: absolute; top: -8rem; left: 50%; width: 17rem; aspect-ratio: 1; border: 1px solid rgb(123 30 58 / 12%); border-radius: 50%; content: ''; transform: translateX(-50%); }
+  .countdown :global(.botanical) { position: absolute; top: 1rem; right: -2rem; opacity: .65; width: clamp(7rem, 16vw, 14rem); transform: rotate(-20deg); }
+  .countdown__description { max-width: 30rem; margin: 0 auto 1.5rem; color: var(--wedding-muted); font-size: .9rem; line-height: 1.7; }
   .countdown__date { margin: 0; font: 500 clamp(1.4rem, 4vw, 1.8rem)/1.3 var(--font-display); }
   .countdown__time { margin: .5rem 0 1.5rem; color: var(--wedding-muted); font-size: .9rem; }
   .countdown__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; max-width: 32rem; margin-inline: auto; }
   .countdown__grid[hidden], .countdown__empty[hidden] { display: none; }
   .countdown__unit { padding: .5rem .15rem; }
+  .countdown__unit + .countdown__unit { border-left: 1px solid #dec8c1; }
   .countdown__unit strong { display: block; color: var(--wedding-primary); font: 500 clamp(2rem, 7vw, 3rem)/1 var(--font-display); font-variant-numeric: tabular-nums; }
   .countdown__unit span { display: block; margin-top: .5rem; color: var(--wedding-muted); font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; }
   .countdown__empty { color: var(--wedding-primary); font: 500 clamp(2.2rem, 8vw, 3.6rem)/1 var(--font-display); }

@@ -5,25 +5,34 @@ import Countdown from '../components/wedding/Countdown.astro'
 import Gallery from '../components/wedding/Gallery.astro'
 import Hero from '../components/wedding/Hero.astro'
 import Intro from '../components/wedding/Intro.astro'
+import About from '../components/wedding/About.astro'
+import Collage from '../components/wedding/Collage.astro'
 import Location from '../components/wedding/Location.astro'
 import RSVP from '../components/wedding/RSVP.astro'
 ---
 
 <Layout title="Sabri & Ri — Nos casamos" description="Te invitamos a celebrar nuestra boda el 19 de diciembre de 2026.">
   <Intro />
+  <div id="invitation-page">
+  <a class="skip-link" href="#rsvp">Ir a confirmar asistencia</a>
   <main id="invitation-content" tabindex="-1">
     <Hero />
-    <p class="confirmation-hint"><a href="#rsvp">Para confirmar tu asistencia, deslizá hasta el final. <span aria-hidden="true">↓</span></a></p>
+    <p class="confirmation-hint"><a href="#rsvp">Para confirmar, deslizá hasta el final. <span aria-hidden="true">↓</span></a></p>
     <Countdown />
+    <About />
     <Gallery />
     <Location />
+    <Collage />
     <RSVP />
   </main>
   <Footer />
+  </div>
 </Layout>
 
 <style>
-  #invitation-content { --space-section: clamp(2rem, 5vw, 3.5rem); }
+  #invitation-content { --space-section: clamp(2.8rem, 5vw, 4.5rem); --wedding-secondary: #64745f; background: #fbf6ef; }
+  .skip-link { position: absolute; top: .5rem; left: .5rem; padding: 1rem; z-index: 10; background: #fffaf4; color: #7b1e3a; transform: translateY(-200%); }
+  .skip-link:focus { transform: none; }
   #invitation-content :global(.section-heading) { margin-bottom: 1.5rem; }
   .confirmation-hint { margin: 0; padding: 1.25rem 1rem; text-align: center; border-bottom: 1px solid rgb(123 30 58 / 12%); }
   .confirmation-hint a { color: var(--wedding-primary); font-size: .85rem; line-height: 1.6; text-decoration: none; }

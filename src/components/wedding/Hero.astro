@@ -1,27 +1,50 @@
----
+﻿---
 import { Image } from 'astro:assets'
-import Container from '../ui/Container.astro'
 import { wedding } from '../../config/wedding.js'
+import { weddingMedia } from '../../config/weddingMedia.js'
 ---
-
 <section id="hero" class="hero" aria-labelledby="hero-title">
-  <Image class="hero__image" src={wedding.media.heroImage} alt="Sabri y Ri bajo los árboles" widths={[640, 960, 1440, 1920]} width={1920} sizes="(max-width: 640px) 130vh, 100vw" format="webp" quality={80} loading="eager" fetchpriority="high" />
+  <Image class="hero__photo" src={weddingMedia.heroImage} alt="Ri besa la frente de Sabri bajo los árboles" widths={[640, 960, 1440, 1920, 2560]} width={1920} sizes="(max-width: 767px) 160svh, 100vw" format="webp" quality={82} loading="eager" fetchpriority="high" />
   <div class="hero__veil" aria-hidden="true"></div>
-  <Container class="hero__content">
-    <h2 id="hero-title">{wedding.couple.displayName}</h2>
-    <p>{wedding.event.eyebrow}</p>
+  <svg class="hero__branch" viewBox="0 0 140 160" fill="none" aria-hidden="true" focusable="false">
+    <g stroke="currentColor" stroke-width="1">
+      <path d="M12 152C55 118 77 65 125 10M48 118C20 110 15 92 19 83C36 87 46 99 48 118ZM64 93C65 64 84 54 94 56C92 75 80 89 64 93ZM84 57C59 47 62 25 67 21C82 30 86 43 84 57ZM103 33C105 15 119 5 128 6C127 20 118 29 103 33ZM29 136C49 114 65 119 71 126C61 140 43 142 29 136Z" />
+    </g>
+  </svg>
+  <div class="hero__content">
+    <p class="hero__quote">La medida del amor<br />es amar sin medida</p>
+    <span class="hero__line" aria-hidden="true"></span>
+    <h1 id="hero-title">Sabri <span>&amp;</span> Ri</h1>
+    <p class="hero__eyebrow">NOS CASAMOS</p>
     <time datetime={wedding.event.date}>{wedding.event.shortDate}</time>
-  </Container>
+  </div>
+  <a class="hero__scroll" href="#countdown" aria-label="Continuar hacia la cuenta regresiva">↓</a>
 </section>
-
 <style>
-  .hero { position: relative; display: grid; min-height: 85svh; align-items: end; isolation: isolate; overflow: hidden; background: #283527; color: #fffaf4; }
-  .hero__image, .hero__veil { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
-  .hero__image { object-fit: cover; object-position: 50% 48%; }
-  .hero__veil { z-index: -1; background: linear-gradient(180deg, transparent 30%, rgb(15 23 17 / 24%) 52%, rgb(15 23 17 / 85%) 100%); }
-  .hero :global(.hero__content) { padding-block: 2rem clamp(2.5rem, 6vh, 4rem); text-align: center; text-shadow: 0 2px 18px rgb(0 0 0 / 30%); }
-  h2 { margin: 0; font: 500 clamp(3.8rem, 13vw, 8rem)/1 var(--font-display); letter-spacing: -.035em; }
-  p { margin: .8rem 0 1rem; font-size: .8rem; letter-spacing: .25em; }
-  time { font-size: clamp(.9rem, 2vw, 1.15rem); letter-spacing: .2em; }
-  @media (max-width: 40rem) { .hero { min-height: 82svh; } .hero__image { object-position: 51% 45%; } }
+  .hero { position: relative; isolation: isolate; display: flex; align-items: center; min-height: 86svh; overflow: hidden; background: #283527; color: #fffaf4; }
+  .hero__photo, .hero__veil { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
+  .hero__photo { object-fit: cover; object-position: 64% 38%; }
+  .hero__veil { z-index: -1; background: linear-gradient(90deg, rgb(16 25 17 / 64%), rgb(16 25 17 / 24%) 44%, transparent 72%), linear-gradient(0deg, rgb(16 25 17 / 30%), transparent 30%); }
+  .hero__content { width: 49%; padding: 3.5rem 1.5rem 5rem; text-align: center; text-shadow: 0 2px 18px rgb(0 0 0 / 35%); }
+  .hero__quote { margin: 0 0 1.5rem; font: italic 400 clamp(1.45rem, 2.4vw, 2.2rem)/1.3 var(--font-display); }
+  .hero__line { display: block; height: 2rem; width: 1px; margin: auto; background: currentColor; opacity: .55; }
+  h1 { margin: 1.2rem 0; font: 500 clamp(4rem, 7.7vw, 8rem)/1 var(--font-display); letter-spacing: -.055em; white-space: nowrap; }
+  h1 span { font-style: italic; font-weight: 400; }
+  .hero__eyebrow { margin: 0 0 1rem; font-size: .75rem; letter-spacing: .3em; }
+  time { font-size: .95rem; letter-spacing: .22em; }
+  .hero__branch { position: absolute; top: 1.2rem; left: 1rem; width: clamp(4rem, 8vw, 8rem); opacity: .35; pointer-events: none; }
+  .hero__scroll { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgb(255 250 244 / 70%); border-radius: 50%; color: inherit; text-decoration: none; background: rgb(16 25 17 / 20%); }
+  .hero__scroll:hover { background: rgb(16 25 17 / 45%); }
+  @media (max-width: 1023px) and (min-width: 768px) { .hero__photo { object-position: 68% 38%; } .hero__veil { background: linear-gradient(90deg, rgb(16 25 17 / 72%), rgb(16 25 17 / 48%) 43%, transparent 75%); } .hero__content { width: 48%; padding-inline: 1rem; } h1 { font-size: clamp(3.6rem, 7.5vw, 5rem); } }
+  @media (max-width: 767px) {
+    .hero { min-height: 88svh; align-items: stretch; }
+    .hero__photo { object-position: 74% 35%; }
+    .hero__veil { background: linear-gradient(180deg, rgb(16 25 17 / 50%), transparent 24%, transparent 44%, rgb(16 25 17 / 78%) 100%); }
+    .hero__content { width: 100%; min-height: 88svh; display: flex; flex-direction: column; align-items: center; justify-content: end; padding: 1.5rem 1rem 5.4rem; }
+    .hero__quote { margin: 0 auto auto; font-size: 1.45rem; }
+    .hero__line { display: none; }
+    h1 { font-size: clamp(4.2rem, 16vw, 6rem); margin: .8rem 0; }
+    .hero__branch { top: .8rem; left: .3rem; width: 3.8rem; opacity: .3; }
+  }
+  @media (max-height: 500px) and (orientation: landscape) { .hero__content { padding-block: 1.5rem 4rem; } .hero__quote { margin-bottom: .5rem; } .hero__line { display: none; } h1 { margin: .5rem 0; font-size: 3.7rem; } }
 </style>

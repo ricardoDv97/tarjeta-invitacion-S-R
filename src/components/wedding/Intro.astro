@@ -2,12 +2,12 @@
 import { wedding } from '../../config/wedding.js'
 ---
 
-<section class="intro" data-wedding-intro data-state="closed" aria-labelledby="intro-title">
+<section class="intro" data-wedding-intro data-state="closed" role="dialog" aria-modal="true" aria-labelledby="intro-title">
   <div class="botanical botanical--left" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="botanical botanical--right" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <header class="intro__heading">
     <p>Una celebración de amor</p>
-    <h1 id="intro-title">Nuestra Boda</h1>
+    <h2 id="intro-title">Nuestra Boda</h2>
   </header>
   <div class="envelope-scene">
     <div class="envelope" aria-hidden="true">
@@ -27,9 +27,19 @@ import { wedding } from '../../config/wedding.js'
 <script>
   const intro = document.querySelector('[data-wedding-intro]')
   const seal = intro?.querySelector('[data-seal]')
+  const page = document.querySelector('#invitation-page')
   const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 2200
   if (intro && seal) {
     document.body.classList.add('intro-locked')
+    if (page instanceof HTMLElement) page.inert = true
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    seal.focus({ preventScroll: true })
+    intro.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab' && intro.dataset.state !== 'opened') {
+        event.preventDefault()
+        seal.focus({ preventScroll: true })
+      }
+    })
     const openInvitation = () => {
       if (intro.dataset.state !== 'closed') return
       intro.dataset.state = 'opening'
@@ -37,6 +47,9 @@ import { wedding } from '../../config/wedding.js'
       window.setTimeout(() => {
         intro.dataset.state = 'opened'
         intro.setAttribute('aria-hidden', 'true')
+        intro.removeAttribute('aria-modal')
+        intro.inert = true
+        if (page instanceof HTMLElement) page.inert = false
         document.body.classList.remove('intro-locked')
         document.querySelector('#invitation-content')?.focus({ preventScroll: true })
       }, duration)
@@ -51,7 +64,7 @@ import { wedding } from '../../config/wedding.js'
   .intro[data-state='opened'] { visibility: hidden; pointer-events: none; opacity: 0; }
   .intro__heading { align-self: end; margin-bottom: clamp(1.3rem, 4vh, 2.5rem); text-align: center; }
   .intro__heading p { margin: 0 0 .35rem; color: var(--wedding-secondary); font-size: .68rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
-  .intro__heading h1 { margin: 0; color: var(--wedding-primary); font: 500 clamp(2.2rem, 8vw, 4.2rem)/.9 var(--font-display); }
+  .intro__heading h2 { margin: 0; color: var(--wedding-primary); font: 500 clamp(2.2rem, 8vw, 4.2rem)/.9 var(--font-display); }
   .envelope-scene { position: relative; width: min(82vw, 26rem, calc(62dvh * 1.55)); perspective: 75rem; filter: drop-shadow(0 1.6rem 1.2rem rgb(74 46 40 / 16%)); }
   .envelope { position: relative; width: 100%; aspect-ratio: 1.55; transform-style: preserve-3d; }
   .envelope__back { position: absolute; inset: 0; border: 1px solid rgb(123 30 58 / 8%); border-radius: .35rem; background: #f4e6d8; }
@@ -82,12 +95,12 @@ import { wedding } from '../../config/wedding.js'
   .botanical i:nth-child(2) { top: 38%; left: -28%; transform: rotate(155deg); background: var(--color-dusty-rose); }
   .botanical i:nth-child(3) { top: 58%; left: 1%; transform: rotate(30deg); background: var(--color-lilac); }
   .botanical i:nth-child(4) { top: 78%; left: -28%; transform: rotate(150deg); background: var(--color-coral); }
-  .intro[data-state='opening'] .seal { pointer-events: none; opacity: 0; transform: translate(-50%, -48%) rotate(14deg) scale(.65); }
-  .intro[data-state='opening'] .envelope__flap { z-index: 1; transform: rotateX(180deg); }
-  .intro[data-state='opening'] .letter { transform: translateY(-56%); }
-  .intro[data-state='opening'] .intro__hint { opacity: 0; transition: opacity 200ms; }
-  @media (max-width: 22.5rem) { .intro__heading h1 { font-size: 2rem; } .intro__hint { letter-spacing: .04em; } }
+  .intro:is([data-state='opening'], [data-state='opened']) .seal { pointer-events: none; opacity: 0; transform: translate(-50%, -48%) rotate(14deg) scale(.65); }
+  .intro:is([data-state='opening'], [data-state='opened']) .envelope__flap { z-index: 1; transform: rotateX(180deg); }
+  .intro:is([data-state='opening'], [data-state='opened']) .letter { transform: translateY(-56%); }
+  .intro:is([data-state='opening'], [data-state='opened']) .intro__hint { opacity: 0; transition: opacity 200ms; }
+  @media (max-width: 22.5rem) { .intro__heading h2 { font-size: 2rem; } .intro__hint { letter-spacing: .04em; } }
   @media (max-height: 590px) { .intro { grid-template-rows: auto auto auto; align-content: center; } .intro__heading { margin-bottom: .55rem; } .intro__heading p { display: none; } .intro__hint { margin-top: .65rem; } .envelope-scene { width: min(68vw, 19rem, calc(56dvh * 1.55)); } }
   @media (max-height: 500px) and (orientation: landscape) { .intro { grid-template-columns: minmax(8rem, .65fr) minmax(15rem, 1fr); grid-template-rows: auto auto; column-gap: 1.25rem; } .intro__heading { grid-row: 1 / 3; align-self: center; margin: 0; } .envelope-scene { width: min(45vw, 18rem, calc(70dvh * 1.55)); } .intro__hint { margin: .35rem 0 0; } }
-  @media (prefers-reduced-motion: reduce) { .intro[data-state='opening'] .envelope__flap { transform: none; } .intro[data-state='opening'] .letter { transform: translateY(-12%); } }
+  @media (prefers-reduced-motion: reduce) { .intro:is([data-state='opening'], [data-state='opened']) .envelope__flap { transform: none; } .intro:is([data-state='opening'], [data-state='opened']) .letter { transform: translateY(-12%); } }
 </style>
