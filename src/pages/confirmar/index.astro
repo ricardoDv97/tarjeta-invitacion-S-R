@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import ConfirmationDeadline from '../../components/ui/ConfirmationDeadline.astro'
 import { wedding } from '../../config/wedding.js'
 const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
 ---
@@ -33,6 +34,7 @@ const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS
         <div class="actions"><button class="submit" id="submit" type="submit"><span data-idle>Continuar</span><span data-loading hidden>Guardando…</span></button><p id="feedback" class="error" role="status"></p></div>
       </form>
       <div id="cancelled" class="success" hidden><h2>Gracias por avisarnos</h2><p>Vamos a extrañarte, pero agradecemos mucho tu respuesta.</p><a href="/">Volver a la invitación</a></div>
+      <ConfirmationDeadline />
     </section>
   </main>
 </Layout>

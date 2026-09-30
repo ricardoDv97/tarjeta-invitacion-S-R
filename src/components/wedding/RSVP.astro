@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro'
+import ConfirmationDeadline from '../ui/ConfirmationDeadline.astro'
 import Container from '../ui/Container.astro'
 import Botanical from './Botanical.astro'
 import { wedding } from '../../config/wedding.js'
@@ -12,6 +13,7 @@ const { rsvp } = wedding
     <h2 id="rsvp-title">{rsvp.title}</h2>
     <p>{rsvp.description}</p>
     <Button href={rsvp.href} variant="primary">CONFIRMAR ASISTENCIA</Button>
+    <ConfirmationDeadline />
   </Container>
 </section>
 
