@@ -2,8 +2,8 @@ import {
   InvalidWebhookSignatureError,
   WebhookSignatureValidator,
 } from 'mercadopago'
-import { getMercadoPagoPaymentClient } from '../../../lib/mercadopago.js'
-import { normalizeMercadoPagoPayment } from '../../../lib/mercadopagoWebhook.js'
+import { getMercadoPagoEnvironment, getMercadoPagoPaymentClient, getMercadoPagoMerchantOrderClient } from '../../../lib/mercadopago.js'
+import { normalizeMercadoPagoPayment, paymentMatchesEnvironment } from '../../../lib/mercadopagoWebhook.js'
 import { getSupabaseServerClient } from '../../../lib/supabaseServer.js'
 
 export const prerender = false
@@ -54,7 +54,9 @@ export async function POST({ request }) {
   }
 
   let remotePayment
+  let environment
   try {
+    environment = getMercadoPagoEnvironment()
     remotePayment = await getMercadoPagoPaymentClient().get({ id: dataId })
   } catch (error) {
     const status = Number(error?.status ?? error?.statusCode)
@@ -62,8 +64,26 @@ export async function POST({ request }) {
     return json({ ok: false, message: 'Mercado Pago no está disponible temporalmente.' }, 503)
   }
 
+  if (!paymentMatchesEnvironment(remotePayment, environment)) return ignored()
   const payment = normalizeMercadoPagoPayment(remotePayment)
   if (!payment || payment.providerPaymentId !== dataId) return ignored()
+
+  // Payment.get does not always include preference_id. Resolve it from the
+  // authenticated merchant order, verifying this payment belongs to that order.
+  if (!payment.preferenceId) {
+    const orderId = String(remotePayment.order?.id ?? '')
+    if (remotePayment.order?.type !== 'merchant_order' || !/^\d{1,128}$/.test(orderId)) return ignored()
+    try {
+      const order = await getMercadoPagoMerchantOrderClient().get({ merchantOrderId: orderId })
+      if (String(order?.id) !== orderId || order.external_reference !== payment.registrationId) return ignored()
+      if (!order.payments?.some(item => String(item.id) === dataId) || !order.preference_id?.trim()) {
+        return json({ ok: false, message: 'La orden de pago todavía no está disponible.' }, 503)
+      }
+      payment.preferenceId = order.preference_id.trim()
+    } catch {
+      return json({ ok: false, message: 'No pudimos verificar la orden de pago.' }, 503)
+    }
+  }
 
   try {
     const supabase = getSupabaseServerClient()
@@ -83,7 +103,7 @@ export async function POST({ request }) {
     if (!result) {
       return json({ ok: false, message: 'No pudimos procesar la notificación.' }, 500)
     }
-    if (!['applied', 'already_applied'].includes(result.outcome)) return ignored()
+    if (!['applied', 'already_applied', 'additional_approved'].includes(result.outcome)) return ignored()
     return json({ ok: true, processed: true }, 200)
   } catch {
     return json({ ok: false, message: 'El servicio no está disponible temporalmente.' }, 503)

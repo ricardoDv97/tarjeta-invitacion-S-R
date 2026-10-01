@@ -1,8 +1,9 @@
-import { MercadoPagoConfig, Payment, Preference } from 'mercadopago'
+import { MercadoPagoConfig, MerchantOrder, Payment, Preference } from 'mercadopago'
 
 const accessToken = import.meta.env?.MERCADOPAGO_ACCESS_TOKEN
 let preferenceClient
 let paymentClient
+let merchantOrderClient
 
 export function getMercadoPagoEnvironment(value = import.meta.env?.MERCADOPAGO_ENVIRONMENT) {
   if (value !== 'test' && value !== 'production') {
@@ -39,6 +40,16 @@ export function getMercadoPagoPaymentClient() {
     options: { timeout: 10000, maxRetries: 2 },
   }))
   return paymentClient
+}
+
+export function getMercadoPagoMerchantOrderClient() {
+  if (!import.meta.env.SSR) throw new Error('Mercado Pago sólo puede utilizarse en el servidor.')
+  if (!accessToken) throw new Error('Mercado Pago no está configurado.')
+  merchantOrderClient ??= new MerchantOrder(new MercadoPagoConfig({
+    accessToken,
+    options: { timeout: 10000, maxRetries: 2 },
+  }))
+  return merchantOrderClient
 }
 
 export function getPublicSiteUrl() {

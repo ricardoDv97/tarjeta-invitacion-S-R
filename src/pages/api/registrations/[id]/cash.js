@@ -1,5 +1,6 @@
 import { getSupabaseServerClient } from '../../../../lib/supabaseServer.js'
 import { isValidUuid } from '../../../../lib/validation.js'
+import { authorizeRegistration } from '../../../../lib/registrationManagement.js'
 
 export const prerender = false
 
@@ -27,7 +28,9 @@ export async function POST({ params, request }) {
   if (body.trim()) return json({ ok: false, message: 'Esta solicitud no admite datos enviados por el navegador.' }, 400)
 
   try {
-    const supabase = getSupabaseServerClient()
+    const authorization = await authorizeRegistration({ request, id: params.id, getClient: getSupabaseServerClient })
+    if (authorization.status !== 200) return json({ ok: false, message: 'No pudimos autorizar esta inscripción.' }, authorization.status)
+    const supabase = authorization.client
     const { data, error } = await supabase.rpc('confirm_cash_payment', { target_registration_id: params.id })
     if (error) return json({ ok: false, message: 'No pudimos confirmar el pago en efectivo.' }, 500)
     const result = data?.[0]

@@ -1,10 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import PaymentReturn from '../../components/payment/PaymentReturn.astro'
-import { isValidUuid } from '../../lib/validation.js'
+import { authorizeRegistration } from '../../lib/registrationManagement.js'
+import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
 export const prerender = false
 const reference = Astro.url.searchParams.get('registration') ?? ''
-const retryHref = isValidUuid(reference) ? `/confirmar/invitados?registration=${encodeURIComponent(reference)}` : '/confirmar'
+let retryHref = '/confirmar'
+try {
+  const authorization = await authorizeRegistration({ request: Astro.request, id: reference, getClient: getSupabaseServerClient })
+  if (authorization.status === 200) retryHref = `/confirmar/invitados?registration=${encodeURIComponent(reference)}`
+} catch { /* Keep a generic public return when authorization cannot be verified. */ }
 ---
 <Layout title="No pudimos completar el pago | Sabri y Ri" description="Reintento del checkout de Mercado Pago.">
   <PaymentReturn kind="error" {retryHref} />

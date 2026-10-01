@@ -1,4 +1,5 @@
 import { getSupabaseServerClient } from '../../../lib/supabaseServer.js'
+import { createManagementToken, hashManagementToken, managementCookie } from '../../../lib/registrationManagement.js'
 import {
   amountInCents,
   formatCents,
@@ -46,6 +47,7 @@ export async function POST({ request }) {
     const { data: weddings, error: weddingError } = await supabase
       .from('weddings')
       .select('id, price_per_guest, child_price')
+      .eq('slug', 'ricardo-sabrina-2026')
       .eq('is_active', true)
       .order('created_at', { ascending: true })
       .limit(2)
@@ -78,10 +80,12 @@ export async function POST({ request }) {
       return json({ ok: false, message: 'No pudimos calcular el monto de la inscripción.' }, 500)
     }
 
+    const managementToken = createManagementToken()
     const { data: registration, error: registrationError } = await supabase
       .from('registrations')
       .insert({
         wedding_id: weddings[0].id,
+        management_token_hash: hashManagementToken(managementToken),
         guest_count: input.guestCount,
         adult_count: input.adultCount,
         child_count: input.childCount,
@@ -105,6 +109,7 @@ export async function POST({ request }) {
         nextStep: isCancellation ? 'finished' : 'guests',
       },
       201,
+      { 'Set-Cookie': managementCookie(registration.id, managementToken, request) },
     )
   } catch {
     return json({ ok: false, message: 'El servicio no está disponible temporalmente.' }, 500)

@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro'
 import { wedding } from '../../config/wedding.js'
 import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
 import { isValidUuid } from '../../lib/validation.js'
+import { authorizeRegistration } from '../../lib/registrationManagement.js'
 
 export const prerender = false
 
@@ -12,12 +13,10 @@ let available = false
 
 if (isValidUuid(reference)) {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data } = await supabase
-      .from('registrations')
-      .select('id, guest_count, adult_count, child_count, young_child_count, total_amount, payment_method, payment_status, attendance_status')
-      .eq('id', reference)
-      .maybeSingle()
+    const authorization = await authorizeRegistration({ request: Astro.request, id: reference, getClient: getSupabaseServerClient,
+      fields: 'id, guest_count, adult_count, child_count, young_child_count, total_amount, payment_method, payment_status, attendance_status' })
+    const data = authorization.registration
+    const supabase = authorization.client
 
     if (data?.payment_method === 'cash' && data.attendance_status === 'confirmed') {
       const [{ data: guests }, { data: payments }] = await Promise.all([

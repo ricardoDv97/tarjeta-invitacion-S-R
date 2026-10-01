@@ -6,6 +6,11 @@ export function mapMercadoPagoStatus(status) {
   return FINAL_STATUSES.has(status) ? status : 'pending'
 }
 
+export function paymentMatchesEnvironment(payment, environment) {
+  return (environment === 'production' && payment?.live_mode === true)
+    || (environment === 'test' && payment?.live_mode === false)
+}
+
 export function normalizeMercadoPagoPayment(payment) {
   const providerPaymentId = payment?.id === undefined || payment?.id === null
     ? ''
@@ -34,6 +39,7 @@ export function normalizeMercadoPagoPayment(payment) {
   ) return null
 
   const status = mapMercadoPagoStatus(payment?.status)
+  if (status === 'approved' && !approvedAt) return null
   return {
     registrationId: externalReference,
     providerPaymentId,
@@ -42,7 +48,7 @@ export function normalizeMercadoPagoPayment(payment) {
     currency,
     status,
     paidAt: status === 'approved'
-      ? (approvedAt ?? new Date()).toISOString()
+      ? approvedAt.toISOString()
       : null,
   }
 }

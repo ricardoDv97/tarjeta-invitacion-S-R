@@ -1,5 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import { authorizeRegistration } from '../../lib/registrationManagement.js'
+import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
+export const prerender = false
+try {
+  const authorization = await authorizeRegistration({ request: Astro.request,
+    id: Astro.url.searchParams.get('registration') ?? '', getClient: getSupabaseServerClient })
+  if (authorization.status !== 200) return Astro.redirect('/confirmar', 303)
+} catch { return Astro.redirect('/confirmar', 303) }
 ---
 
 <Layout title="Completá los invitados | Sabri y Ri" description="Datos de quienes asistirán a la boda de Ricardo y Sabrina.">

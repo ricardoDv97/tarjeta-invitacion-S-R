@@ -13,6 +13,14 @@ export function createSupabaseAuthServerClient(request, cookies) {
   }
 
   return createServerClient(supabaseUrl, supabasePublishableKey, {
+    // Auth is server-only: the browser never reads or refreshes these tokens.
+    // Let the SDK retain its chunking, expiry and deletion semantics.
+    cookieOptions: {
+      httpOnly: true,
+      secure: import.meta.env.PROD || new URL(request.url).protocol === 'https:',
+      sameSite: 'lax',
+      path: '/',
+    },
     cookies: {
       getAll() {
         return parseCookieHeader(request.headers.get('Cookie') ?? '')

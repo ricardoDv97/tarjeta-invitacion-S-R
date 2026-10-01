@@ -16,7 +16,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const isLoginPage = pathname === '/admin/login' || pathname === '/admin/login/'
   const isAdminApi = pathname.startsWith('/api/admin/')
 
-  if (!isAdminPage && !isAdminApi) return next()
+  if (!isAdminPage && !isAdminApi) {
+    const response = await next()
+    if (pathname.startsWith('/pago/') || pathname.startsWith('/confirmar') || pathname.startsWith('/api/registrations')) {
+      response.headers.set('Cache-Control', NO_STORE)
+      response.headers.set('Referrer-Policy', 'no-referrer')
+    }
+    return response
+  }
 
   if (isAdminApi) {
     const response = await next()

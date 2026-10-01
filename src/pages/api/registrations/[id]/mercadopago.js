@@ -1,6 +1,7 @@
 import { getMercadoPagoPreferenceClient, getPublicSiteUrl, getCheckoutUrl } from '../../../../lib/mercadopago.js'
 import { getSupabaseServerClient } from '../../../../lib/supabaseServer.js'
 import { isValidUuid } from '../../../../lib/validation.js'
+import { authorizeRegistration } from '../../../../lib/registrationManagement.js'
 
 export const prerender = false
 
@@ -34,7 +35,9 @@ export async function POST({ params, request }) {
   if (body.trim()) return json({ ok: false, message: 'Esta solicitud no admite datos enviados por el navegador.' }, 400)
 
   try {
-    const supabase = getSupabaseServerClient()
+    const authorization = await authorizeRegistration({ request, id: params.id, getClient: getSupabaseServerClient })
+    if (authorization.status !== 200) return json({ ok: false, message: 'No pudimos autorizar esta inscripción.' }, authorization.status)
+    const supabase = authorization.client
     const { data, error } = await supabase.rpc('prepare_mercadopago_checkout', { target_registration_id: params.id })
     if (error) return json({ ok: false, message: 'No pudimos preparar el pago con Mercado Pago.' }, 500)
     const prepared = data?.[0]

@@ -1,5 +1,6 @@
 import { getSupabaseServerClient } from '../../../../lib/supabaseServer.js'
 import { isValidUuid, validateGuestsPayload } from '../../../../lib/validation.js'
+import { managementTokenHash } from '../../../../lib/registrationManagement.js'
 
 export const prerender = false
 
@@ -10,6 +11,10 @@ const json = (body, status, extraHeaders = {}) => new Response(JSON.stringify(bo
 
 export async function POST({ params, request }) {
   if (!isValidUuid(params.id)) return json({ ok: false, message: 'La referencia no es válida.' }, 400)
+  const tokenHash = managementTokenHash(request, params.id)
+  if (!tokenHash) return json({ ok: false, message: 'No tenés autorización para esta inscripción. Volvé a confirmar.' }, 403)
+  const origin = request.headers.get('origin')
+  if (origin && origin !== new URL(request.url).origin) return json({ ok: false, message: 'Origen no permitido.' }, 403)
   const contentType = request.headers.get('content-type') ?? ''
   const contentLength = Number(request.headers.get('content-length') ?? 0)
   if (!contentType.toLowerCase().startsWith('application/json')) return json({ ok: false, message: 'El contenido debe enviarse como JSON.' }, 400)
@@ -24,34 +29,37 @@ export async function POST({ params, request }) {
       .from('registrations')
       .select('id, guest_count, adult_count, child_count, young_child_count, attendance_status, payment_method')
       .eq('id', params.id)
+      .eq('management_token_hash', tokenHash)
       .maybeSingle()
 
     if (registrationError) return json({ ok: false, message: 'No pudimos consultar la inscripción.' }, 500)
-    if (!registration) return json({ ok: false, message: 'La inscripción no existe.' }, 404)
+    if (!registration) return json({ ok: false, message: 'No tenés autorización para esta inscripción.' }, 403)
     if (registration.attendance_status !== 'pending') return json({ ok: false, message: 'Esta inscripción no admite invitados.' }, 409)
 
     const validation = validateGuestsPayload(payload, registration)
     if (!validation.ok) return json({ ok: false, message: validation.message }, 400)
 
-    const { data: existingGuests, error: existingError } = await supabase
-      .from('guests')
-      .select('first_name, last_name, age_category')
-      .eq('registration_id', registration.id)
-    if (existingError) return json({ ok: false, message: 'No pudimos verificar la inscripción.' }, 500)
-    if (existingGuests?.length) {
-      const key = (guest) => `${guest.age_category}\u0000${guest.first_name}\u0000${guest.last_name}`
-      const stored = existingGuests.map(key).sort()
-      const requested = validation.value.map(key).sort()
-      const sameGuests = stored.length === requested.length && stored.every((value, index) => value === requested[index])
-      if (!sameGuests) return json({ ok: false, message: 'Los invitados de esta inscripción ya fueron registrados.' }, 409)
-      return json({ ok: true, nextStep: registration.payment_method === 'cash' ? 'cash' : 'mercadopago' }, 200)
+    // The RPC repeats validation while holding the registration lock. The read
+    // above is only for useful validation messages, never the integrity guard.
+    const { data, error } = await supabase.rpc('save_registration_guests', {
+      target_registration_id: registration.id,
+      target_token_hash: tokenHash,
+      target_guests: validation.value,
+    })
+    if (error || !data?.[0]) return json({ ok: false, message: 'No pudimos guardar los invitados. Intentá nuevamente.' }, 500)
+    const result = data[0]
+    const failures = {
+      unauthorized: [403, 'No tenés autorización para esta inscripción.'],
+      not_found: [404, 'La inscripción no existe.'],
+      invalid_status: [409, 'Esta inscripción no admite invitados.'],
+      invalid_guests: [400, 'Los invitados no coinciden con la inscripción.'],
+      guests_conflict: [409, 'Los invitados de esta inscripción ya fueron registrados.'],
     }
-
-    const rows = validation.value.map((guest) => ({ ...guest, registration_id: registration.id }))
-    const { error: insertError } = await supabase.from('guests').insert(rows)
-    if (insertError) return json({ ok: false, message: 'No pudimos guardar los invitados. Intentá nuevamente.' }, 500)
-
-    return json({ ok: true, nextStep: registration.payment_method === 'cash' ? 'cash' : 'mercadopago' }, 201)
+    if (!['saved', 'already_saved'].includes(result.outcome)) {
+      const [status, message] = failures[result.outcome] ?? [409, 'No pudimos guardar los invitados.']
+      return json({ ok: false, message }, status)
+    }
+    return json({ ok: true, nextStep: result.result_payment_method === 'cash' ? 'cash' : 'mercadopago' }, result.outcome === 'saved' ? 201 : 200)
   } catch {
     return json({ ok: false, message: 'El servicio no está disponible temporalmente.' }, 500)
   }

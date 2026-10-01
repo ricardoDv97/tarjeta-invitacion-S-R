@@ -1,0 +1,14 @@
+[
+  {
+    "name": "20260929000000_atomic_guest_registration.sql",
+    "sha256": "b6b8827fe1cb2b4236c7856bca4de993ed3b167f918515d0f5a3c4d83d9f9889"
+  },
+  {
+    "name": "20260929000100_mercadopago_payment_attempts.sql",
+    "sha256": "f8977617300ed00b3da16f9ba3eafb6e1cc7fddb08f016ba1c8e1d335cfdbe38"
+  },
+  {
+    "name": "20260930000000_runtime_least_privilege.sql",
+    "sha256": "90302ded14f38996eaa374f38c088d159dbe97225c65a947436826884dbae3f7"
+  }
+]

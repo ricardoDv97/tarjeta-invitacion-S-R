@@ -1,0 +1,5 @@
+# Preserve the exact bytes covered by the Sprint 14 migration manifest.
+/supabase/migrations/20260929000000_atomic_guest_registration.sql text eol=lf
+/supabase/migrations/20260929000100_mercadopago_payment_attempts.sql text eol=lf
+/supabase/migrations/20260930000000_runtime_least_privilege.sql text eol=lf
+/docs/14-APLICACION-CONTROLADA/*.sql text eol=lf
