@@ -1,0 +1,30 @@
+﻿{
+  "source": "manual user confirmation in chat",
+  "date": "2026-10-01",
+  "timezone": "America/Buenos_Aires",
+  "checkout": {
+    "approximateTime": "22:53",
+    "sameExistingPreference": true,
+    "registration": "10853c60…c7ca",
+    "preference": "55780589…9ee5",
+    "normalChrome": true,
+    "productionDomain": true,
+    "visibleAmountARS": 35000,
+    "visibleConcept": "Contribución Boda Ricardo y Sabrina",
+    "sandboxOrTestVisible": false,
+    "preferenceErrorVisible": false,
+    "paymentPerformed": false,
+    "newPaymentDataEntered": false,
+    "previous403Classification": "automated/headless environment limitation, accepted on manual evidence"
+  },
+  "admin": {
+    "userResponse": "si paso todas las pruebas",
+    "loginAndDashboard": "PASS manual",
+    "allowlist": "PASS functional via successful authenticated login; identity not published",
+    "sessionSurvivesReload": "PASS manual",
+    "cookieAttributes": {"httpOnly": true, "secure": true, "sameSite": "Lax", "path": "/"},
+    "logoutAndSubsequentAdminRedirect": "PASS manual",
+    "expiryTriggeredTokenRotation": "Not separately measured",
+    "independentBrowserCapture": false
+  }
+}

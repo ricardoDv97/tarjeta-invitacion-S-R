@@ -3,7 +3,7 @@ import StatusBadge from './StatusBadge.astro'
 import { formatArs } from '../../lib/adminDashboard.js'
 const { payments, registrationsById } = Astro.props
 const date = (value) => value ? new Intl.DateTimeFormat('es-AR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value)) : '—'
-const provider = { cash: 'Efectivo', mercadopago: 'Mercado Pago' }
+const provider = { cash: 'Efectivo', transfer: 'Transferencia', mercadopago: 'Mercado Pago (histórico)' }
 ---
 <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white"><table class="w-full min-w-[1050px] text-left text-sm">
   <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th class="p-4">Proveedor</th><th class="p-4">Importe</th><th class="p-4">Moneda</th><th class="p-4">Estado</th><th class="p-4">Payment ID</th><th class="p-4">Preference ID</th><th class="p-4">Pagado</th><th class="p-4">Registration</th></tr></thead>

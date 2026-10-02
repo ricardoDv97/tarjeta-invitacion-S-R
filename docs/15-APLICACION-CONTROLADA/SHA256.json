@@ -1,0 +1,18 @@
+{
+  "version": "20261002000000",
+  "source": {
+    "path": "supabase/migrations/20261002000000_transfer_payment.sql",
+    "sha256": "bd797423b1560b0bc3c12ac9ef59fe050c513bd363a6ea2914da33cde96c37bc",
+    "bytes": 11802
+  },
+  "files": {
+    "00-BASELINE-READ-ONLY.sql": "de19ab0bebc50d6d1c5b01c4447a11ffce29f0ebdab88af5d32a60da0dc71695",
+    "10-APPLY-20261002000000.sql": "85e7814c0b3094a9e914962bf6fc49a5b14d12f93dac01060744e89e117ad77f",
+    "11-POSTFLIGHT-READ-ONLY.sql": "01ccff5bc220a89e871ca160ffcdc3b83611218293e4cfc28a7973eb916049ce",
+    "20-INTEGRITY-READ-ONLY.sql": "9685380331c5e4ca292c1f3836fe633e9efbc85bf1a4c0ad913215fb34a1e226"
+  },
+  "frozenAt": "2026-10-02T22:25:42.478Z",
+  "rule": "Source changes require a new review and SHA256; no remote application performed",
+  "packageUpdatedAt": "2026-10-02T22:37:39.770Z",
+  "packageCorrection": "Explicit pg_temp, private TEMP ACL, explicit DROP before COMMIT; migration source unchanged"
+}

@@ -49,7 +49,7 @@ test('actual Astro HTTP routes, middleware, images and synthetic admin denial', 
     const image = await get(imagePath.replaceAll('&amp;', '&'))
     assert.equal(image.status, 200)
     assert.match(image.headers.get('content-type'), /^image\//)
-    for (const path of ['/confirmar', '/admin/login', '/pago/pendiente', `/pago/exitoso?registration=${id}`]) {
+    for (const path of ['/confirmar', '/admin/login']) {
       assert.equal((await get(path)).status, 200, path)
     }
     for (const [path, target] of [['/admin', '/admin/login'], [`/confirmar/invitados?registration=${id}`, '/confirmar']]) {
@@ -62,12 +62,13 @@ test('actual Astro HTTP routes, middleware, images and synthetic admin denial', 
     const state = await get(`/api/registrations/${id}`)
     assert.equal(state.status, 403)
     assert.equal(state.headers.get('referrer-policy'), 'no-referrer')
-    for (const action of ['cash', 'mercadopago']) {
+    for (const action of ['cash', 'transfer', 'payment-reported']) {
       const response = await fetch(`${origin}/api/registrations/${id}/${action}`, {
         method: 'POST', headers: { Origin: origin },
       })
       assert.equal(response.status, 403, action)
     }
+    for (const path of ['/pago/exitoso','/pago/error','/pago/pendiente','/api/webhooks/mercadopago', '/api/registrations/'+id+'/mercadopago']) assert.equal((await get(path)).status,410,path)
     const login = await fetch(origin + '/api/admin/login', {
       method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: 'audit@example.invalid', password: 'synthetic-password' }),

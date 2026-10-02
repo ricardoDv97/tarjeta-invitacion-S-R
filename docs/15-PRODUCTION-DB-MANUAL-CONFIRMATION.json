@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-10-02T22:50:39.656Z",
+  "source": "Explicit user confirmation in Sprint 15 production deployment request; no independent remote DB inspection",
+  "migration": "20261002000000_transfer_payment.sql",
+  "status": "PASS manually confirmed",
+  "checks": {
+    "migration_registered": true,
+    "payment_reported_at_exists": true,
+    "registrations": 17,
+    "guests": 12,
+    "payments": 10,
+    "mercadopago_payment_attempts": 0,
+    "transfer_registrations": 0,
+    "transfer_payments": 0,
+    "payment_reported_rows": 0,
+    "policy_count": 0,
+    "duplicate_accounting_rows": 0,
+    "invalid_payment_correlations": 0,
+    "invalid_existing_guest_groups": 0,
+    "invalid_registration_fields": 0,
+    "legacy_without_management_token": 12,
+    "expected_active_weddings": 1
+  },
+  "rpc": {
+    "signatures": [
+      "prepare_transfer_payment(uuid,text)",
+      "report_transfer_payment(uuid,text)",
+      "approve_transfer_payment(uuid)"
+    ],
+    "ownerCorrect": true,
+    "securityInvoker": true,
+    "searchPathSafe": true,
+    "anonDenied": true,
+    "authenticatedDenied": true,
+    "serviceRoleAllowed": true
+  },
+  "env": "MP ENV preserved; no deletion authorized",
+  "agentRemoteWrites": false
+}

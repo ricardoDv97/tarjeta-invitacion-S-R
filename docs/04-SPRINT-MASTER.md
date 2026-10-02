@@ -48,3 +48,12 @@ Estado actual: Sprint 10 implementado localmente y pendiente de auditoría, migr
 13. Contenido real, galería y refinamiento visual
 
 El alcance actual termina en el Sprint 10. La nueva migración permanece local para auditoría y no fue aplicada remotamente.
+
+
+## Sprint 15 — transferencia manual (estado vigente local)
+
+Reemplaza Checkout Pro por transferencia a Mercado Pago; alias central ricardo.mpsyr. Declaración del invitado mantiene pending; sólo admin aprueba. Efectivo sigue activo y separado. Esquema/datos MP históricos preservados. [Informe, QA y rollout](15-TRANSFER-PAYMENT-MIGRATION.md). Migración, commit/push y deploy pendientes de auditoría humana. Los estados anteriores permanecen como historia.
+
+Revisión DB Sprint 15: [paquete SQL Editor](15-APLICACION-CONTROLADA/README.md), fuente congelada, autorización de aplicación pendiente. Preflight remoto preparado; no ejecutado.
+
+Cierre Sprint 15: DB remota y postflight PASS confirmados manualmente por usuario; [auditoría final local](15-RELEASE-LOCAL-EVIDENCE.json): 180/180 tests, build PASS y audit 0. Commit/push main autorizados; smoke productivo read-only y ENV MP preservadas.

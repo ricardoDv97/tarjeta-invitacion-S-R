@@ -1,16 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import PaymentReturn from '../../components/payment/PaymentReturn.astro'
-import { authorizeRegistration } from '../../lib/registrationManagement.js'
-import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
 export const prerender = false
-const reference = Astro.url.searchParams.get('registration') ?? ''
-let retryHref = '/confirmar'
-try {
-  const authorization = await authorizeRegistration({ request: Astro.request, id: reference, getClient: getSupabaseServerClient })
-  if (authorization.status === 200) retryHref = `/confirmar/invitados?registration=${encodeURIComponent(reference)}`
-} catch { /* Keep a generic public return when authorization cannot be verified. */ }
+Astro.response.status = 410
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 ---
-<Layout title="No pudimos completar el pago | Sabri y Ri" description="Reintento del checkout de Mercado Pago.">
-  <PaymentReturn kind="error" {retryHref} />
-</Layout>
+<html lang="es"><head><title>Servicio retirado</title><meta name="robots" content="noindex" /></head><body><h1>Este servicio de pago fue retirado.</h1><a href="/confirmar">Volver a confirmar</a></body></html>

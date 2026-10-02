@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-10-02T20:13:10.662Z",
+  "operations": "GET only",
+  "preference": {
+    "purpose": {
+      "absent": true
+    },
+    "binary_mode": false,
+    "marketplace": "NONE",
+    "marketplace_fee": 0,
+    "sponsor_id": {
+      "absent": true
+    },
+    "statement_descriptor": {
+      "absent": true
+    },
+    "expires": false,
+    "expiration_date_from": null,
+    "expiration_date_to": null,
+    "auto_return": "approved",
+    "notification_url": null,
+    "operation_type": "regular_payment",
+    "processing_modes": null,
+    "differential_pricing": {
+      "absent": true
+    },
+    "live_mode": {
+      "absent": true
+    },
+    "payment_methods": {
+      "default_card_id": null,
+      "default_payment_method_id": null,
+      "excluded_payment_methods": [
+        {
+          "id": ""
+        }
+      ],
+      "excluded_payment_types": [
+        {
+          "id": ""
+        }
+      ],
+      "installments": null,
+      "default_installments": null
+    },
+    "id": "55780589…b993",
+    "collector_id": "55780589…5897",
+    "external_reference": "ebff321f…9d64",
+    "items": [
+      {
+        "title": "Contribución Boda Ricardo y Sabrina",
+        "quantity": 1,
+        "unit_price": 35000,
+        "currency_id": "ARS"
+      }
+    ],
+    "payer": {
+      "keys": [
+        "phone",
+        "address",
+        "email",
+        "identification",
+        "name",
+        "surname",
+        "date_created",
+        "last_purchase"
+      ],
+      "id": null,
+      "emailPresent": false,
+      "namePresent": false,
+      "identificationPresent": false
+    },
+    "back_urls": {
+      "failure": {
+        "origin": "https://invitacion-boda-syr.vercel.app",
+        "path": "/pago/error",
+        "registrationMatches": true
+      },
+      "pending": {
+        "origin": "https://invitacion-boda-syr.vercel.app",
+        "path": "/pago/pendiente",
+        "registrationMatches": true
+      },
+      "success": {
+        "origin": "https://invitacion-boda-syr.vercel.app",
+        "path": "/pago/exitoso",
+        "registrationMatches": true
+      }
+    },
+    "init_point": {
+      "origin": "https://www.mercadopago.com.ar",
+      "path": "/checkout/v1/redirect",
+      "preferenceMatches": true
+    },
+    "sandbox_init_point": {
+      "origin": "https://sandbox.mercadopago.com.ar",
+      "path": "/checkout/v1/redirect",
+      "preferenceMatches": true
+    }
+  },
+  "collector": {
+    "id": "55780589…5897",
+    "tokenOwnerMatchesCollector": true,
+    "site_id": "MLA",
+    "country_id": "AR",
+    "user_type": "normal",
+    "tags": [
+      "normal",
+      "messages_as_seller",
+      "user_product_seller"
+    ],
+    "status": {
+      "billing": {
+        "allow": true,
+        "codes": []
+      },
+      "buy": {
+        "allow": true,
+        "codes": [],
+        "immediate_payment": {
+          "reasons": [],
+          "required": false
+        }
+      },
+      "confirmed_email": true,
+      "shopping_cart": {
+        "buy": "allowed",
+        "sell": "allowed"
+      },
+      "immediate_payment": false,
+      "list": {
+        "allow": true,
+        "codes": [],
+        "immediate_payment": {
+          "reasons": [],
+          "required": false
+        }
+      },
+      "mercadoenvios": "not_accepted",
+      "mercadopago_account_type": "personal",
+      "mercadopago_tc_accepted": true,
+      "required_action": null,
+      "sell": {
+        "allow": true,
+        "codes": [],
+        "immediate_payment": {
+          "reasons": [],
+          "required": false
+        }
+      },
+      "site_status": "active",
+      "user_type": "simple_registration"
+    }
+  },
+  "apiDiagnostics": {
+    "warnings": {
+      "absent": true
+    },
+    "validation_messages": {
+      "absent": true
+    },
+    "errors": {
+      "absent": true
+    },
+    "cause": {
+      "absent": true
+    }
+  },
+  "registration": [
+    {
+      "payment_status": "pending",
+      "attendance_status": "pending",
+      "total_amount": 35000
+    }
+  ],
+  "payments": [
+    {
+      "id": "47e67bc3…f821",
+      "status": "pending",
+      "amount": 35000,
+      "currency": "ARS",
+      "provider_preference_id": "55780589…b993",
+      "provider_payment_id": null,
+      "paid_at": null
+    }
+  ],
+  "attempts": {
+    "count": 0,
+    "statuses": []
+  }
+}

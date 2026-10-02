@@ -27,7 +27,7 @@ const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS
             <p class="hint">Podés confirmar entre 1 y 20 personas en total.</p><p class="error" id="counts-error"></p>
           </fieldset>
           <fieldset aria-describedby="payment-error"><legend>¿Cómo preferís realizar la contribución?</legend><div class="choices">
-            <label><input type="radio" name="paymentMethod" value="mercadopago" /><span>Mercado Pago</span></label>
+            <label><input type="radio" name="paymentMethod" value="transfer" /><span>Transferencia</span></label>
             <label><input type="radio" name="paymentMethod" value="cash" /><span>Efectivo</span></label>
           </div><p class="hint">En este paso no se procesará ningún pago.</p><p class="error" id="payment-error"></p></fieldset>
         </div>
@@ -68,7 +68,7 @@ const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS
     const attendance = selected('attendance'); const paymentMethod = selected('paymentMethod'); let valid = true
     if (!attendance) { error('attendance-error', 'Elegí si vas a acompañarnos.'); valid = false }
     if (attendance === 'confirmed' && (total() < 1 || total() > 20)) { error('counts-error', 'El total debe ser entre 1 y 20 personas.'); valid = false }
-    if (attendance === 'confirmed' && !['cash', 'mercadopago'].includes(paymentMethod)) { error('payment-error', 'Elegí un método de contribución.'); valid = false }
+    if (attendance === 'confirmed' && !['cash', 'transfer'].includes(paymentMethod)) { error('payment-error', 'Elegí un método de contribución.'); valid = false }
     if (!valid) return
     setSaving(true)
     try {

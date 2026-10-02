@@ -59,7 +59,7 @@ export async function POST({ params, request }) {
       const [status, message] = failures[result.outcome] ?? [409, 'No pudimos guardar los invitados.']
       return json({ ok: false, message }, status)
     }
-    return json({ ok: true, nextStep: result.result_payment_method === 'cash' ? 'cash' : 'mercadopago' }, result.outcome === 'saved' ? 201 : 200)
+    return json({ ok: true, nextStep: result.result_payment_method === 'cash' ? 'cash' : result.result_payment_method === 'transfer' ? 'transfer' : 'legacy-unavailable' }, result.outcome === 'saved' ? 201 : 200)
   } catch {
     return json({ ok: false, message: 'El servicio no está disponible temporalmente.' }, 500)
   }

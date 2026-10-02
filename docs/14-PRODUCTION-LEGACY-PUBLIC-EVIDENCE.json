@@ -1,0 +1,133 @@
+{
+  "origin": "https://invitacion-boda-syr.vercel.app",
+  "startedAt": "2026-10-02T02:19:54.167Z",
+  "checks": [
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "3e088596…a44f",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "73f3042d…04bf",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "26334914…367e",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "812c65e0…7e75",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "e571012a…e5a5",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "c7b67936…d049",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "f3629318…5c55",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "be43ceac…32ee",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "c57a1368…66e5",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "27774a4f…5be9",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "4512674d…a76c",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "legacy UUID only",
+      "result": {
+        "registration": "568b600e…42d2",
+        "apiStatus": 403,
+        "privatePageStatus": 200,
+        "privatePagePath": "/confirmar",
+        "redirectedToConfirmar": true
+      }
+    },
+    {
+      "name": "browser exceptions",
+      "result": []
+    }
+  ],
+  "records": [],
+  "exceptions": [],
+  "finishedAt": "2026-10-02T02:20:32.179Z"
+}

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { validateRegistrationPayload, validateGuestsPayload, amountInCents, isValidUuid } from '../src/lib/validation.js'
 import { loadModule } from './helpers/modules.mjs'
 
-const valid = { attendance:'confirmed',adultCount:2,childCount:1,youngChildCount:1,paymentMethod:'mercadopago' }
+const valid = { attendance:'confirmed',adultCount:2,childCount:1,youngChildCount:1,paymentMethod:'transfer' }
 test('valid registration preserves counts', () => assert.equal(validateRegistrationPayload(valid).value.guestCount,4))
 for (const [name, changes] of Object.entries({ price:{total_amount:1},status:{payment_status:'approved'},negative:{adultCount:-1},fraction:{adultCount:1.5},overflow:{adultCount:20},zero:{adultCount:0,childCount:0,youngChildCount:0},method:{paymentMethod:'other'},cancelWithCounts:{attendance:'cancelled'} })) {
   test(`registration rejects ${name}`, () => assert.equal(validateRegistrationPayload({...valid,...changes}).ok,false))
@@ -19,17 +19,7 @@ test('guest count mismatch is rejected', () => assert.equal(validateGuestsPayloa
 test('amount uses integer cents', () => assert.equal(amountInCents('35000.01'),3500001))
 for (const value of ['NaN','Infinity','1.001',-1]) test(`invalid monetary amount ${value}`, () => assert.equal(amountInCents(value),null))
 test('malformed reference is rejected', () => assert.equal(isValidUuid('invalid'),false))
-for (const url of ['javascript:alert(1)','http://www.mercadopago.com.ar/','https://mercadopago.com.ar.evil.invalid/']) {
-  test(`checkout rejects untrusted URL ${url}`, async () => {
-    const mp = await loadModule('src/lib/mercadopago.js')
-    assert.equal(mp.selectCheckoutUrl({init_point:url},'production'),null)
-  })
-}
-test('production checkout selects init_point and validated public origin', async () => {
-  const mp = await loadModule('src/lib/mercadopago.js',{env:{PUBLIC_SITE_URL:'https://invitacion-boda-syr.vercel.app'}})
-  assert.equal(mp.selectCheckoutUrl({init_point:'https://www.mercadopago.com.ar/live',sandbox_init_point:'https://sandbox.mercadopago.com.ar/test'},'production'),'https://www.mercadopago.com.ar/live')
-  assert.equal(mp.getPublicSiteUrl(),'https://invitacion-boda-syr.vercel.app')
-})
+test('legacy online payment method cannot be selected by new RSVP', () => assert.equal(validateRegistrationPayload({...valid,paymentMethod:'mercadopago'}).ok,false))
 for (const authorized of [true,false]) test(`admin middleware handles allowlist=${authorized}`, async () => {
   let signedOut = false
   const module = await loadModule('src/middleware.js',{imports:{

@@ -1,8 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import PaymentReturn from '../../components/payment/PaymentReturn.astro'
 export const prerender = false
+Astro.response.status = 410
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 ---
-<Layout title="Pago pendiente | Sabri y Ri" description="Estado pendiente informado por Mercado Pago.">
-  <PaymentReturn kind="pending" />
-</Layout>
+<html lang="es"><head><title>Servicio retirado</title><meta name="robots" content="noindex" /></head><body><h1>Este servicio de pago fue retirado.</h1><a href="/confirmar">Volver a confirmar</a></body></html>

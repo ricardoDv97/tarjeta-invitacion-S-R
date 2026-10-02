@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-10-02T22:03:08.679Z",
+  "scope": "Local validation only; synthetic ephemeral database, no production rollout",
+  "unit": {
+    "command": "npm test",
+    "tests": 175,
+    "passed": 175,
+    "failed": 0
+  },
+  "framework": {
+    "command": "npm run test:framework",
+    "passed": 1,
+    "failed": 0
+  },
+  "cookieBrowser": {
+    "command": "npm run test:browser",
+    "passed": 1,
+    "failed": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "pass": true
+  },
+  "audit": {
+    "command": "npm audit --json",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "browserChecks": 34,
+  "productionWrites": false,
+  "paymentExecuted": false,
+  "dbPush": false,
+  "commit": false,
+  "push": false,
+  "deploy": false,
+  "diffCheck": true
+}

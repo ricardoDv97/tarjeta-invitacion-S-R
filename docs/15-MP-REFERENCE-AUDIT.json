@@ -1,0 +1,539 @@
+{
+  "removed": [
+    "src/lib/mercadopago.js",
+    "src/lib/mercadopagoWebhook.js",
+    "src/components/payment/PaymentReturn.astro",
+    "scripts/mp-pay-button-readonly.mjs"
+  ],
+  "replaced": [
+    "src/pages/api/registrations/[id]/mercadopago.js",
+    "src/pages/api/webhooks/mercadopago.js",
+    "src/pages/pago/exitoso.astro",
+    "src/pages/pago/error.astro",
+    "src/pages/pago/pendiente.astro",
+    "src/pages/confirmar/index.astro",
+    "src/pages/confirmar/invitados.astro"
+  ],
+  "retained": [
+    {
+      "path": "src/components/admin/GuestsTable.astro",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "src/components/admin/PaymentsTable.astro",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "mercadopago",
+        "Preference",
+        "provider_payment_id",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "src/components/admin/RegistrationsTable.astro",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "src/lib/adminDashboard.js",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "provider_payment_id",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "src/pages/admin/index.astro",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "src/pages/pago/efectivo.astro",
+      "category": "B: fixed retirement or transfer replacement",
+      "references": [
+        "provider_payment_id"
+      ]
+    },
+    {
+      "path": "tests/audit.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "provider_preference_id",
+        "external_reference",
+        "apply_mercadopago_payment_result"
+      ]
+    },
+    {
+      "path": "tests/database.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "prepare_mercadopago_checkout",
+        "provider_preference_id",
+        "preference",
+        "apply_mercadopago_payment_result",
+        "provider_payment_id"
+      ]
+    },
+    {
+      "path": "tests/framework/smoke.test.mjs",
+      "category": "E: test",
+      "references": [
+        "MERCADOPAGO",
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "tests/helpers/postgres.mjs",
+      "category": "E: test",
+      "references": [
+        "MERCADOPAGO"
+      ]
+    },
+    {
+      "path": "tests/manual-migration-package.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference",
+        "preference"
+      ]
+    },
+    {
+      "path": "tests/migrations.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference",
+        "apply_mercadopago_payment_result"
+      ]
+    },
+    {
+      "path": "tests/private-rsvp.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "MercadoPago",
+        "Preference",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "tests/regression.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "tests/transfer-database.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "tests/webhook.test.mjs",
+      "category": "E: test",
+      "references": [
+        "mercadopago",
+        "preference"
+      ]
+    },
+    {
+      "path": "docs/02-ARQUITECTURA.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "x-signature",
+        "x-request-id",
+        "MERCADOPAGO",
+        "preference",
+        "apply_mercadopago_payment_result",
+        "provider_payment_id",
+        "prepare_mercadopago_checkout",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "docs/03-MODELO-DATOS-FLUJOS.md",
+      "category": "D: documentation",
+      "references": [
+        "external_reference",
+        "preference",
+        "provider_payment_id",
+        "mercadopago",
+        "prepare_mercadopago_checkout",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/00-BASELINE-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/20-APPLY-20260929000100.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "preference",
+        "provider_preference_id",
+        "apply_mercadopago_payment_result",
+        "external_reference",
+        "prepare_mercadopago_checkout"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/21-POSTFLIGHT-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "preference",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/30-APPLY-20260930000000.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/31-POSTFLIGHT-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "prepare_mercadopago_checkout",
+        "apply_mercadopago_payment_result"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/40-INTEGRITY-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/README.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-APLICACION-CONTROLADA/SHA256.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-AUDITORIA-PRE-DB-REMOTA.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "preference",
+        "external_reference",
+        "apply_mercadopago_payment_result",
+        "prepare_mercadopago_checkout",
+        "provider_preference_id",
+        "live_mode"
+      ]
+    },
+    {
+      "path": "docs/14-AUDITORIA-PRE-PRODUCCION.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "preference",
+        "prepare_mercadopago_checkout",
+        "provider_payment_id",
+        "live_mode",
+        "apply_mercadopago_payment_result"
+      ]
+    },
+    {
+      "path": "docs/14-CONTROLLED-PAYMENT-PREPARATION-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "preference",
+        "Preference"
+      ]
+    },
+    {
+      "path": "docs/14-CONTROLLED-PAYMENT-UI-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "Preference"
+      ]
+    },
+    {
+      "path": "docs/14-DECISION-MIGRACIONES.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "apply_mercadopago_payment_result",
+        "provider_payment_id",
+        "preference",
+        "live_mode"
+      ]
+    },
+    {
+      "path": "docs/14-MP-PAY-BUTTON-DIAGNOSTIC.md",
+      "category": "D: documentation",
+      "references": [
+        "preference",
+        "Preference",
+        "external_reference",
+        "live_mode",
+        "init_point",
+        "sandbox_init_point",
+        "MERCADOPAGO",
+        "provider_payment_id",
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-MP-PAY-BUTTON-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "preference",
+        "live_mode",
+        "external_reference",
+        "init_point",
+        "mercadopago",
+        "sandbox_init_point",
+        "provider_preference_id",
+        "provider_payment_id"
+      ]
+    },
+    {
+      "path": "docs/14-PRE-DEPLOY-FINAL.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "MERCADOPAGO"
+      ]
+    },
+    {
+      "path": "docs/14-PREFLIGHT-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-INTEGRITY-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-MANUAL-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "Preference",
+        "preference"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-MP-CHECKOUT-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "init_point",
+        "mercadopago",
+        "Preference"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-MP-PREFERENCE-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "preference",
+        "mercadopago",
+        "Preference"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-SMOKE-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-SMOKE-FOLLOWUP-EVIDENCE.json",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/14-PRODUCTION-SMOKE.md",
+      "category": "D: documentation",
+      "references": [
+        "preference",
+        "mercadopago",
+        "prepare_mercadopago_checkout",
+        "Preference",
+        "PREFERENCE",
+        "external_reference",
+        "init_point",
+        "sandbox_init_point",
+        "MERCADOPAGO",
+        "provider_payment_id",
+        "apply_mercadopago_payment_result",
+        "live_mode"
+      ]
+    },
+    {
+      "path": "docs/14-REMEDIACION-FINAL-PRE-DB.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "apply_mercadopago_payment_result",
+        "prepare_mercadopago_checkout",
+        "preference",
+        "live_mode"
+      ]
+    },
+    {
+      "path": "docs/14-REMEDIACION-SEGURIDAD.md",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "live_mode",
+        "x-signature",
+        "x-request-id",
+        "external_reference",
+        "preference"
+      ]
+    },
+    {
+      "path": "docs/15-TRANSFER-BASELINE-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "provider_payment_id",
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "docs/15-TRANSFER-POSTFLIGHT-READ-ONLY.sql",
+      "category": "D: documentation",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260824000000_initial_schema.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260827000000_cash_payment_integrity.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "provider_payment_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260828000000_mercadopago_preference_integrity.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "provider_preference_id",
+        "mercadopago",
+        "prepare_mercadopago_checkout",
+        "preference",
+        "external_reference",
+        "provider_payment_id"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260831000000_mercadopago_webhook_processing.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "apply_mercadopago_payment_result",
+        "provider_payment_id",
+        "preference",
+        "mercadopago",
+        "external_reference",
+        "provider_preference_id"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260929000100_mercadopago_payment_attempts.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "preference",
+        "provider_preference_id",
+        "apply_mercadopago_payment_result",
+        "external_reference",
+        "prepare_mercadopago_checkout"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260930000000_runtime_least_privilege.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "mercadopago"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261002000000_transfer_payment.sql",
+      "category": "C: historical schema retained",
+      "references": [
+        "mercadopago",
+        "provider_payment_id",
+        "provider_preference_id",
+        "external_reference"
+      ]
+    },
+    {
+      "path": "public/images/SOURCE.md",
+      "category": "C: historical admin display / recipient branding",
+      "references": [
+        "mercadopago"
+      ]
+    }
+  ]
+}

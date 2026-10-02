@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import TransferModal from '../../components/payment/TransferModal.astro'
+import { authorizeRegistration } from '../../lib/registrationManagement.js'
+import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
+export const prerender = false
+try {
+  const authorization = await authorizeRegistration({ request: Astro.request,
+    id: Astro.url.searchParams.get('registration') ?? '', getClient: getSupabaseServerClient,
+    fields: 'id, payment_method' })
+  if (authorization.status !== 200 || authorization.registration.payment_method !== 'transfer') return Astro.redirect('/confirmar', 303)
+} catch { return Astro.redirect('/confirmar', 303) }
+---
+<Layout title="Transferencia | Sabri y Ri" description="Datos para realizar tu transferencia.">
+  <main class="page"><section class="card" aria-labelledby="page-title">
+    <p class="monogram">S &amp; R</p><h1 id="page-title">Tu contribución</h1>
+    <p>Guardamos los datos de tus invitados.</p><p>Total: <strong data-transfer-amount>—</strong></p>
+    <p id="transfer-state" role="status">Consultando tu inscripción…</p>
+    <button type="button" id="open-transfer" disabled>Transferencia</button>
+    <button type="button" id="retry-transfer" hidden>Reintentar</button>
+    <p><a href="/">Volver a la invitación</a></p>
+  </section></main>
+  <TransferModal />
+</Layout>
+<script>
+  import { initializeTransferPayment } from '../../scripts/transferPayment.js'
+  initializeTransferPayment()
+</script>
+<style>
+  .page{min-height:100vh;padding:clamp(1.25rem,4vw,3rem);background:radial-gradient(circle at 10% 10%,rgb(242 166 182/.25),transparent 30rem),var(--wedding-background)}.card{width:min(100%,36rem);margin:auto;padding:clamp(2rem,6vw,4rem);border:1px solid rgb(123 30 58/.12);border-radius:var(--radius-soft);background:rgb(255 250 244/.94);box-shadow:var(--shadow-soft);text-align:center}.monogram{font:500 2rem var(--font-display);color:var(--wedding-primary)}h1{font:500 clamp(2.6rem,8vw,4rem)/1 var(--font-display);color:var(--wedding-primary)}p{margin:1.25rem 0;color:var(--wedding-muted)}button{min-height:3rem;padding:.8rem 1.5rem;border:0;border-radius:999px;background:var(--wedding-primary);color:white;font-weight:600}button:disabled{opacity:.6}button:focus-visible,a:focus-visible{outline:3px solid var(--wedding-secondary);outline-offset:3px}a{color:var(--wedding-primary)}[hidden]{display:none!important}
+</style>

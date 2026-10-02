@@ -1,5 +1,5 @@
 const ATTENDANCE_VALUES = new Set(['confirmed', 'cancelled'])
-const PAYMENT_METHOD_VALUES = new Set(['mercadopago', 'cash'])
+const PAYMENT_METHOD_VALUES = new Set(['transfer', 'cash'])
 const AGE_CATEGORIES = new Set(['adult', 'child', 'young_child'])
 const REGISTRATION_FIELDS = new Set(['attendance', 'adultCount', 'childCount', 'youngChildCount', 'paymentMethod'])
 const GUEST_FIELDS = new Set(['firstName', 'lastName', 'category'])

@@ -21,7 +21,7 @@ test('new migrations preserve and backfill existing payments, including free reg
     const registrations = await db.query('select jsonb_agg(to_jsonb(r) order by id) from public.registrations r')
     const original = await db.query('select json_agg(p order by id) from public.payments p')
     await db.migrate(name => name >= '20260929')
-    assert.equal(await db.query("select jsonb_agg(to_jsonb(r)-'management_token_hash' order by id) from public.registrations r"), registrations)
+    assert.equal(await db.query("select jsonb_agg(to_jsonb(r)-'management_token_hash'-'payment_reported_at' order by id) from public.registrations r"), registrations)
     assert.equal(await db.query('select count(*) from public.registrations where management_token_hash is null'), '12')
     assert.equal(await db.query("set role service_role; select outcome from public.save_registration_guests('11111111-1111-4111-8111-111111111111','[]',repeat('a',64))"), 'unauthorized')
     assert.equal(await db.query('select json_agg(p order by id) from public.payments p'), original)

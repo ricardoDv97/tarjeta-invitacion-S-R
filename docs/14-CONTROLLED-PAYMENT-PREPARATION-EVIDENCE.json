@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-10-02T02:59:06.118Z",
+  "label": "QA PAGO REAL E2E",
+  "registration": "ebff321f…9d64",
+  "operations": "GET only",
+  "manualProductionConfirmation": {
+    "source": "User confirmed all requested conditions in chat",
+    "deploymentStatus": "Ready",
+    "branch": "main",
+    "commit": "563af255f188dcf31959b02da330e145e87de5c6",
+    "environment": "production",
+    "webhookMode": "production",
+    "webhookEvent": "Pagos",
+    "webhookUrl": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago"
+  },
+  "requestCounts": {
+    "rsvp": 1,
+    "guests": 1,
+    "checkout": 1
+  },
+  "checks": {
+    "registrations": {
+      "status": 200
+    },
+    "payments": {
+      "status": 200
+    },
+    "guests": {
+      "status": 200
+    },
+    "mercadopago_payment_attempts": {
+      "status": 200
+    }
+  },
+  "paymentPerformed": false,
+  "registrationState": {
+    "guestCount": 1,
+    "adultCount": 1,
+    "childCount": 0,
+    "youngChildCount": 0,
+    "totalAmount": 35000,
+    "paymentMethod": "mercadopago",
+    "paymentStatus": "pending",
+    "attendanceStatus": "pending",
+    "guestLabel": "QA PAGO REAL E2E",
+    "guestCategory": "adult"
+  },
+  "accountingPayment": {
+    "rows": 1,
+    "provider": "mercadopago",
+    "preference": "55780589…b993",
+    "externalReference": "ebff321f…9d64",
+    "externalReferenceMatches": true,
+    "amount": 35000,
+    "currency": "ARS",
+    "status": "pending",
+    "providerPaymentIdPresent": false,
+    "paidAtPresent": false
+  },
+  "attempts": {
+    "total": 0,
+    "approved": 0
+  },
+  "preference": {
+    "httpStatus": 200,
+    "id": "55780589…b993",
+    "idMatches": true,
+    "externalReference": "ebff321f…9d64",
+    "externalReferenceMatches": true,
+    "initPoint": {
+      "host": "www.mercadopago.com.ar",
+      "path": "/checkout/v1/redirect",
+      "https": true,
+      "hasPreferenceQuery": true
+    },
+    "initPointMatchesBrowserResponse": true,
+    "items": [
+      {
+        "quantity": 1,
+        "amount": 35000,
+        "currency": "ARS"
+      }
+    ],
+    "backUrlsUseProduction": true,
+    "notificationUrlPresent": false,
+    "autoReturn": "approved"
+  },
+  "result": "READY FOR USER PAYMENT — NOT PAID"
+}

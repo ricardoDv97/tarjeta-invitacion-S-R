@@ -29,9 +29,9 @@ values ('00000000-0000-0000-0000-000000000000');
 
 No colocar emails ni contraseñas en migraciones o variables versionadas. La migración permanece local hasta su auditoría; no ejecutar `db push` antes de aprobarla.
 
-> Estado funcional: Sprint 10 — Webhook firmado y validación server-side de pagos Mercado Pago, preparado localmente para auditoría.
+> Estado funcional local: Sprint 15 — transferencia manual y efectivo, pendiente de auditoría y rollout.
 
-El navegador crea la inscripción y guarda el grupo completo. Efectivo conserva su transición transaccional; Mercado Pago solicita server-side una preferencia de Checkout Pro mediante `POST /api/registrations/[id]/mercadopago`. La base es autoridad de monto y estados. Los redirects son informativos; sólo el Webhook firmado, tras consultar Mercado Pago server-side, puede aplicar el resultado definitivo.
+El navegador crea la inscripción y guarda el grupo completo. Transferencia prepara una fila pendiente y permite informar el pago sin aprobarlo. Sólo el admin verifica recepción y confirma pago/asistencia. Efectivo conserva su flujo separado. Checkout Pro y webhook online están retirados (410). [Arquitectura y rollout Sprint 15](docs/15-TRANSFER-PAYMENT-MIGRATION.md).
 
 Invitación web digital para la boda S&R desarrollada con Astro y Tailwind CSS.
 
@@ -76,15 +76,14 @@ npm run preview
 1. Copiá `.env.example` como `.env`.
 2. Completá `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` para el cliente público.
 3. Agregá manualmente `SUPABASE_SECRET_KEY` para la API server-side de RSVP. Nunca uses esta clave en el frontend.
-4. Agregá `MERCADOPAGO_ACCESS_TOKEN` exclusivamente server-side, `MERCADOPAGO_ENVIRONMENT=test` para credenciales de prueba y `PUBLIC_SITE_URL` con el origen HTTPS público usado en las back URLs. Usá `MERCADOPAGO_ENVIRONMENT=production` sólo cuando se habiliten pagos reales.
-5. Configurá `MERCADOPAGO_WEBHOOK_SECRET` exclusivamente server-side con la clave generada en Mercado Pago Developers > Webhooks. No reutilices el Access Token.
-6. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
+4. Conservá `PUBLIC_SITE_URL` con el dominio público del proyecto. Transferencia usa configuración central en `src/config/wedding.js`; no requiere SDK ni credenciales de Mercado Pago.
+5. No versiones `.env`. Las migraciones SQL están en `supabase/migrations`.
 
 El build funciona sin credenciales. Los clientes sólo se crean al solicitarlos y, si falta configuración, informan un error controlado. El RSVP escribe mediante `POST /api/registrations`; el navegador no inserta directamente en Supabase.
 
 ## Arquitectura
 
-El endpoint `POST /api/webhooks/mercadopago` valida firma, consulta el payment real a Mercado Pago y ejecuta una RPC atómica. El body y los redirects nunca son autoridad de pago.
+El pago informado se registra server-side mediante `/api/registrations/:id/payment-reported` con management cookie. La aprobación manual usa `/api/admin/registrations/:id/transfer/approve`, Supabase Auth/allowlist y RPC transaccional service_role.
 
 - `components`: UI y componentes reutilizables
 - `layouts`: layouts de página
@@ -98,4 +97,4 @@ El endpoint `POST /api/webhooks/mercadopago` valida firma, consulta el payment r
 
 ## Estado actual
 
-Sprint 13 — contenido real, galería y refinamiento visual. Sprints 01–12 aprobados según el contexto recibido. Sprint 14 no iniciado.
+Sprint 15 — transferencia manual. Migración remota y postflight PASS confirmados por el usuario; auditoría final local PASS, commit/push y deployment automático autorizados. Historia y evidencias del Sprint 14 preservadas.

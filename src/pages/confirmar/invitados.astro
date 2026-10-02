@@ -16,7 +16,7 @@ try {
     <div id="loading" class="state" role="status">Cargando inscripción…</div>
     <div id="unavailable" class="state" hidden><h2>No pudimos continuar</h2><p id="unavailable-message">La referencia no está disponible.</p><a href="/confirmar">Volver a confirmar</a></div>
     <form id="guests-form" novalidate hidden><div id="guest-groups"></div><div class="actions"><button id="submit" type="submit"><span data-idle>Guardar invitados</span><span data-loading hidden>Confirmando…</span></button><p id="feedback" class="error" role="status" aria-live="polite"></p></div></form>
-    <div id="success" class="state" hidden><h2>Invitados registrados</h2><p>Guardamos los datos de todo tu grupo. El paso de pago se habilitará próximamente.</p><a href="/">Volver a la invitación</a></div>
+    <div id="success" class="state" hidden><h2>Invitados registrados</h2><p>Guardamos los datos de todo tu grupo. Podés volver a la invitación.</p><a href="/">Volver a la invitación</a></div>
   </section></main>
 </Layout>
 
@@ -80,16 +80,8 @@ try {
         window.location.assign(`/pago/efectivo?registration=${encodeURIComponent(reference)}`)
         return
       }
-      if (result.nextStep === 'mercadopago' && paymentMethod === 'mercadopago') {
-        const mpResponse = await fetch(`/api/registrations/${encodeURIComponent(reference)}/mercadopago`, { method: 'POST', headers: { Accept: 'application/json' } })
-        const mpResult = await mpResponse.json().catch(() => null)
-        if (!mpResponse.ok || !mpResult?.ok) throw new Error(mpResult?.message || 'Guardamos los invitados, pero no pudimos iniciar Mercado Pago. Intentá nuevamente.')
-        if (mpResult.nextStep === 'mercadopago-free') {
-          window.location.assign(`/pago/exitoso?registration=${encodeURIComponent(reference)}`)
-          return
-        }
-        if (mpResult.nextStep !== 'mercadopago-checkout' || typeof mpResult.checkoutUrl !== 'string') throw new Error('Mercado Pago no devolvió un checkout válido.')
-        window.location.assign(mpResult.checkoutUrl)
+      if (result.nextStep === 'transfer' && paymentMethod === 'transfer') {
+        window.location.assign(`/pago/transferencia?registration=${encodeURIComponent(reference)}`)
         return
       }
       form.hidden = true; document.querySelector('#success').hidden = false

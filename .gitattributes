@@ -3,3 +3,6 @@
 /supabase/migrations/20260929000100_mercadopago_payment_attempts.sql text eol=lf
 /supabase/migrations/20260930000000_runtime_least_privilege.sql text eol=lf
 /docs/14-APLICACION-CONTROLADA/*.sql text eol=lf
+# Preserve the frozen Sprint 15 source and controlled package bytes (including existing line endings).
+/supabase/migrations/20261002000000_transfer_payment.sql -text whitespace=cr-at-eol
+/docs/15-APLICACION-CONTROLADA/*.sql -text whitespace=cr-at-eol

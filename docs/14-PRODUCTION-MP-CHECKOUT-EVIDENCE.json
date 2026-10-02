@@ -1,0 +1,45 @@
+{
+  "origin": "https://invitacion-boda-syr.vercel.app",
+  "startedAt": "2026-10-02T01:36:52.921Z",
+  "checks": [
+    {
+      "name": "existing init_point",
+      "result": {
+        "host": "www.mercadopago.com.ar",
+        "path": "/checkout/v1/redirect",
+        "hasPreferenceQuery": true
+      }
+    },
+    {
+      "name": "checkout HTTP response",
+      "result": {
+        "url": {
+          "host": "www.mercadopago.com.ar",
+          "path": "/checkout/v1/redirect"
+        },
+        "status": 403,
+        "headers": {
+          "content-type": "text/html",
+          "server": "CloudFront"
+        }
+      }
+    },
+    {
+      "name": "checkout visible",
+      "result": {
+        "host": "www.mercadopago.com.ar",
+        "path": "/checkout/v1/redirect",
+        "title": "",
+        "text": "Mercado Libre - Donde comprar y vender de todo\n\n\nHubo un error accediendo a esta pagina...\nIr a la página principal",
+        "readyState": "complete"
+      }
+    },
+    {
+      "name": "browser exceptions",
+      "result": []
+    }
+  ],
+  "records": [],
+  "exceptions": [],
+  "finishedAt": "2026-10-02T01:37:06.744Z"
+}

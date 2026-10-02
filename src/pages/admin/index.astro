@@ -31,7 +31,7 @@ const stats = dashboard ? [
           <label class="text-sm font-medium">Búsqueda<input id="admin-search" type="search" placeholder="Nombre, apellido o ID" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal" /></label>
           <label class="text-sm font-medium">Asistencia<select id="attendance-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="pending">Pendiente</option><option value="confirmed">Confirmada</option><option value="cancelled">Cancelada</option></select></label>
           <label class="text-sm font-medium">Pago<select id="payment-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="pending">Pendiente</option><option value="approved">Aprobado</option><option value="rejected">Rechazado</option><option value="cancelled">Cancelado</option></select></label>
-          <label class="text-sm font-medium">Método<select id="method-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="cash">Efectivo</option><option value="mercadopago">Mercado Pago</option></select></label>
+          <label class="text-sm font-medium">Método<select id="method-filter" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 font-normal"><option value="">Todos</option><option value="cash">Efectivo</option><option value="transfer">Transferencia</option><option value="mercadopago">Mercado Pago (histórico)</option></select></label>
         </div></section>
         <section id="inscripciones"><h2 class="mb-4 text-2xl font-semibold">Registrations</h2><RegistrationsTable registrations={dashboard.registrations} /></section>
         <section id="invitados"><h2 class="mb-4 text-2xl font-semibold">Invitados</h2><GuestsTable guests={dashboard.guests} registrationsById={dashboard.registrationsById} /></section>
@@ -59,16 +59,17 @@ const stats = dashboard ? [
     })
   }
   ;[search, attendance, payment, method].forEach((control) => { control?.addEventListener('input', filter); control?.addEventListener('change', filter) })
-  document.querySelectorAll('[data-cash-approve]').forEach((element) => element.addEventListener('click', async () => {
+  document.querySelectorAll('[data-cash-approve], [data-transfer-approve]').forEach((element) => element.addEventListener('click', async () => {
     if (!(element instanceof HTMLButtonElement)) return
     const registrationId = element.dataset.registrationId
-    if (!registrationId || !window.confirm('¿Confirmás que este pago en efectivo fue cobrado?')) return
+    const method = element.hasAttribute('data-transfer-approve') ? 'transfer' : 'cash'
+    if (!registrationId || !window.confirm(method === 'transfer' ? '¿Confirmás que verificaste y recibiste esta transferencia?' : '¿Confirmás que este pago en efectivo fue cobrado?')) return
     const toast = document.querySelector('#admin-toast')
     element.disabled = true
     try {
-      const response = await fetch(`/api/admin/registrations/${encodeURIComponent(registrationId)}/cash/approve`, { method: 'POST', headers: { Accept: 'application/json' } })
+      const response = await fetch(`/api/admin/registrations/${encodeURIComponent(registrationId)}/${method}/approve`, { method: 'POST', headers: { Accept: 'application/json' } })
       if (!response.ok) throw new Error('approval_failed')
-      if (toast) { toast.textContent = 'Pago en efectivo aprobado.'; toast.classList.remove('hidden') }
+      if (toast) { toast.textContent = method === 'transfer' ? 'Transferencia aprobada.' : 'Pago en efectivo aprobado.'; toast.classList.remove('hidden') }
       window.setTimeout(() => window.location.reload(), 700)
     } catch {
       if (toast) { toast.textContent = 'No fue posible completar la operación.'; toast.classList.remove('hidden') }

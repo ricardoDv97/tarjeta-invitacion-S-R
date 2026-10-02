@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-10-02T22:26:24.460Z",
+  "status": "APPROVED FOR REMOTE MIGRATION subject to human review and remote preflight",
+  "scope": "Local PostgreSQL 16 ephemeral cluster, no remote reads or writes",
+  "source": {
+    "path": "supabase/migrations/20261002000000_transfer_payment.sql",
+    "sha256": "bd797423b1560b0bc3c12ac9ef59fe050c513bd363a6ea2914da33cde96c37bc",
+    "bytes": 11802
+  },
+  "correctionsBeforeFreeze": [
+    "report requires existing accounting row; no insert side effect",
+    "explicit postgres owner for three transfer RPCs"
+  ],
+  "tests": {
+    "transferAndCompatibility": {
+      "passed": 39,
+      "failed": 0
+    },
+    "controlledPackage": {
+      "passed": 2,
+      "failed": 0
+    },
+    "fullPreviousSuite": "Historical 175-pass result predates correction; not re-run or attributed to new SHA"
+  },
+  "packageChecks": [
+    "hashes match",
+    "embedded source byte exact",
+    "baseline SQL executes",
+    "apply executes atomically",
+    "history registered",
+    "all postflight and integrity SQL execute",
+    "legacy data and hashes unchanged",
+    "ACL/RLS/policies/legacy functions unchanged",
+    "wrong history rejected",
+    "public column grant rejected",
+    "unexpected data change rolls back",
+    "late failure rolls back",
+    "second application rejected"
+  ],
+  "diffCheck": true,
+  "remoteMigration": false,
+  "remotePreflight": false,
+  "remoteDataModified": false,
+  "commit": false,
+  "push": false,
+  "deploy": false,
+  "secretsModified": false
+}

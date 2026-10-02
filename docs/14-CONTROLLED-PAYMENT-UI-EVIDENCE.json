@@ -1,0 +1,80 @@
+{
+  "origin": "https://invitacion-boda-syr.vercel.app",
+  "startedAt": "2026-10-02T02:57:31.656Z",
+  "checks": [
+    {
+      "name": "RSVP initial UI",
+      "result": {
+        "adult": "1",
+        "children": "0",
+        "youngChildren": "0",
+        "total": "$ 35.000"
+      }
+    },
+    {
+      "name": "rsvp response",
+      "result": {
+        "status": 201,
+        "ok": true,
+        "registration": "ebff321f…9d64",
+        "checkoutHost": null,
+        "nextStep": "guests"
+      }
+    },
+    {
+      "name": "management cookie metadata",
+      "result": {
+        "count": 1,
+        "attributes": [
+          {
+            "httpOnly": true,
+            "secure": true,
+            "sameSite": "Lax",
+            "path": "/"
+          }
+        ]
+      }
+    },
+    {
+      "name": "guests response",
+      "result": {
+        "status": 201,
+        "ok": true,
+        "registration": null,
+        "checkoutHost": null,
+        "nextStep": "mercadopago"
+      }
+    },
+    {
+      "name": "checkout response",
+      "result": {
+        "status": 200,
+        "ok": true,
+        "registration": null,
+        "checkoutHost": "www.mercadopago.com.ar",
+        "nextStep": "mercadopago-checkout"
+      }
+    },
+    {
+      "name": "preparation complete",
+      "result": {
+        "registration": "ebff321f…9d64",
+        "label": "QA PAGO REAL E2E",
+        "requestCounts": {
+          "rsvp": 1,
+          "guests": 1,
+          "checkout": 1
+        },
+        "checkout": {
+          "host": "www.mercadopago.com.ar",
+          "path": "/checkout/v1/redirect",
+          "hasPreferenceQuery": true
+        },
+        "paymentPerformed": false
+      }
+    }
+  ],
+  "records": [],
+  "exceptions": [],
+  "finishedAt": "2026-10-02T02:57:43.541Z"
+}

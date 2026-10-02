@@ -1,0 +1,674 @@
+{
+  "origin": "https://invitacion-boda-syr.vercel.app",
+  "startedAt": "2026-10-01T17:36:27.863Z",
+  "checks": [
+    {
+      "name": "invitation",
+      "result": {
+        "url": "https://invitacion-boda-syr.vercel.app/",
+        "title": "Sabri & Ri — Nos casamos",
+        "h1": "Sabri & Ri",
+        "rsvp": true
+      }
+    },
+    {
+      "name": "assets",
+      "result": [
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        }
+      ]
+    },
+    {
+      "name": "/confirmar",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10088,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "/admin",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/admin/login",
+        "cache": "private, no-store",
+        "referrer": null,
+        "length": 3243,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "/admin/login",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/admin/login",
+        "cache": "private, no-store",
+        "referrer": null,
+        "length": 3243,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "cash RSVP",
+      "result": {
+        "status": 201,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "registrationId": "8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+          "nextStep": "guests"
+        }
+      }
+    },
+    {
+      "name": "cash cookies",
+      "result": {
+        "attributes": [
+          {
+            "httpOnly": true,
+            "secure": true,
+            "sameSite": "Lax",
+            "path": "/",
+            "expires": 1790962600.36748
+          }
+        ],
+        "visible": false
+      }
+    },
+    {
+      "name": "cash authorized read",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "registrationId": "8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+          "guestCount": 1,
+          "adultCount": 1,
+          "childCount": 0,
+          "youngChildCount": 0,
+          "paymentMethod": "cash"
+        }
+      }
+    },
+    {
+      "name": "cash UUID only ",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "cash UUID only /guests",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No tenés autorización para esta inscripción. Volvé a confirmar."
+        }
+      }
+    },
+    {
+      "name": "cash UUID only /cash",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/cash",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "cash UUID only /mercadopago",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/mercadopago",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "cash private page without cookie",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10088,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "cash private page authorized",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar/invitados?registration=8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10032,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "cash save guests",
+      "result": {
+        "status": 201,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "nextStep": "cash"
+        }
+      }
+    },
+    {
+      "name": "cash persistent retry",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "nextStep": "cash"
+        }
+      }
+    },
+    {
+      "name": "cash conflicting retry",
+      "result": {
+        "status": 409,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "Los invitados de esta inscripción ya fueron registrados."
+        }
+      }
+    },
+    {
+      "name": "cash payment preparation",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c/cash",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "paymentStatus": "pending",
+          "attendanceStatus": "confirmed",
+          "nextStep": "cash-pending"
+        }
+      }
+    },
+    {
+      "name": "cash payment page",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/pago/efectivo?registration=8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 5183,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "mercadopago RSVP",
+      "result": {
+        "status": 201,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "registrationId": "10853c60-4b91-4a0b-b717-81953109c7ca",
+          "nextStep": "guests"
+        }
+      }
+    },
+    {
+      "name": "mercadopago cookies",
+      "result": {
+        "attributes": [
+          {
+            "httpOnly": true,
+            "secure": true,
+            "sameSite": "Lax",
+            "path": "/",
+            "expires": 1790962605.682946
+          }
+        ],
+        "visible": false
+      }
+    },
+    {
+      "name": "mercadopago authorized read",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "registrationId": "10853c60-4b91-4a0b-b717-81953109c7ca",
+          "guestCount": 1,
+          "adultCount": 1,
+          "childCount": 0,
+          "youngChildCount": 0,
+          "paymentMethod": "mercadopago"
+        }
+      }
+    },
+    {
+      "name": "mercadopago UUID only ",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "mercadopago UUID only /guests",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No tenés autorización para esta inscripción. Volvé a confirmar."
+        }
+      }
+    },
+    {
+      "name": "mercadopago UUID only /cash",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/cash",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "mercadopago UUID only /mercadopago",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/mercadopago",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "mercadopago private page without cookie",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10088,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "mercadopago private page authorized",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar/invitados?registration=10853c60-4b91-4a0b-b717-81953109c7ca",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10032,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "mercadopago save guests",
+      "result": {
+        "status": 201,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "nextStep": "mercadopago"
+        }
+      }
+    },
+    {
+      "name": "mercadopago persistent retry",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "nextStep": "mercadopago"
+        }
+      }
+    },
+    {
+      "name": "mercadopago conflicting retry",
+      "result": {
+        "status": 409,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/guests",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "Los invitados de esta inscripción ya fueron registrados."
+        }
+      }
+    },
+    {
+      "name": "mercadopago payment preparation",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca/mercadopago",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": true,
+          "checkoutUrl": "https://www.mercadopago.com.ar/checkout/v1/redirect",
+          "nextStep": "mercadopago-checkout"
+        }
+      }
+    },
+    {
+      "name": "mercadopago payment page",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/pago/pendiente?registration=10853c60-4b91-4a0b-b717-81953109c7ca",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 3601,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "checkout provider without paying",
+      "result": {
+        "origin": "https://www.mercadopago.com.ar",
+        "path": "/checkout/v1/redirect",
+        "title": "",
+        "text": "Mercado Libre - Donde comprar y vender de todo\n\n\nHubo un error accediendo a esta pagina...\nIr a la página principal"
+      }
+    },
+    {
+      "name": "webhook missing signature",
+      "result": {
+        "status": 401,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=payment&data.id=999999999999",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": false,
+          "message": "La firma no es válida."
+        }
+      }
+    },
+    {
+      "name": "webhook invalid signature",
+      "result": {
+        "status": 401,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=payment&data.id=999999999999",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": false,
+          "message": "La firma no es válida."
+        }
+      }
+    },
+    {
+      "name": "webhook ignored",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=unknown",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": true,
+          "processed": false
+        }
+      }
+    },
+    {
+      "name": "browser exceptions",
+      "result": []
+    }
+  ],
+  "records": [
+    {
+      "id": "8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+      "method": "cash",
+      "guest": "SmokeProduction cash"
+    },
+    {
+      "id": "10853c60-4b91-4a0b-b717-81953109c7ca",
+      "method": "mercadopago",
+      "guest": "SmokeProduction mercadopago"
+    }
+  ],
+  "exceptions": [],
+  "finishedAt": "2026-10-01T17:36:55.720Z"
+}

@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-10-02T01:35:59.963Z",
+  "registration": "10853c60…c7ca",
+  "operations": "GET only",
+  "localConfiguration": {
+    "supabaseUrlPresent": true,
+    "supabaseSecretPresent": true,
+    "mpTokenPresent": true,
+    "mpEnvironment": "production"
+  },
+  "runtimeConfiguration": "Not directly observed",
+  "database": {
+    "registrationHttpStatus": 200,
+    "paymentHttpStatus": 200,
+    "networkError": false,
+    "existingSmokeMatched": true,
+    "payment": {
+      "preference": "55780589…9ee5",
+      "externalReference": "10853c60…c7ca",
+      "externalReferenceMatches": true,
+      "amount": 35000,
+      "expectedAmount": 35000,
+      "currency": "ARS",
+      "status": "pending",
+      "registrationPaymentStatus": "pending",
+      "paidAtPresent": false,
+      "providerPaymentIdPresent": false,
+      "createdAt": "2026-10-01T17:36:49.173414+00:00",
+      "updatedAt": "2026-10-01T17:36:49.475805+00:00"
+    }
+  },
+  "preference": {
+    "httpStatus": 200,
+    "networkError": false,
+    "id": "55780589…9ee5",
+    "idMatches": true,
+    "externalReference": "10853c60…c7ca",
+    "externalReferenceMatches": true,
+    "initPoint": {
+      "host": "www.mercadopago.com.ar",
+      "path": "/checkout/v1/redirect",
+      "https": true,
+      "hasPreferenceQuery": true
+    },
+    "sandboxInitPoint": {
+      "host": "sandbox.mercadopago.com.ar",
+      "path": "/checkout/v1/redirect",
+      "https": true,
+      "hasPreferenceQuery": true
+    },
+    "items": [
+      {
+        "currency": "ARS",
+        "quantity": 1,
+        "unitPrice": 35000
+      }
+    ],
+    "amountMatches": true,
+    "backUrls": {
+      "failure": {
+        "host": "invitacion-boda-syr.vercel.app",
+        "path": "/pago/error",
+        "https": true,
+        "hasPreferenceQuery": false
+      },
+      "pending": {
+        "host": "invitacion-boda-syr.vercel.app",
+        "path": "/pago/pendiente",
+        "https": true,
+        "hasPreferenceQuery": false
+      },
+      "success": {
+        "host": "invitacion-boda-syr.vercel.app",
+        "path": "/pago/exitoso",
+        "https": true,
+        "hasPreferenceQuery": false
+      }
+    },
+    "notificationUrl": null,
+    "autoReturn": "approved",
+    "expires": false,
+    "expirationDateFrom": null,
+    "expirationDateTo": null,
+    "dateCreated": "2026-10-01T13:36:49.418-04:00",
+    "liveMode": null
+  }
+}

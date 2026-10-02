@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-10-02T22:40:18.840Z",
+  "status": "READY FOR REMOTE APPLY subject to reviewed remote preflight and human authorization",
+  "original": "CREATE TEMP TABLE ... ON COMMIT DROP; no persistent public snapshot defined",
+  "reason": "Transaction-only comparison of application data and security before/after migration",
+  "correction": [
+    "explicit pg_temp qualification",
+    "REVOKE ALL to PUBLIC/anon/authenticated/service_role on TEMP only",
+    "explicit DROP before history INSERT/COMMIT",
+    "guard rejects preexisting public snapshot without deleting it"
+  ],
+  "source": {
+    "path": "supabase/migrations/20261002000000_transfer_payment.sql",
+    "sha256": "bd797423b1560b0bc3c12ac9ef59fe050c513bd363a6ea2914da33cde96c37bc",
+    "bytes": 11802
+  },
+  "apply": {
+    "path": "docs/15-APLICACION-CONTROLADA/10-APPLY-20261002000000.sql",
+    "sha256": "85e7814c0b3094a9e914962bf6fc49a5b14d12f93dac01060744e89e117ad77f"
+  },
+  "sourceChanged": false,
+  "tests": {
+    "package": {
+      "passed": 3,
+      "failed": 0
+    },
+    "rollbackWithoutExplicitDrop": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "verified": [
+    "TEMP relpersistence=t and pg_temp namespace",
+    "no runtime role SELECT privilege",
+    "no public snapshot",
+    "absent after COMMIT in same session",
+    "absent after ROLLBACK without explicit DROP in same session",
+    "public table list unchanged",
+    "source byte exact and package SHA256 matches",
+    "legacy data/security preserved",
+    "guards and late failure roll back"
+  ],
+  "diffCheck": true,
+  "remoteExecution": false,
+  "remoteState": "Cancellation reported by user; not independently inspected",
+  "dbPush": false,
+  "commit": false,
+  "push": false,
+  "deploy": false
+}

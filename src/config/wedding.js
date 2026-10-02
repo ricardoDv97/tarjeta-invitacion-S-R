@@ -16,7 +16,7 @@ export const wedding = {
     description: 'Te esperamos para compartir juntos esta noche tan especial.',
     mapUrl: 'https://maps.app.goo.gl/bp1X7bPJ3mufhSqv7',
   },
-  payment: { enabled: true, pricePerGuest: 35000, childPrice: 10000, youngChildPrice: 0 },
+  payment: { enabled: true, pricePerGuest: 35000, childPrice: 10000, youngChildPrice: 0, transfer: { provider: 'Mercado Pago', alias: 'ricardo.mpsyr', holder: '' } },
   rsvp: {
     title: '¡Queremos celebrarlo con vos!',
     description: 'Será una alegría contar con tu presencia en este día tan especial.',

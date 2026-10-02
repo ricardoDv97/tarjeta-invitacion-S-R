@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-10-02T02:01:50.870Z",
+  "operations": "GET only",
+  "checks": {
+    "registrations": {
+      "httpStatus": 200
+    },
+    "payments": {
+      "httpStatus": 200
+    },
+    "guests": {
+      "httpStatus": 200
+    },
+    "mercadopago_payment_attempts": {
+      "httpStatus": 200
+    },
+    "admin_users": {
+      "httpStatus": 200
+    }
+  },
+  "legacy": {
+    "count": 12,
+    "expectedCount": 12,
+    "allCreatedBeforeSmoke": true,
+    "registrationsUpdatedDuringOrAfterSmoke": 0,
+    "guestsUpdatedDuringOrAfterSmoke": 0,
+    "paymentsUpdatedDuringOrAfterSmoke": 0,
+    "guestCount": 7,
+    "paymentCount": 5,
+    "baselineComparison": "No prior per-record snapshot available; timestamps are evidence, not a complete change audit"
+  },
+  "integrity": {
+    "orphanPayments": 0,
+    "duplicateAccountingGroups": 0,
+    "invalidGuestGroups": 0,
+    "invalidMPCorrelations": 0
+  },
+  "webhookEvidence": {
+    "totalAttempts": 0,
+    "attemptsCreatedDuringOrAfterSmoke": 0,
+    "attemptsUpdatedDuringOrAfterSmoke": 0,
+    "smokePayments": [
+      {
+        "registration": "8b5172e3…093c",
+        "provider": "cash",
+        "status": "pending",
+        "providerPaymentIdPresent": false,
+        "paidAtPresent": false,
+        "createdAt": "2026-10-01T17:36:44.629482+00:00",
+        "updatedAt": "2026-10-01T17:36:44.629482+00:00"
+      },
+      {
+        "registration": "10853c60…c7ca",
+        "provider": "mercadopago",
+        "status": "pending",
+        "providerPaymentIdPresent": false,
+        "paidAtPresent": false,
+        "createdAt": "2026-10-01T17:36:49.173414+00:00",
+        "updatedAt": "2026-10-01T17:36:49.475805+00:00"
+      }
+    ],
+    "runtimeLogs": "Not accessed; database state does not prove RPC was never invoked"
+  },
+  "allowlist": {
+    "rowCount": 1,
+    "realSessionMembership": "Pending manual login; no identity inferred"
+  }
+}

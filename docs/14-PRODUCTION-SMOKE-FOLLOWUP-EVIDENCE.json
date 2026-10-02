@@ -1,0 +1,309 @@
+{
+  "origin": "https://invitacion-boda-syr.vercel.app",
+  "startedAt": "2026-10-02T00:22:39.078Z",
+  "checks": [
+    {
+      "name": "invitation",
+      "result": {
+        "url": "https://invitacion-boda-syr.vercel.app/",
+        "title": "Sabri & Ri — Nos casamos",
+        "h1": "Sabri & Ri",
+        "rsvp": true
+      }
+    },
+    {
+      "name": "assets",
+      "result": [
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        },
+        {
+          "loaded": true,
+          "src": "/_image"
+        }
+      ]
+    },
+    {
+      "name": "/confirmar",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/confirmar",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "length": 10088,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "/admin",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/admin/login",
+        "cache": "private, no-store",
+        "referrer": null,
+        "length": 3243,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "/admin/login",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/admin/login",
+        "cache": "private, no-store",
+        "referrer": null,
+        "length": 3243,
+        "smokeName": false
+      }
+    },
+    {
+      "name": "existing registration UUID only",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/8b5172e3-3dd3-4b45-86c9-1486b8d4093c",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "existing registration UUID only",
+      "result": {
+        "status": 403,
+        "url": "https://invitacion-boda-syr.vercel.app/api/registrations/10853c60-4b91-4a0b-b717-81953109c7ca",
+        "cache": "private, no-store",
+        "referrer": "no-referrer",
+        "data": {
+          "ok": false,
+          "message": "No pudimos autorizar esta inscripción."
+        }
+      }
+    },
+    {
+      "name": "webhook missing signature",
+      "result": {
+        "status": 401,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=payment&data.id=999999999999",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": false,
+          "message": "La firma no es válida."
+        }
+      }
+    },
+    {
+      "name": "webhook invalid signature",
+      "result": {
+        "status": 401,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=payment&data.id=999999999999",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": false,
+          "message": "La firma no es válida."
+        }
+      }
+    },
+    {
+      "name": "webhook ignored",
+      "result": {
+        "status": 200,
+        "url": "https://invitacion-boda-syr.vercel.app/api/webhooks/mercadopago?type=unknown",
+        "cache": "no-store",
+        "referrer": null,
+        "data": {
+          "ok": true,
+          "processed": false
+        }
+      }
+    },
+    {
+      "name": "browser exceptions",
+      "result": []
+    }
+  ],
+  "records": [],
+  "exceptions": [],
+  "finishedAt": "2026-10-02T00:23:00.589Z"
+}

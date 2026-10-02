@@ -1,7 +1,7 @@
 import { wedding as weddingConfig } from '../config/wedding.js'
 import { getSupabaseServerClient } from './supabaseServer.js'
 
-const registrationFields = 'id, contact_name, guest_count, adult_count, child_count, young_child_count, attendance_status, payment_method, payment_status, total_amount, created_at'
+const registrationFields = 'id, contact_name, guest_count, adult_count, child_count, young_child_count, attendance_status, payment_method, payment_status, total_amount, payment_reported_at, created_at'
 const guestFields = 'id, registration_id, first_name, last_name, age_category, created_at'
 const paymentFields = 'id, registration_id, provider, amount, currency, status, provider_payment_id, provider_preference_id, paid_at, created_at'
 

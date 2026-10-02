@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-10-02T22:55:06.848Z",
+  "scope": "Final local audit before authorized commit/push; production DB migration confirmed manually by user",
+  "tests": {
+    "command": "npm test",
+    "passed": 180,
+    "failed": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "pass": true
+  },
+  "audit": {
+    "command": "npm audit --json",
+    "vulnerabilities": 0
+  },
+  "diffCheck": true,
+  "secretScan": "Known values and credential patterns, zero findings; .env ignored and untracked",
+  "temporaryQAHelpers": "Removed; sanitized evidence and permanent tests retained",
+  "unchanged": [
+    "hero",
+    "gallery",
+    "existing photos",
+    "wedding date",
+    "prices"
+  ],
+  "frozenSql": "Git -text attributes preserve reviewed bytes; staged hashes checked before commit",
+  "plannedCommit": "feat: replace Mercado Pago checkout with bank transfer flow",
+  "deployment": "Wait for automatic Git deployment; no manual duplicate",
+  "productionWritesAuthorized": false,
+  "mpEnv": "Preserved until production smoke PASS"
+}

@@ -1,26 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import PaymentReturn from '../../components/payment/PaymentReturn.astro'
-import { getSupabaseServerClient } from '../../lib/supabaseServer.js'
-import { isValidUuid } from '../../lib/validation.js'
-import { authorizeRegistration } from '../../lib/registrationManagement.js'
-
 export const prerender = false
-const reference = Astro.url.searchParams.get('registration') ?? ''
-let isFree = false
-if (isValidUuid(reference)) {
-  try {
-    const authorization = await authorizeRegistration({ request: Astro.request, id: reference, getClient: getSupabaseServerClient,
-      fields: 'total_amount, payment_method, payment_status, attendance_status, payments!inner(provider, amount, status)' })
-    const data = authorization.registration
-    isFree = data?.payment_method === 'mercadopago'
-      && data.attendance_status === 'confirmed' && data.payment_status === 'approved'
-      && Number(data.total_amount) === 0 && data.payments?.length === 1
-      && data.payments[0].provider === 'mercadopago'
-      && data.payments[0].status === 'approved' && Number(data.payments[0].amount) === 0
-  } catch { isFree = false }
-}
+Astro.response.status = 410
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 ---
-<Layout title="Resultado de Mercado Pago | Sabri y Ri" description="Resultado del checkout para la boda de Ricardo y Sabrina.">
-  <PaymentReturn kind="success" {isFree} />
-</Layout>
+<html lang="es"><head><title>Servicio retirado</title><meta name="robots" content="noindex" /></head><body><h1>Este servicio de pago fue retirado.</h1><a href="/confirmar">Volver a confirmar</a></body></html>

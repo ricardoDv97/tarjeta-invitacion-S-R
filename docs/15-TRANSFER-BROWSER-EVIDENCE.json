@@ -1,0 +1,364 @@
+{
+  "timestamp": "2026-10-02T21:57:39.028Z",
+  "scope": "Astro real, synthetic loopback Supabase/Auth, ephemeral PostgreSQL. Form handlers submitted via requestSubmit; modal buttons via agent-browser clicks.",
+  "checks": [
+    {
+      "name": "real guest form handlers lead to transfer page",
+      "pass": true
+    },
+    {
+      "name": "server amount is 35000",
+      "pass": true
+    },
+    {
+      "name": "modal opens via actual button",
+      "pass": true
+    },
+    {
+      "name": "alias correct and holder absent",
+      "pass": true
+    },
+    {
+      "name": "modal layout 375",
+      "pass": true
+    },
+    {
+      "name": "modal layout 390",
+      "pass": true
+    },
+    {
+      "name": "modal layout 768",
+      "pass": true
+    },
+    {
+      "name": "modal layout 1024",
+      "pass": true
+    },
+    {
+      "name": "modal layout 1440",
+      "pass": true
+    },
+    {
+      "name": "copy alias reports success",
+      "pass": true
+    },
+    {
+      "name": "actual native clipboard write receives exact alias",
+      "pass": true
+    },
+    {
+      "name": "Escape closes and restores focus",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 0",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 1",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 2",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 3",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 4",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 5",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 6",
+      "pass": true
+    },
+    {
+      "name": "native dialog traps focus 7",
+      "pass": true
+    },
+    {
+      "name": "No permits finish while pending",
+      "pass": true
+    },
+    {
+      "name": "finish returns to invitation",
+      "pass": true
+    },
+    {
+      "name": "No leaves declaration absent after reload",
+      "pass": true
+    },
+    {
+      "name": "Yes displays reported not approved",
+      "pass": true
+    },
+    {
+      "name": "reported state persists on reload",
+      "pass": true
+    },
+    {
+      "name": "after Yes server remains pending",
+      "pass": true
+    },
+    {
+      "name": "Yes retry preserves timestamp",
+      "pass": true
+    },
+    {
+      "name": "UUID alone is rejected in actual Astro API",
+      "pass": true
+    },
+    {
+      "name": "admin dashboard displays reported declaration",
+      "pass": true
+    },
+    {
+      "name": "pending transfer exposes admin action",
+      "pass": true
+    },
+    {
+      "name": "admin UI approval changes display and removes action",
+      "pass": true
+    },
+    {
+      "name": "admin alone produces approved/confirmed server state",
+      "pass": true
+    },
+    {
+      "name": "Shift+Tab stays inside dialog",
+      "pass": true
+    },
+    {
+      "name": "Native backdrop click closes dialog",
+      "pass": true
+    }
+  ],
+  "widths": [
+    {
+      "ariaLabel": true,
+      "buttons": true,
+      "dialogWidth": 337,
+      "noHorizontalOverflow": true,
+      "pageOverflow": false,
+      "width": 375,
+      "withinViewport": true
+    },
+    {
+      "ariaLabel": true,
+      "buttons": true,
+      "dialogWidth": 352,
+      "noHorizontalOverflow": true,
+      "pageOverflow": false,
+      "width": 390,
+      "withinViewport": true
+    },
+    {
+      "ariaLabel": true,
+      "buttons": true,
+      "dialogWidth": 496,
+      "noHorizontalOverflow": true,
+      "pageOverflow": false,
+      "width": 768,
+      "withinViewport": true
+    },
+    {
+      "ariaLabel": true,
+      "buttons": true,
+      "dialogWidth": 496,
+      "noHorizontalOverflow": true,
+      "pageOverflow": false,
+      "width": 1024,
+      "withinViewport": true
+    },
+    {
+      "ariaLabel": true,
+      "buttons": true,
+      "dialogWidth": 496,
+      "noHorizontalOverflow": true,
+      "pageOverflow": false,
+      "width": 1440,
+      "withinViewport": true
+    }
+  ],
+  "clipboardReadBackMatches": false,
+  "clipboardEvidence": "Actual native writeText called with exact alias and resolved; readback measured separately.",
+  "console": {
+    "messages": [
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite]"
+          },
+          {
+            "type": "string",
+            "value": "hot updated: /src/styles/global.css"
+          }
+        ],
+        "text": "[vite] hot updated: /src/styles/global.css",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connecting..."
+          }
+        ],
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "args": [
+          {
+            "type": "string",
+            "value": "[vite] connected."
+          }
+        ],
+        "text": "[vite] connected.",
+        "type": "debug"
+      }
+    ]
+  },
+  "errors": {
+    "errors": []
+  },
+  "pending": {
+    "paymentStatus": "pending",
+    "attendanceStatus": "pending",
+    "reported": true
+  },
+  "next": "Local flow complete; production rollout not executed",
+  "verified": {
+    "paymentStatus": "approved",
+    "attendanceStatus": "confirmed",
+    "reported": true
+  },
+  "adminConfirmation": "QA accepted confirmation question for synthetic local data; no actual transfer or production approval"
+}

@@ -1,0 +1,221 @@
+{
+  "timestamp": "2026-10-02T21:59:52.127Z",
+  "scope": "Ephemeral PostgreSQL and synthetic Supabase/Auth on loopback; no production data",
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/rest/v1/weddings"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_registration_guests"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/report_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/report_transfer_payment"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/admin_users"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/admin_users"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/weddings"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/guests"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/payments"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/admin_users"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/approve_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/admin_users"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/weddings"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/guests"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/payments"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/registrations"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/prepare_transfer_payment"
+    },
+    {
+      "method": "GET",
+      "path": "/__qa/finish"
+    }
+  ],
+  "states": [
+    {
+      "method": "transfer",
+      "payment": "approved",
+      "attendance": "confirmed",
+      "reported": true,
+      "amount": 35000,
+      "payments": 1,
+      "paidAtPresent": true
+    }
+  ]
+}
