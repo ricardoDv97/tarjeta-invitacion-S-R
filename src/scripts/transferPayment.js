@@ -14,7 +14,7 @@ export function initializeTransferPayment() {
   let verified = false
   let reported = false
   let busy = false
-  const reportedMessage = 'Gracias. Registramos que realizaste la transferencia. La confirmación final se realizará luego de verificar el pago.'
+  const reportedMessage = '¡Gracias por confirmarnos tu asistencia! Estamos muy felices de que seas parte de este día tan especial.'
   const finishWith = message => { question.hidden = true; result.textContent = message; result.hidden = false; finish.hidden = false; finish.focus() }
   const post = async action => {
     const response = await fetch(`/api/registrations/${encodeURIComponent(reference)}/${action}`, { method: 'POST', headers: { Accept: 'application/json' } })
@@ -34,7 +34,7 @@ export function initializeTransferPayment() {
         state.textContent = 'Tu pago fue verificado y tu asistencia está confirmada.'
         finishWith('Tu pago fue verificado y tu asistencia está confirmada.')
       } else {
-        state.textContent = reported ? 'Pago informado, pendiente de verificación.' : 'Tu confirmación quedará pendiente hasta verificar el pago.'
+        state.textContent = ''
         if (reported) finishWith(reportedMessage)
       }
       open.disabled = false
@@ -71,12 +71,12 @@ export function initializeTransferPayment() {
     try {
       const body = await post('payment-reported')
       if (body.paymentStatus !== 'pending' || !body.paymentReportedAt) throw new Error('No pudimos registrar tu respuesta. Intentá nuevamente.')
-      reported = true; state.textContent = 'Pago informado, pendiente de verificación.'; finishWith(reportedMessage)
+      reported = true; state.textContent = ''; finishWith(reportedMessage)
     } catch (cause) { error.textContent = cause instanceof Error ? cause.message : 'No pudimos registrar tu respuesta.' }
     finally { busy = false; yes.disabled = false; no.disabled = false }
   })
   no.addEventListener('click', () => {
-    if (!busy) finishWith(reported ? reportedMessage : 'Podés realizar la transferencia cuando quieras. Tu confirmación quedará pendiente hasta verificar el pago.')
+    if (!busy) finishWith(reported ? reportedMessage : 'Podés realizar la transferencia cuando quieras.')
   })
   load()
 }
